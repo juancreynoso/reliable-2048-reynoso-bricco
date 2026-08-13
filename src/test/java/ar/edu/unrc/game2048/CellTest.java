@@ -12,26 +12,26 @@ public class CellTest {
     }
 
     @Test
-    public void testIsEmptyFails() {
+    public void isEmptyFails() {
         Cell cell = new Cell(2);
         assertFalse(cell.isEmpty());
     }
 
     @Test
-    public void testIsEmptyOk() {
+    public void isEmptyOk() {
         Cell cell2 = new Cell(0);
         assertTrue(cell2.isEmpty());
     }
 
     @Test
-    public void testGetValue() {
+    public void getValue() {
         Cell cell = new Cell(2);
 
         assertEquals(2, cell.getValue());
     }
 
     @Test
-    public void testCanMergeWithOk() {
+    public void canMergeWithOk() {
         Cell cell1 = new Cell(2);
         Cell cell2 = new Cell(2);
 
@@ -39,7 +39,7 @@ public class CellTest {
     }
 
     @Test
-    public void testCanMergeWithFails() {
+    public void canMergeWithFails() {
         Cell cell1 = new Cell(2);
         Cell cell2 = new Cell(4);
 
@@ -47,7 +47,7 @@ public class CellTest {
     }
 
     @Test
-    public void testMergeWithOk() {
+    public void mergeWithOk() {
         Cell cell1 = new Cell(2);
         Cell cell2 = new Cell(2);
         Cell result = new Cell(4);
@@ -56,7 +56,7 @@ public class CellTest {
     }
 
     @Test
-    public void testMergeWithFails() {
+    public void mergeWithFails() {
         Cell cell1 = new Cell(2);
         Cell cell2 = new Cell(4);
 
@@ -66,7 +66,7 @@ public class CellTest {
     }
 
     @Test
-    public void testEqualsOk() {
+    public void equalsOk() {
         Cell cell1 = new Cell(2);
         Cell cell2 = new Cell(2);
 
@@ -74,7 +74,7 @@ public class CellTest {
     }
 
     @Test
-    public void testEqualsFails() {
+    public void equalsFails() {
         Cell cell1 = new Cell(2);
         Cell cell2 = new Cell(4);
 
@@ -82,7 +82,7 @@ public class CellTest {
     }
 
     @Test
-    public void testHashCode() {
+    public void hashCodeOk() {
         Cell cell1 = new Cell(4);
         Cell cell2 = new Cell(4);
 
@@ -93,7 +93,7 @@ public class CellTest {
     }
 
     @Test
-    public void testToStringOk() {
+    public void toStringOk() {
         Cell cell = new Cell(16);
 
         assertEquals("16", cell.toString());
