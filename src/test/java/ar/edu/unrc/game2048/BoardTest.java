@@ -208,6 +208,46 @@ public class BoardTest {
         assertTrue(result.contains("4"));
     }
 
+    @Test
+    public void createPositionWithGivenRowAndColumn() {
+        Board.Position position = new Board.Position(1, 3);
+
+        assertEquals(1, position.row);
+        assertEquals(3, position.col);
+    }
+
+    @Test
+    public void positionsWithSameRowAndColumnAreEquals() {
+        Board.Position p1 = new Board.Position(2, 3);
+        Board.Position p2 = new Board.Position(2, 3);
+
+        assertTrue(p1.equals(p2));
+    }
+
+    @Test
+    public void positionsWithDifferentRowAreNotEquals() {
+        Board.Position position = new Board.Position(2, 3);
+
+        assertFalse(position.equals(new Board.Position(0, 0)));
+        assertFalse(position.equals(new Board.Position(2, 0)));
+        assertFalse(position.equals(null));
+    }
+
+    @Test
+    public void hashCodeOfSamePositionsAreEquals() {
+        Board.Position p1 = new Board.Position(2, 3);
+        Board.Position p2 = new Board.Position(2, 3);
+
+        assertEquals(p1.hashCode(), p2.hashCode());
+    }
+
+    @Test
+    public void positionToStringIsOk() {
+        Board.Position position = new Board.Position(2, 3);
+
+        assertEquals("(2, 3)", position.toString());
+    }
+
     /**
      * Helper for testing with an empty board
      * @param board the board to be cleaned
