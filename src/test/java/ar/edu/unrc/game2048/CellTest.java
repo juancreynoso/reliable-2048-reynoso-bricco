@@ -45,6 +45,29 @@ public class CellTest {
 
         assertFalse(cell1.canMergeWith(cell2));
     }
+    
+    @Test public void bothCellsAreEmptyAndCanNotMerge() {
+        Cell cell1 = new Cell(0);
+        Cell cell2 = new Cell(0);
+
+        assertFalse(cell1.canMergeWith(cell2));
+    }
+
+    @Test 
+    public void secondCellIsEmptyAndCanNotMerge() {
+        Cell cell1 = new Cell(2);
+        Cell cell2 = new Cell(0);
+
+        assertFalse(cell1.canMergeWith(cell2));
+    }
+
+    @Test 
+    public void firstCellIsEmptyAndCanNotMerge() {
+        Cell cell1 = new Cell(0);
+        Cell cell2 = new Cell(2);
+
+        assertFalse(cell1.canMergeWith(cell2));
+    }
 
     @Test
     public void mergeWithOk() {
@@ -97,5 +120,12 @@ public class CellTest {
         Cell cell = new Cell(16);
 
         assertEquals("16", cell.toString());
+    }
+
+    @Test
+    public void initializeCellWithNegativeValue() {
+        assertThrowsExactly(IllegalArgumentException.class, () -> {
+            Cell cell = new Cell(-2);
+        });
     }
 }
