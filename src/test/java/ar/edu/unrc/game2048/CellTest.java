@@ -149,4 +149,12 @@ public class CellTest {
 
         assertFalse(cell.equals("2"));
     }
+
+    @Test
+    public void hashCodeDiffersForDifferentValues() {
+        Cell cell1 = new Cell(2);
+        Cell cell2 = new Cell(4);
+
+        assertNotEquals(cell1.hashCode(), cell2.hashCode());
+    }
 }
