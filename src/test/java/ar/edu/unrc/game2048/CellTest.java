@@ -135,4 +135,11 @@ public class CellTest {
 
         assertTrue(cell.equals(cell));
     }
+
+    @Test
+    public void equalsWithNullFails() {
+        Cell cell = new Cell(2);
+
+        assertFalse(cell.equals(null));
+    }
 }
