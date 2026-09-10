@@ -157,4 +157,11 @@ public class CellTest {
 
         assertNotEquals(cell1.hashCode(), cell2.hashCode());
     }
+
+    @Test
+    public void toStringEmptyCell() {
+        Cell cell = new Cell(0);
+
+        assertEquals(".", cell.toString());
+    }
 }
