@@ -170,4 +170,14 @@ public class CellTest {
         assertTrue(Cell.EMPTY.isEmpty());
         assertEquals(0, Cell.EMPTY.getValue());
     }
+
+    @Test
+    public void mergeWithBothEmptyFails() {
+        Cell cell1 = new Cell(0);
+        Cell cell2 = new Cell(0);
+
+        assertThrowsExactly(IllegalArgumentException.class, () -> {
+            cell1.mergeWith(cell2);
+        });
+    }
 }
