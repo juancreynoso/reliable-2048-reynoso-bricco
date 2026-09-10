@@ -45,6 +45,29 @@ public class CellTest {
 
         assertFalse(cell1.canMergeWith(cell2));
     }
+    
+    @Test public void bothCellsAreEmptyAndCanNotMerge() {
+        Cell cell1 = new Cell(0);
+        Cell cell2 = new Cell(0);
+
+        assertFalse(cell1.canMergeWith(cell2));
+    }
+
+    @Test 
+    public void secondCellIsEmptyAndCanNotMerge() {
+        Cell cell1 = new Cell(2);
+        Cell cell2 = new Cell(0);
+
+        assertFalse(cell1.canMergeWith(cell2));
+    }
+
+    @Test 
+    public void firstCellIsEmptyAndCanNotMerge() {
+        Cell cell1 = new Cell(0);
+        Cell cell2 = new Cell(2);
+
+        assertFalse(cell1.canMergeWith(cell2));
+    }
 
     @Test
     public void mergeWithOk() {
@@ -97,5 +120,73 @@ public class CellTest {
         Cell cell = new Cell(16);
 
         assertEquals("16", cell.toString());
+    }
+
+    @Test
+    public void initializeCellWithNegativeValue() {
+        assertThrowsExactly(IllegalArgumentException.class, () -> {
+            Cell cell = new Cell(-2);
+        });
+    }
+
+    @Test
+    public void equalsSameInstanceOk() {
+        Cell cell = new Cell(8);
+
+        assertTrue(cell.equals(cell));
+    }
+
+    @Test
+    public void equalsWithNullFails() {
+        Cell cell = new Cell(2);
+
+        assertFalse(cell.equals(null));
+    }
+
+    @Test
+    public void equalsWithDifferentClassFails() {
+        Cell cell = new Cell(2);
+
+        assertFalse(cell.equals("2"));
+    }
+
+    @Test
+    public void hashCodeDiffersForDifferentValues() {
+        Cell cell1 = new Cell(2);
+        Cell cell2 = new Cell(4);
+
+        assertNotEquals(cell1.hashCode(), cell2.hashCode());
+    }
+
+    @Test
+    public void toStringEmptyCell() {
+        Cell cell = new Cell(0);
+
+        assertEquals(".", cell.toString());
+    }
+
+    @Test
+    public void emptySingletonIsEmptyAndZero() {
+        assertTrue(Cell.EMPTY.isEmpty());
+        assertEquals(0, Cell.EMPTY.getValue());
+    }
+
+    @Test
+    public void mergeWithBothEmptyFails() {
+        Cell cell1 = new Cell(0);
+        Cell cell2 = new Cell(0);
+
+        assertThrowsExactly(IllegalArgumentException.class, () -> {
+            cell1.mergeWith(cell2);
+        });
+    }
+
+    @Test
+    public void mergeWithLargeValueOk() {
+        Cell cell1 = new Cell(1024);
+        Cell cell2 = new Cell(1024);
+        Cell result = new Cell(2048);
+
+        assertEquals(result, cell1.mergeWith(cell2));
     }
 }
