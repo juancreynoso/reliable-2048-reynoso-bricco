@@ -1,0 +1,24 @@
+#!/bin/bash
+# Wrapper que fuerza Maven a correr sobre JDK 8, requerido por evosuite-maven-plugin
+# (depende de com.sun:tools, que solo existe en JDK 8; en JDK 9+ ese jar no existe
+# y el build falla en la fase evosuite:prepare con "Could not find artifact com.sun:tools").
+#
+# Uso: ./mvn8 clean test jacoco:report
+#      ./mvn8 -Dsearch_budget=60 -DcutsFile=cutsFile.txt -Dtest_dir=src/test/java evosuite:generate evosuite:export
+
+set -e
+
+if [[ "$OSTYPE" == "darwin"* ]] && command -v /usr/libexec/java_home >/dev/null 2>&1; then
+    JAVA8_HOME="$(/usr/libexec/java_home -v 1.8 2>/dev/null)"
+elif [ -n "$JAVA_8_HOME" ]; then
+    JAVA8_HOME="$JAVA_8_HOME"
+fi
+
+if [ -z "$JAVA8_HOME" ] || [ ! -d "$JAVA8_HOME" ]; then
+    echo "No se encontró un JDK 8 instalado." >&2
+    echo "Instalá uno (ej: brew install --cask temurin8) o exportá JAVA_8_HOME apuntando a tu JDK 8." >&2
+    exit 1
+fi
+
+export JAVA_HOME="$JAVA8_HOME"
+exec mvn "$@"
