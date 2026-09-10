@@ -180,4 +180,13 @@ public class CellTest {
             cell1.mergeWith(cell2);
         });
     }
+
+    @Test
+    public void mergeWithLargeValueOk() {
+        Cell cell1 = new Cell(1024);
+        Cell cell2 = new Cell(1024);
+        Cell result = new Cell(2048);
+
+        assertEquals(result, cell1.mergeWith(cell2));
+    }
 }
