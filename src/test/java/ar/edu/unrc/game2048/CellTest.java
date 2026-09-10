@@ -164,4 +164,10 @@ public class CellTest {
 
         assertEquals(".", cell.toString());
     }
+
+    @Test
+    public void emptySingletonIsEmptyAndZero() {
+        assertTrue(Cell.EMPTY.isEmpty());
+        assertEquals(0, Cell.EMPTY.getValue());
+    }
 }
