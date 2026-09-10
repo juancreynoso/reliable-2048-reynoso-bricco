@@ -128,4 +128,11 @@ public class CellTest {
             Cell cell = new Cell(-2);
         });
     }
+
+    @Test
+    public void equalsSameInstanceOk() {
+        Cell cell = new Cell(8);
+
+        assertTrue(cell.equals(cell));
+    }
 }
