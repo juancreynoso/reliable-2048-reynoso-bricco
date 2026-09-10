@@ -186,6 +186,7 @@ public class BoardTest {
         Cell cellDst = board.getCell(0,2);
         assertEquals(2, cellDst.getValue());
         assertTrue(board.getCell(3, 2).isEmpty());
+        // moving triggers a new random tile, so exactly one previously-empty cell gets filled
         assertEquals(emptyBefore - 1, board.getEmptyPositions().size());
     }
 
@@ -238,6 +239,21 @@ public class BoardTest {
         assertEquals(2, cellDst.getValue());
         assertTrue(board.getCell(2, 0).isEmpty());
         assertEquals(emptyBefore - 1, board.getEmptyPositions().size());
+    }
+
+    @Test
+    public void moveToAllDirectionsReturnFalseOnAnEmptyBoard() {
+        Board board = new Board();
+        cleanBoard(board);
+        int emptyBefore = board.getEmptyPositions().size();
+
+        assertFalse(board.moveUp());
+        assertFalse(board.moveDown());
+        assertFalse(board.moveLeft());
+        assertFalse(board.moveRight());
+
+
+        assertEquals(emptyBefore, board.getEmptyPositions().size());
     }
 
     @Test
@@ -336,7 +352,7 @@ public class BoardTest {
     }
 
     @Test
-    public void positionIsTheSameComparedToItself() {
+    public void positionIsTheSameComapredToItself() {
         Board.Position p1 = new Board.Position(2, 3);
 
         assertTrue(p1.equals(p1));
@@ -437,6 +453,28 @@ public class BoardTest {
         Board board = new Board(2);
         int row = 3;
         int col = 1;
+
+        assertThrowsExactly(IndexOutOfBoundsException.class, () -> {
+            board.getCell(row, col);
+        });
+    }
+
+    @Test
+    public void getCellAtRowEqualToSize() {
+        Board board = new Board(2);
+        int row = 2;
+        int col = 0;
+
+        assertThrowsExactly(IndexOutOfBoundsException.class, () -> {
+            board.getCell(row, col);
+        });
+    }
+
+    @Test
+    public void getCellAtColEqualToSize() {
+        Board board = new Board(2);
+        int row = 0;
+        int col = 2;
 
         assertThrowsExactly(IndexOutOfBoundsException.class, () -> {
             board.getCell(row, col);
