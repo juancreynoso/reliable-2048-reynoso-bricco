@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Project>
+    <totalNumberOfTestableClasses>1</totalNumberOfTestableClasses>
+    <cut>
+        <fullNameOfTargetClass>ar.edu.unrc.game2048.Cell</fullNameOfTargetClass>
+        <fullNameOfTestSuite>ar.edu.unrc.game2048.Cell_ESTest</fullNameOfTestSuite>
+        <generation>
+            <id>0</id>
+            <failed>true</failed>
+            <modified>true</modified>
+            <timeBudgetInSeconds>119</timeBudgetInSeconds>
+            <memoryInMB>800</memoryInMB>
+            <std_err_CLIENT>/Users/juanreynoso/Documents/unrc/2026/Seminario de Ciencias de la Computación/reliable-2048-reynoso-bricco/.evosuite/tmp_2026_09_10_13_28_00/logs/ar.edu.unrc.game2048.Cell/std_err_CLIENT.log</std_err_CLIENT>
+            <std_out_CLIENT>/Users/juanreynoso/Documents/unrc/2026/Seminario de Ciencias de la Computación/reliable-2048-reynoso-bricco/.evosuite/tmp_2026_09_10_13_28_00/logs/ar.edu.unrc.game2048.Cell/std_out_CLIENT.log</std_out_CLIENT>
+            <std_err_MASTER>/Users/juanreynoso/Documents/unrc/2026/Seminario de Ciencias de la Computación/reliable-2048-reynoso-bricco/.evosuite/tmp_2026_09_10_13_28_00/logs/ar.edu.unrc.game2048.Cell/std_err_MASTER.log</std_err_MASTER>
+            <std_out_MASTER>/Users/juanreynoso/Documents/unrc/2026/Seminario de Ciencias de la Computación/reliable-2048-reynoso-bricco/.evosuite/tmp_2026_09_10_13_28_00/logs/ar.edu.unrc.game2048.Cell/std_out_MASTER.log</std_out_MASTER>
+        </generation>
+    </cut>
+</Project>
