@@ -142,4 +142,11 @@ public class CellTest {
 
         assertFalse(cell.equals(null));
     }
+
+    @Test
+    public void equalsWithDifferentClassFails() {
+        Cell cell = new Cell(2);
+
+        assertFalse(cell.equals("2"));
+    }
 }
