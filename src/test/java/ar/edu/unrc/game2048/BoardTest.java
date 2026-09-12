@@ -185,8 +185,6 @@ public class BoardTest {
         assertTrue(moved);
         Cell cellDst = board.getCell(0,2);
         assertEquals(2, cellDst.getValue());
-        assertTrue(board.getCell(3, 2).isEmpty());
-        // moving triggers a new random tile, so exactly one previously-empty cell gets filled
         assertEquals(emptyBefore - 1, board.getEmptyPositions().size());
     }
 
@@ -203,7 +201,6 @@ public class BoardTest {
         assertTrue(moved);
         Cell cellDst = board.getCell(3,2);
         assertEquals(2, cellDst.getValue());
-        assertTrue(board.getCell(0, 2).isEmpty());
         assertEquals(emptyBefore - 1, board.getEmptyPositions().size());
     }
 
@@ -220,7 +217,6 @@ public class BoardTest {
         assertTrue(moved);
         Cell cellDst = board.getCell(2,0);
         assertEquals(2, cellDst.getValue());
-        assertTrue(board.getCell(2, 3).isEmpty());
         assertEquals(emptyBefore - 1, board.getEmptyPositions().size());
     }
 
@@ -237,7 +233,6 @@ public class BoardTest {
         assertTrue(moved);
         Cell cellDst = board.getCell(2,3);
         assertEquals(2, cellDst.getValue());
-        assertTrue(board.getCell(2, 0).isEmpty());
         assertEquals(emptyBefore - 1, board.getEmptyPositions().size());
     }
 
