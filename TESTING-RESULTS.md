@@ -104,3 +104,39 @@ Randoop gets close on both classes with just random exploration, but
 hand-written still being better on every metric, since those tests target
 the specific states (merges, losing-board, edge cases) is weird to see that the random sequences
 from randoop construct those cases on their own.
+
+# Phase 3.2 — repOK() and Randoop (Second Run)
+
+Implemented `repOk()` on `Cell` and `Board`, checking the invariants already
+documented in each class's Javadoc (`Cell`: value non-negative and, if
+non-zero, a power of two; `Board`: non-null square grid, all cells non-null
+and individually valid, non-negative score).
+
+**Bug found while implementing `Cell.repOk()`**: the `Cell` constructor only
+rejected negative values (`if (value < 0) throw ...`), but never checked that
+the value is a power of two — even though the class Javadoc already promised
+`@throws IllegalArgumentException if the value is negative or not a power of
+two`. So `new Cell(97)` (and any other non-power-of-two value) didn't throw,
+silently producing an invalid `Cell`. This explains why the Phase 3.1 Randoop
+run for `Cell` reported "all pass" despite generating calls like `new
+Cell(97)`: nothing was there yet to catch it as wrong. `Cell.repOk()` catches
+it correctly (returns `false`), but the constructor itself should reject bad
+input up front instead of only being able to be checked afterwards. Fixed by
+adding the same bit trick used in `repOk()` as a second guard clause:
+`if (value != 0 && (value & (value - 1)) != 0) throw new
+IllegalArgumentException(...)`.
+
+Re-ran Randoop with the same commands as Phase 3.1, after the fix:
+
+**Cell — 585 tests generated, all pass** (`mvn test
+-Dtest='randoopTests.cell.RegressionTest,randoopTests.cell.RegressionTest0,randoopTests.cell.RegressionTest1'`).
+None of the newly generated sequences hit the power-of-two rejection path,
+since the constructor now enforces the invariant directly instead of letting
+invalid `Cell`s slip through and get recorded as "expected" behavior.
+
+**Board — 197 tests generated, still flaky on re-run** (same non-determinism
+as Phase 3.1, from `addRandomTile()`'s unseeded `Math.random()`). Unrelated
+to the `repOk()` work; `Board` itself wasn't changed.
+
+Full suite after the fix (`BoardTest`, `CellTest`, `randoopTests.cell.*`):
+**655 tests, 0 failures, 0 errors**.
