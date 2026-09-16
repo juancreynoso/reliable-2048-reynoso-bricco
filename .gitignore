@@ -26,3 +26,7 @@ replay_pid*
 target
 .DS_Store
 .idea
+
+# EvoSuite plugin runtime artifacts (regenerated on every build)
+.evosuite/
+.scaffolding_list.tmp
