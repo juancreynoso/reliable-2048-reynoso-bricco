@@ -61,4 +61,46 @@ mvn pitest:mutationCoverage
 | Cell.java   | 100% (20/20)   | 100% (23/23)       | 100% (23/23)   |
 | **Overall** | **99% (181/182)** | **94% (168/178)** | **95% (168/177)** |
 
+# Phase 3.1 — Randoop (First Run)
 
+```bash
+java -cp "lib/randoop-all-4.3.4.jar:target/classes" randoop.main.Main gentests \
+  --testclass=ar.edu.unrc.game2048.Cell --time-limit=10 \
+  --junit-output-dir=src/test/java --junit-package-name=randoopTests.cell
+
+java -cp "lib/randoop-all-4.3.4.jar:target/classes" randoop.main.Main gentests \
+  --testclass=ar.edu.unrc.game2048.Board --time-limit=10 \
+  --junit-output-dir=src/test/java --junit-package-name=randoopTests.board
+```
+
+**Cell — 409 tests generated, all pass** (`mvn test
+-Dtest=randoopTests.cell.RegressionTest0`). Fully deterministic. Every
+exception found is either the documented `IllegalArgumentException`
+(negative value / incompatible merge) or an **undocumented
+`NullPointerException`** from `canMergeWith(null)`/`mergeWith(null)` — neither
+method's Javadoc mentions it.
+
+**Board — 74 tests generated, 17 fail on re-run** (`mvn test
+-Dtest=randoopTests.board.RegressionTest0`). The failures show some
+flakiness: `addRandomTile()` calls `Math.random()` with no
+seed, so tests that hard-code exact tile placement can't reproduce on a
+second run.
+
+Since those failures are non-deterministic and were breaking the default
+`mvn test`, `pom.xml` now excludes `**/randoopTests/board/**`; `randoopTests.cell` stays in.
+
+**Coverage vs. hand-written suites** — Randoop-only run
+(`-Dtest='randoopTests.cell.RegressionTest0,randoopTests.board.RegressionTest0'
+-Dmaven.test.failure.ignore=true jacoco:report`) compared to Phase 2 above:
+
+| Class | Instruction | Branch | Line | Method |
+|---|:---:|:---:|:---:|:---:|
+| Cell — Randoop        | 92%  | 100% | 95%  | 89%  |
+| Cell — hand-written   | 100% | 100% | 100% | 100% |
+| Board — Randoop       | 87%  | 80%  | 90%  | 92%  |
+| Board — hand-written  | 100% | 96%  | 99%  | 100% |
+
+Randoop gets close on both classes with just random exploration, but
+hand-written still being better on every metric, since those tests target
+the specific states (merges, losing-board, edge cases) is weird to see that the random sequences
+from randoop construct those cases on their own.
