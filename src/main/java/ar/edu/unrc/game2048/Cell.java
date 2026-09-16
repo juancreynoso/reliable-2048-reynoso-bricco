@@ -34,6 +34,9 @@ public final class Cell {
         if (value < 0) {
             throw new IllegalArgumentException("Cell value cannot be negative: " + value);
         }
+        if (value != 0 && (value & (value - 1)) != 0) {
+            throw new IllegalArgumentException("Cell value must be a power of two: " + value);
+        }
         this.value = value;
     }
     
@@ -84,6 +87,20 @@ public final class Cell {
             );
         }
         return new Cell(this.value * 2);
+    }
+
+    /**
+     * Checks the representation invariant of this cell.
+     * A cell is valid if its value is non-negative and, when non-zero,
+     * a power of two.
+     *
+     * @return true if the representation invariant holds
+     */
+    public boolean repOk() {
+        if (value < 0) {
+            return false;
+        }
+        return value == 0 || (value & (value - 1)) == 0;
     }
 
     /**
