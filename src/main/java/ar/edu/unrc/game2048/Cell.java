@@ -87,6 +87,20 @@ public final class Cell {
     }
 
     /**
+     * Checks the representation invariant of this cell.
+     * A cell is valid if its value is non-negative and, when non-zero,
+     * a power of two.
+     *
+     * @return true if the representation invariant holds
+     */
+    public boolean repOk() {
+        if (value < 0) {
+            return false;
+        }
+        return value == 0 || (value & (value - 1)) == 0;
+    }
+
+    /**
      * Compares this cell with another object for equality.
      * Two cells are equal if they have the same value.
      * 

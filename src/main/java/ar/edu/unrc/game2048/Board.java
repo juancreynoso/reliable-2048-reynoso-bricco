@@ -410,6 +410,37 @@ public class Board {
         return true;
     }
 
+    /**
+     * Checks the representation invariant of this board.
+     * A board is valid if the grid is a non-null square matrix, all cells
+     * are non-null and individually valid, and the score is non-negative.
+     *
+     * @return true if the representation invariant holds
+     */
+    public boolean repOk() {
+        if (grid == null || size <= 0) {
+            return false;
+        }
+        if (grid.length != size) {
+            return false;
+        }
+        if (score < 0) {
+            return false;
+        }
+        for (int r = 0; r < size; r++) {
+            if (grid[r] == null || grid[r].length != size) {
+                return false;
+            }
+            for (int c = 0; c < size; c++) {
+                Cell cell = grid[r][c];
+                if (cell == null || !cell.repOk()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     // ==================== UTILITY METHODS ====================
 
     /**
