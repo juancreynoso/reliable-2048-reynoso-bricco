@@ -101,6 +101,13 @@
                              repo as documented Phase 3 findings (see TESTING-RESULTS.md);
                              run explicitly with -Dtest=randoopTests.board.RegressionTest0. -->
                         <exclude>**/randoopTests/board/**</exclude>
+                        <!-- Randoop emits a JUnit4 @Suite wrapper (exactly "RegressionTest.java",
+                             no numeric suffix) when it splits a class's tests across multiple
+                             RegressionTestN.java files. The wildcard include above also matches
+                             this wrapper, which would re-run every RegressionTestN it references
+                             a second time (once directly, once via the suite). Exclude only the
+                             bare wrapper; RegressionTest0/1/... still match the include above. -->
+                        <exclude>**/RegressionTest.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
