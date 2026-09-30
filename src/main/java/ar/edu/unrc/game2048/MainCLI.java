@@ -53,11 +53,13 @@ public class MainCLI {
                 case "S": moved = board.moveDown(); break;
                 case "A": moved = board.moveLeft(); break;
                 case "D": moved = board.moveRight(); break;
-                default: 
+                default:
                     System.out.println("Invalid input! Use W, A, S, D, or Q.");
                     continue;
             }
-            
+
+            assert board.repOk() : "Board invariant violated after move " + input;
+
             if (moved) {
                 System.out.println("Tile moved!");
             } else {

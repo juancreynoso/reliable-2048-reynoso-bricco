@@ -30,3 +30,6 @@ target
 # EvoSuite plugin runtime artifacts (regenerated on every build)
 .evosuite/
 .scaffolding_list.tmp
+
+# Python fuzzer bytecode cache
+__pycache__/

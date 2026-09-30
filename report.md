@@ -67,3 +67,77 @@ is a good sign it's a genuine gap rather than a tooling artifact.
 
 ## Phase 2: Fuzzing
 
+### How the fuzzer works
+
+`fuzzer.py` follows the Fuzzing Book's `Runner`/`Fuzzer` split:
+
+- `CLIRunner` launches `ar.edu.unrc.game2048.MainCLI` as a subprocess, feeds
+  it a string on stdin, and classifies the outcome as `PASS` (clean exit, no
+  stderr), `FAIL` (non-zero exit code or stderr output — including an
+  `AssertionError`), or `UNRESOLVED` (10s timeout).
+- `RandomFuzzer.fuzz()` (implemented as part of this assignment) picks a
+  random sequence length `n` uniformly between `min_length` and `max_length`,
+  then builds the input by choosing `n` keys uniformly at random from
+  `['a', 's', 'w', 'd']` (all four moves equally likely — there's no a priori
+  reason to bias towards one direction), joins them one per line, and
+  appends `q` to quit gracefully. E.g. for `n = 3`: `'w\na\nd\nq\n'`.
+
+### Running without assertions (2.3)
+
+20 trials, `min_length=10, max_length=50`: **20/20 PASS**, no crashes, no
+non-zero exits, no stderr output.
+
+### Enhancing with `repOK()` (2.4)
+
+`Board.repOk()` and `Cell.repOk()` (from Assignment 2) were reused as-is.
+Added one defensive check in `MainCLI.play()`, right after every move is
+applied:
+
+```java
+assert board.repOk() : "Board invariant violated after move " + input;
+```
+
+Updated `CLIRunner.COMMAND` to run with `-ea` so the assertion is actually
+enabled (verified independently: a throwaway `assert false` class confirms
+the JVM enforces assertions under `-ea` and reports `AssertionError` with a
+non-zero exit, which `CLIRunner` correctly classifies as `FAIL`).
+
+Re-ran the fuzzer with `-ea`:
+- 20 trials, `min_length=10, max_length=50` (same budget as 2.3): **20/20 PASS**.
+- A larger batch, run separately for more confidence: 300 trials,
+  `min_length=10, max_length=200`: **300/300 PASS**.
+
+### Results
+
+No crashes and no `repOK()` assertion failures were found in ~320 fuzzing
+trials across sequence lengths from 10 to 200 moves. `Board`'s invariant
+(non-null square grid, valid cells, non-negative score) held after every
+move exercised by the fuzzer — consistent with the fact that `Board`'s move
+methods already went through targeted manual tests, Randoop, and EvoSuite in
+the previous assignments, so the state space the fuzzer can reach through
+valid W/A/S/D/Q input alone doesn't overlap with the known undocumented-NPE
+bug (`canMergeWith(null)`), which requires an argument the CLI never
+constructs.
+
+### Fuzzer vs. EvoSuite vs. Randoop
+
+| | Randoop | EvoSuite | Fuzzer |
+|---|---|---|---|
+| Interface exercised | Java API (direct method calls) | Java API (direct method calls) | External — CLI stdin/stdout, as a real player would use it |
+| Input generation | Feedback-directed random method sequences | Genetic search, guided by a coverage fitness function | Uninformed random move sequences (no feedback, no coverage guidance) |
+| Oracle | Regression assertions (recorded behavior) | Regression assertions (recorded behavior) | Only a crash/non-zero-exit/stderr, unless invariants are wired in explicitly |
+| Sensitivity to logic bugs | High — can call any public method directly, including edge-case argument combinations (e.g. `null`) | High — same reason | Low by default; increases only as far as `repOK()` assertions are actually placed in the code path the CLI exercises |
+| Bug found here | `canMergeWith(null)` NPE | Same `canMergeWith(null)` NPE (independently) | None — the CLI's input space never reaches that code path |
+
+The fuzzer is the weakest of the three at finding bugs *in this project*,
+precisely because it only reaches the program through the same narrow
+interface a human player would use (four move keys + quit) — it can't
+construct the malformed arguments (like `null`) that Randoop and EvoSuite
+found by calling methods directly. Its value is different: it validates
+that the *whole program*, not just individual methods, holds its invariants
+under long, unplanned sequences of real gameplay input — and `repOK()` is
+what turns "did it crash" into "did it become inconsistent," which is a
+strictly stronger check. For this program, wiring `repOK()` into `MainCLI`
+mattered more for *what the fuzzer could detect* than anything about the
+fuzzer's generation strategy itself.
+
