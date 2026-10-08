@@ -20,17 +20,32 @@ EXCEPTION, WEAKMUTATION, OUTPUT, METHOD, METHODNOEXCEPTION and CBRANCH
 criteria together, via its own instrumentation, independent of JaCoCo):
 **92.0%** (225/247 goals) for `Cell`, **92.5%** (1274/1393 goals) for `Board`.
 
-**PITest mutation score** — only measured for the hand-written suite so far:
+**PITest mutation score**, measured per technique against the *current* code
+with `mvn pitest:mutationCoverage -DtargetTests=<that technique's test classes>`:
 
-| Class | Line Coverage | Mutation Coverage | Test Strength |
+| Class | Manual | Randoop | EvoSuite |
 |---|:---:|:---:|:---:|
-| Board.java | 99% (161/162) | 94% (145/155) | 94% (145/154) |
-| Cell.java  | 100% (20/20)  | 100% (23/23)  | 100% (23/23)  |
+| Board | 83% (145/175) | not reported (excluded) | **85% (149/175)** |
+| Cell  | 74% (26/35)   | **83% (29/35)**         | 69% (24/35)    |
 
-Mutation score wasn't separately isolated for the Randoop or EvoSuite suites —
-PITest's `targetTests` filter in `pom.xml` doesn't currently reach
-`randoopTests.*` sub-packages or `*_ESTest` classes. Worth extending if we
-want that comparison too.
+Note that:
+
+- They are not directly comparable to the Phase 2 figures in `TESTING-RESULTS.md`
+  (Board 94%, Cell 100%). Those were measured before `repOK()` existed, so
+  the classes now have more mutable code: 175 mutants on `Board` instead of
+  155, and 35 on `Cell` instead of 23.
+- The whole drop in the manual column is `repOK()`: 21 of `Board`'s mutants
+  and 8 of `Cell`'s come back as `NO_COVERAGE`, because **no hand-written
+  test ever calls `repOk()`** (0 references in `BoardTest`/`CellTest`). The
+  generated suites call it constantly — 3,534 references across Randoop's
+  `Cell` suite, 26 across EvoSuite's — simply because it's a public method
+  and they call everything they can reach. That's why EvoSuite edges past
+  the manual suite on `Board` despite being clearly behind it on
+  line/branch coverage.
+
+Randoop's `Board` score isn't reported: that suite is excluded in `pom.xml`
+because its non-determinism (Phase 3.1) broke the build, and PITest inherits
+surefire's exclusions, so it never runs.
 
 ### EvoSuite vs. Randoop
 
@@ -140,4 +155,38 @@ what turns "did it crash" into "did it become inconsistent," which is a
 strictly stronger check. For this program, wiring `repOK()` into `MainCLI`
 mattered more for *what the fuzzer could detect* than anything about the
 fuzzer's generation strategy itself.
+
+## Reflections
+
+**Which technique was most effective for this program?** We separate the meaning of effective in the following:
+
+- **Coverage**: the hand-written suite still wins (100%/96% instruction/branch
+  on `Board`, vs EvoSuite's 96%/89% and Randoop's 87%/80%). It's the only one
+  that deliberately builds the specific board states (merges, losing boards,
+  full boards) that the generators rarely stumble into on their own.
+- **Mutation score**: the generators win. EvoSuite takes `Board` (85% vs 83%)
+  and Randoop takes `Cell` (83% vs 74%), both beating the manual suite on
+  exactly the code the humans forgot to test. We wrote `repOK()` and never
+  wrote a single test for it; the generators exercised it thousands of times
+  for free, just by calling every public method they could reach. That's the
+  most useful thing we got out of this assignment: not a bug, but proof of a
+  blind spot in our own suite.
+- **Bug finding**: Randoop and EvoSuite tie — both independently found the
+  undocumented `NullPointerException` in
+  `canMergeWith(null)`/`mergeWith(null)`. The fuzzer found nothing, and
+  structurally couldn't: the CLI only accepts four move keys, so it can never
+  hand a `null` to anything.
+
+As automated bug-finders we would rank them **1) EvoSuite, 2) Randoop 3) Fuzzing**,
+but none of them replaces the manual suite, they complement it and they are different also 
+betwenn them. 
+The generators are good at breadth (every public method, odd arguments, boundary
+values) and bad at intent: every oracle they produce is a recording of
+current behavior, so they catch *regressions* and *crashes*, never "this
+answer is wrong".
+
+The exception is the fuzzer with `repOK()` enabled, the only setup where an
+automated tool checked a property we specified ourselves. It never fired
+here, but fuzzing as random input in addition to hand-written invariant can
+find bugs that we are not looking for.
 
