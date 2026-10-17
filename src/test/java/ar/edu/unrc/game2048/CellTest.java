@@ -1,7 +1,7 @@
 package ar.edu.unrc.game2048;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class CellTest {
 
@@ -83,9 +83,12 @@ public class CellTest {
         Cell cell1 = new Cell(2);
         Cell cell2 = new Cell(4);
 
-        assertThrowsExactly(IllegalArgumentException.class, () -> {
+        try {
             cell1.mergeWith(cell2);
-        });
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
     }
 
     @Test
@@ -124,9 +127,12 @@ public class CellTest {
 
     @Test
     public void initializeCellWithNegativeValue() {
-        assertThrowsExactly(IllegalArgumentException.class, () -> {
+        try {
             Cell cell = new Cell(-2);
-        });
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
     }
 
     @Test
@@ -176,9 +182,12 @@ public class CellTest {
         Cell cell1 = new Cell(0);
         Cell cell2 = new Cell(0);
 
-        assertThrowsExactly(IllegalArgumentException.class, () -> {
+        try {
             cell1.mergeWith(cell2);
-        });
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
     }
 
     @Test

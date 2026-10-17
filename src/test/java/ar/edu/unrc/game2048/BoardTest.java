@@ -1,11 +1,11 @@
 package ar.edu.unrc.game2048;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class BoardTest {
 
@@ -392,23 +392,32 @@ public class BoardTest {
     public void canNotAddRandomTileNull() {
         Board board = new Board(2);
 
-        assertThrowsExactly(IllegalArgumentException.class, () -> {
+        try {
             board.setCell(0, 0, null);;
-        });
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
     }
 
     @Test
     public void boardInitializedWithSizeNegative() {
-        assertThrowsExactly(IllegalArgumentException.class, () -> {
+        try {
             Board board = new Board(-2);
-        });
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
     }
 
     @Test
     public void boardInitializedWithSizeZero() {
-        assertThrowsExactly(IllegalArgumentException.class, () -> {
+        try {
             Board board = new Board(0);
-        });
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
     }
 
     @Test public void compareObjectsForEqualsAndAreExactlyTheSame() {
@@ -437,9 +446,12 @@ public class BoardTest {
         int row = 3;
         int col = 1;
 
-        assertThrowsExactly(IndexOutOfBoundsException.class, () -> {
+        try {
             board.setCell(row, col, cell);
-        });
+            fail("Expected IndexOutOfBoundsException");
+        } catch (IndexOutOfBoundsException e) {
+            assertEquals(IndexOutOfBoundsException.class, e.getClass());
+        }
 
     }
 
@@ -449,9 +461,12 @@ public class BoardTest {
         int row = 3;
         int col = 1;
 
-        assertThrowsExactly(IndexOutOfBoundsException.class, () -> {
+        try {
             board.getCell(row, col);
-        });
+            fail("Expected IndexOutOfBoundsException");
+        } catch (IndexOutOfBoundsException e) {
+            assertEquals(IndexOutOfBoundsException.class, e.getClass());
+        }
     }
 
     @Test
@@ -460,9 +475,12 @@ public class BoardTest {
         int row = 2;
         int col = 0;
 
-        assertThrowsExactly(IndexOutOfBoundsException.class, () -> {
+        try {
             board.getCell(row, col);
-        });
+            fail("Expected IndexOutOfBoundsException");
+        } catch (IndexOutOfBoundsException e) {
+            assertEquals(IndexOutOfBoundsException.class, e.getClass());
+        }
     }
 
     @Test
@@ -471,9 +489,12 @@ public class BoardTest {
         int row = 0;
         int col = 2;
 
-        assertThrowsExactly(IndexOutOfBoundsException.class, () -> {
+        try {
             board.getCell(row, col);
-        });
+            fail("Expected IndexOutOfBoundsException");
+        } catch (IndexOutOfBoundsException e) {
+            assertEquals(IndexOutOfBoundsException.class, e.getClass());
+        }
     }
 
     /**
