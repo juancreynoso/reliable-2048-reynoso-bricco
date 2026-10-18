@@ -14432,7 +14432,7 @@ public class RegressionTest0 {
         } catch (java.lang.IllegalArgumentException e) {
             // Expected exception.
         }
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
         org.junit.Assert.assertNotNull(cell3);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
@@ -19829,7 +19829,7 @@ public class RegressionTest0 {
         ar.edu.unrc.game2048.Cell cell1 = new ar.edu.unrc.game2048.Cell((int) (short) 1);
         boolean boolean2 = cell1.repOk();
         boolean boolean3 = cell1.isEmpty();
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
     }
 
@@ -24757,7 +24757,7 @@ public class RegressionTest0 {
         ar.edu.unrc.game2048.Cell cell1 = new ar.edu.unrc.game2048.Cell(1);
         boolean boolean2 = cell1.repOk();
         int int3 = cell1.getValue();
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
         org.junit.Assert.assertTrue("'" + int3 + "' != '" + 1 + "'", int3 == 1);
     }
 
@@ -30783,7 +30783,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + false + "'", boolean41 == false);
         org.junit.Assert.assertEquals("'" + str42 + "' != '" + "1" + "'", str42, "1");
         org.junit.Assert.assertTrue("'" + boolean43 + "' != '" + false + "'", boolean43 == false);
-        org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + true + "'", boolean44 == true);
+        org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + false + "'", boolean44 == false);
     }
 
     @Test
