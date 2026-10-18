@@ -121,3 +121,50 @@ The generators are good at breadth (every public method, odd arguments, boundary
 
 The exception is the fuzzer with `repOK()` enabled, the only setup where an automated tool checked a property we specified ourselves. It never fired here, but fuzzing as random input in addition to hand-written invariant can find bugs that we are not looking for.
 
+
+# Assignment 4 Report — Oracle Generation with Daikon
+
+## Commands executed
+
+Chicory runs tests through `org.junit.runner.JUnitCore`, so `BoardTest` and `CellTest` were converted to JUnit 4.
+
+Trace from the manual test suite:
+```bash
+./mvn8 -o clean test-compile
+mvn -o dependency:build-classpath -q -DforceStdout -Dmdep.outputFile=/tmp/cp.txt
+java -cp "lib/daikon.jar:target/classes:target/test-classes:$(cat /tmp/cp.txt)" daikon.Chicory \
+     --ppt-select-pattern="ar.edu.unrc.game2048.Board|ar.edu.unrc.game2048.Cell" \
+     --output-dir=daikon-traces \
+     org.junit.runner.JUnitCore ar.edu.unrc.game2048.BoardTest ar.edu.unrc.game2048.CellTest
+java -cp "lib/daikon.jar:target/classes" daikon.Daikon \
+     -o daikon-traces/JUnitCore.inv.gz daikon-traces/JUnitCore.dtrace.gz > daikon-output.txt
+```
+
+Broadened trace (Phase 3.3), adding 40 fuzzed games of `MainCLI`:
+```bash
+python3 generateFuzzTraces.py
+java -Xmx4g -cp "lib/daikon.jar:target/classes" daikon.Daikon \
+     -o daikon-traces/JUnitCoreAndFuzzer.inv.gz \
+     daikon-traces/JUnitCore.dtrace.gz daikon-traces/fuzzer/*.dtrace.gz > daikon-output-fuzzer.txt
+```
+
+## Phase 3.3: Broadening the trace with the fuzzer
+
+`generateFuzzTraces.py` reuses `RandomFuzzer` from Assignment 3 (seed 42, 50–400 moves per game) and plays 40 games of `MainCLI` under Chicory, one trace file per game. It sets `JAVA_TOOL_OPTIONS=-ea` so the `assert board.repOk()` in `MainCLI` runs, which puts `repOk()` in the trace for the first time (no manual test calls it). All 40 games finished without violating `repOk()`, with final scores between 300 and 2240.
+
+| Invariant | Tests only | Tests + fuzzer | Result |
+|---|:---:|:---:|---|
+| `Board`: `score one of { 0, 4 }` | ok | x | Spurious, eliminated |
+| `Board`: `DEFAULT_SIZE >= score` | ok | x | Spurious, eliminated |
+| `Board`: `size >= score` | ok | x | Spurious, eliminated |
+| `moveUp()` ENTER: `score == 0` | ok | x | Spurious precondition, eliminated |
+| `Board`: `score >= 0` | x | ok | New and correct — the `score >= 0` clause of our `repOK()` |
+| `Board`: `size one of { 2, 4, 5 }` | ok | ok | Spurious, survives |
+| `Board`: `WINNING_VALUE > size` | ok | ok | Spurious, survives |
+| `Board`: `score % DEFAULT_SIZE == 0` | x | ok | New, too strong |
+| `Cell`: value is a power of two | x | x | Still not inferred |
+| `repOk()` EXIT: `grid == orig(grid)`, `score == orig(score)` | — | ok | New and useful: `repOk()` has no side effects |
+
+Broadening the trace only removed the spurious invariants about what the new source of executions varies. The fuzzer plays long games, so the score-related ones went away, but `MainCLI` always builds a 4x4 board, so the size-related ones survived. The `Cell` case shows that more data doesn't help when the property can't be expressed with Daikon's templates.
+
+`score % DEFAULT_SIZE == 0` (score is a multiple of 4) holds in every real game, since tiles spawn as 2 or 4 and every merge adds a power of two that is at least 4. But it's not a valid class invariant: `new Cell(1)` passes `repOK()` (1 = 2⁰), and merging two of them through the public API gives a score of 2 with `repOk()` still true.
