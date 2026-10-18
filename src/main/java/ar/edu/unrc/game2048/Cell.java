@@ -91,8 +91,8 @@ public final class Cell {
 
     /**
      * Checks the representation invariant of this cell.
-     * A cell is valid if its value is non-negative and, when non-zero,
-     * a power of two.
+     * A cell is valid if its value is zero (empty) or a power of two
+     * that is at least 2.
      *
      * @return true if the representation invariant holds
      */
@@ -100,7 +100,7 @@ public final class Cell {
         if (value < 0) {
             return false;
         }
-        return value == 0 || (value & (value - 1)) == 0;
+        return value == 0 || (value >= 2 && (value & (value - 1)) == 0);
     }
 
     /**

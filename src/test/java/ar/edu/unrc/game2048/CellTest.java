@@ -191,6 +191,19 @@ public class CellTest {
     }
 
     @Test
+    public void repOkAcceptsEmptyAndPowersOfTwoFromTwo() {
+        assertTrue(new Cell(0).repOk());
+        assertTrue(new Cell(2).repOk());
+        assertTrue(new Cell(2048).repOk());
+    }
+
+    @Test
+    public void repOkRejectsOne() {
+        // 1 is 2^0, but the smallest tile in the game is 2
+        assertFalse(new Cell(1).repOk());
+    }
+
+    @Test
     public void mergeWithLargeValueOk() {
         Cell cell1 = new Cell(1024);
         Cell cell2 = new Cell(1024);

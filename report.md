@@ -167,4 +167,77 @@ java -Xmx4g -cp "lib/daikon.jar:target/classes" daikon.Daikon \
 
 Broadening the trace only removed the spurious invariants about what the new source of executions varies. The fuzzer plays long games, so the score-related ones went away, but `MainCLI` always builds a 4x4 board, so the size-related ones survived. The `Cell` case shows that more data doesn't help when the property can't be expressed with Daikon's templates.
 
-`score % DEFAULT_SIZE == 0` (score is a multiple of 4) holds in every real game, since tiles spawn as 2 or 4 and every merge adds a power of two that is at least 4. But it's not a valid class invariant: `new Cell(1)` passes `repOK()` (1 = 2⁰), and merging two of them through the public API gives a score of 2 with `repOk()` still true.
+`score % DEFAULT_SIZE == 0` (score is a multiple of 4) holds in every real game, since tiles spawn as 2 or 4 and every merge adds a power of two that is at least 4. But with the original `Cell.repOk()` it was not a valid class invariant: `new Cell(1)` passed `repOK()` (1 = 2⁰), and merging two of them through the public API gave a score of 2 with `repOk()` still true. That gap is what led to the `Cell.repOk()` change described in Phase 4.1.
+
+## Phase 3.2: Classification of inferred invariants
+
+All invariants below come from `daikon-output-fuzzer.txt` (tests + 40 fuzzed games), the richest of the two runs. "Spurious" means true for the observed runs but not a property of the program.
+
+### `Cell`
+
+| # | Program point | Invariant | Classification | Reasoning |
+|---|---|---|---|---|
+| 1 | `OBJECT` | `this.value >= 0` | Correct and useful | First clause of `repOk()`. A negative value would be a real bug (the constructor rejects it). |
+| 2 | `isEmpty()` EXIT | `(this.value == 0) <==> (return == true)` | Correct and useful | The complete specification of `isEmpty()`, as a biconditional. Violating it would be a real bug. |
+| 3 | `mergeWith()` EXIT | `2 * this.value - return.value == 0` | Correct and useful | The actual postcondition of a merge: the result is double the operand. Daikon found it without being told. |
+| 4 | `mergeWith()` ENTER | `this.value == other.value`, `this.value >= 2`, `this.value is a power of 2` | Correct and useful | The real precondition, and it matches `canMergeWith()`. It also shows that merged cells are never empty. |
+| 5 | `canMergeWith()` EXIT | `(return == true) ==> this.value == other.value`, `this.value >= 2` | Correct and useful | Soundness half of the spec: it never says "mergeable" for different or empty cells. The converse is not at the method-level EXIT because two empty cells are equal but not mergeable. |
+| 6 | `getValue()` EXIT | `this.value == return`, `return >= 0` | Correct but trivial | Restates the getter's body. |
+| 7 | `hashCode()` ENTER | `this.value one of { 0, 2, 4 }` | Too strong / spurious | Only those values were hashed in the traces. Any power of two is valid. |
+| 8 | `equals()` EXIT | `(return == true) ==> this.value one of { 2, 4, 2048 }` | Too strong / spurious | Artefact of the few values compared in tests. `Cell(8).equals(Cell(8))` is true. |
+| 9 | `OBJECT` | *(missing)* `value is a power of 2` | Not inferred | It appears at the `EXIT` of many methods, but never as a class invariant (see 4.1). |
+
+### `Board`
+
+| # | Program point | Invariant | Classification | Reasoning |
+|---|---|---|---|---|
+| 1 | `OBJECT` | `this.score >= 0` | Correct and useful | `score` clause of `repOk()`. Only inferred after adding the fuzzer (the tests never produce a score other than 0 or 4). |
+| 2 | `OBJECT` | `this.size == size(this.grid[])` | Correct and useful | `grid.length == size` clause of `repOk()`. |
+| 3 | `OBJECT` | `this.grid != null`, `this.grid[] elements != null` | Correct but trivial | Both are clauses of `repOk()`, but a null row or grid would crash on the first access anyway. |
+| 4 | `OBJECT` | `this.size one of { 2, 4, 5 }` | Too strong / spurious | Only the sizes that the tests build. `Board(int)` accepts other sizes, and the fuzzer always uses 4. |
+| 5 | `OBJECT` | `WINNING_VALUE > this.size` | Too strong / spurious | Compares two unrelated constants. It holds only for the sizes that were tried. |
+| 6 | `OBJECT` | `this.score % this.size == 0` | Too strong / spurious | Holds only because every size-2 or size-5 board in the traces has score 0. A 5x5 board with score 4 (one merge of two 2s) violates it. |
+| 7 | `OBJECT` | `this.score % DEFAULT_SIZE == 0` | Correct in practice, but accidental | Every merge adds a value ≥ 4 that is a power of two, so the score is a multiple of 4. It only held for *valid* cells after the `Cell.repOk()` fix (with `Cell(1)` it did not). The link to `DEFAULT_SIZE` is a coincidence of the number 4, so it is not worth encoding as a spec. |
+| 8 | `collapseLine()` EXIT | `this.score >= orig(this.score)` | Correct and useful | The score never decreases. This is a property of the program that `repOk()` cannot express, because it relates two states. |
+| 9 | `addRandomTile()` EXIT | `this.score == orig(this.score)`, `this.grid == orig(this.grid)` | Correct and useful | Spawning a tile never changes the score. |
+| 10 | `repOk()` EXIT | `grid == orig(grid)`, `score == orig(score)` | Correct and useful | `repOk()` has no side effects, which is what an oracle needs. |
+
+## Phase 4.1: Daikon vs. `repOk()`
+
+**What Daikon rediscovered.** Of the `repOk()` clauses:
+
+| `repOk()` clause | Daikon |
+|---|---|
+| `Cell`: `value >= 0` | Inferred (`Cell:::OBJECT`) |
+| `Board`: `grid != null` | Inferred |
+| `Board`: `grid.length == size` | Inferred (`this.size == size(this.grid[])`) |
+| `Board`: `score >= 0` | Inferred, only with the fuzzer |
+| `Board`: cells are not null | Inferred (`this.grid[] elements != null`) |
+| `Board`: `size > 0` | Not exactly: the traces only give `size one of { 2, 4, 5 }`, which implies it but is spurious |
+
+**What Daikon missed, and why.**
+- *`value` is a power of two as a class invariant.* Daikon has a `is a power of 2` template and finds it at many method exits, but at `OBJECT` the traces contain `0`, which is not a power of two. The only expression that holds at all points is the disjunction `value == 0 || value is a power of 2`, and Daikon did not report it at `OBJECT` in our output (it only reports a disjunction when a single template covers it). `repOk()` states it directly.
+- *`grid[r].length == size` for every row, and `every cell satisfies repOk()`.* They are universally quantified over a two-dimensional array. The only array properties in the output are one-dimensional ones (`elements != null`, `size(...)`), so it did not state them.
+- *`size > 0`* and bounds in general: Daikon only reports what the traces show, and it saw a few sizes.
+
+**What Daikon found that `repOk()` lacked.** In the `EXIT` of `isEmpty()`, `canMergeWith()`, `mergeWith()` and `equals()`, Daikon reports `this.value >= 2` for every non-empty cell, which is more than `repOk()` required: the old check accepted `Cell(1)` (1 = 2⁰, so `(1 & 0) == 0`). That gap is real: with `setCell(r, c, new Cell(1))`, merging two such cells gave a score of 2, so a score that is not a multiple of 4 was possible while `repOk()` still returned true. The same gap made `score % DEFAULT_SIZE == 0` look "too strong", although it was true for every sensible game.
+
+**Update made to `repOk()`.** `Cell.repOk()` now requires `value == 0 || (value >= 2 && (value & (value - 1)) == 0)`:
+- `CellTest` gets two tests: one for the accepted values (`0`, `2`, `2048`) and one asserting that `new Cell(1).repOk()` is `false`.
+- The Randoop regression tests record behaviour, so six assertions that recorded `Cell(1).repOk() == true` (four in `randoopTests/cell/RegressionTest0.java`, two in `RegressionTest1.java`) now expect `false`. Those assertions were recording the gap, not a requirement.
+- `Board.repOk()` is unchanged, since it already delegates to `Cell.repOk()` for every cell.
+- The `Cell(int)` constructor still accepts 1. We kept it as it was (a cell of 1 can still be built, but is reported as invalid by `repOk()`), because changing the constructor is an API change that Assignment 4 does not ask for.
+
+The traces do not contain any `Cell(1)`, so this change does not alter Daikon's output for the existing traces.
+
+## Phase 4.2: Daikon vs. manual and automated oracles
+
+| Source | What it gave us on 2048 |
+|---|---|
+| Manual assertions (`CellTest`, `BoardTest`) | Precise and readable (they tell what the game should do), but they cover only the cases we thought of. |
+| `repOk()` | The most valuable single oracle: it is checked at every step of every fuzzed game (`assert board.repOk()` in `MainCLI`), and writing it exposed what a valid state is. Its limit is the same as the manual tests: it only contains what we thought of (the `Cell(1)` gap). |
+| Randoop assertions | Thousands of assertions, almost all recording the current output. They pass by construction, and when `Cell.repOk()` changed, six of them had to be edited because they had recorded the old behaviour. Good for regression, not for finding errors. |
+| EvoSuite assertions | Same nature as Randoop, with better coverage but not more meaning. |
+| Daikon invariants | They generalise over many runs and found properties that nobody wrote: the score never decreases, `addRandomTile` and `repOk` do not change the score, `mergeWith` doubles the value, the exact precondition of `mergeWith`. Many are spurious or trivial and need a human to filter them. |
+
+**Which was most useful?** For this program, `repOk()` combined with the fuzzer produced the most useful oracles, because it expresses intent, it is cheap to run on any state, and an automated tool did exercise it on 40 long games. Daikon comes second, and it is the best at *suggesting* oracles: it pointed at the `value >= 2` gap in `repOk()`, which none of the other three sources revealed. Its output is only as good as its traces: with the unit tests alone, it inferred sizes and scores that the tests happened to use, and broadening the traces removed only those that the new runs varied. The most effective use is the combination: Daikon proposes, a person decides which proposals become part of `repOk()`, and the fuzzer then enforces them.
