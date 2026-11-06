@@ -1,0 +1,10 @@
+{
+  "name": "Cell.equals (postcondition too strong)",
+  "source": "Subject.java",
+  "method": "cellEquals",
+  "params": [["int", "a"], ["int", "b"]],
+  "return_type": "boolean",
+  "precondition": "a >= 0 && b >= 0 && (a == 0 || (a >= 2 && (a & (a - 1)) == 0)) && (b == 0 || (b >= 2 && (b & (b - 1)) == 0))",
+  "assertion": "!result || a == 2 || a == 4 || a == 2048",
+  "description": "Two cells are equal when they hold the same value. Daikon inferred (return == true) ==> this.value one of { 2, 4, 2048 } (Cell.equals EXIT), an artefact of the few values compared in the tests."
+}
