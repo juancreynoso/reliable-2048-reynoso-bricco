@@ -33,3 +33,6 @@ target
 
 # Python fuzzer bytecode cache
 __pycache__/
+
+# Local cheat sheet with personal API key
+.env
