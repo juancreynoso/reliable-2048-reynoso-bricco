@@ -303,3 +303,42 @@ The most common accepted case (42 of 84) combined the first two: deleting a comm
 **Fix.** `fromString` now validates the whole string before building the board: brackets, exactly 16 values (`split(",", -1)` keeps trailing empty values), and each value written as a canonical decimal (no sign, spaces or leading zeros) that is 0 or a power of two from 2 up to `MAX_INITIAL_TILE`. Every problem is reported as an `IllegalArgumentException`, and `MainCLI` catches it, prints `Invalid board: <reason>` and exits with code 2. Loading a board rejects 1 even though the `Cell` constructor still accepts it, so every loaded board satisfies `repOk()`.
 
 `BoardTest` has one regression test per bug found in 1a and 1b.
+
+## Exercise 2: Assertion refinement with an LLM (OASIs-style tool)
+
+`oasis/refiner.py` helps decide whether an assertion on a Java method is too strong or too weak. The LLM only proposes; everything the tool reports is checked by compiling and running real Java code. It is written in Python with the standard library only; the LLM is reached through an OpenAI-compatible API (OpenRouter, key in `OPENROUTER_API_KEY`).
+
+```bash
+export OPENROUTER_API_KEY=...
+python3 oasis/refiner.py oasis/cases/can_merge/case.json --model 'nvidia/nemotron-3-ultra-550b-a55b:free' --report oasis/report-can_merge.md
+python3 -m unittest oasis/test_oasis.py   # offline, scripted LLM
+```
+
+**How it works.** A case gives the method (`Subject.java`), its precondition and the assertion under review (`case.json`).
+
+1. *Too strong?* The LLM proposes inputs that satisfy the precondition and may violate the assertion. The tool generates a `Harness.java`, compiles it with the method and runs it. Inputs that violate the assertion are reported as a possible false positive.
+2. *Too weak?* The LLM proposes mutants of the method. Each one is compiled and run on the same inputs. A mutant that still satisfies the assertion but returns a different result than the original on some input survives: the assertion cannot tell it apart from the real method (possible false negative). Mutants that never differ are discarded as possibly equivalent.
+3. *Feedback.* The LLM reads that evidence and explains what is wrong and suggests new assertions. The tool never changes the assertion by itself: the user decides, and `--interactive` repeats the cycle with the assertion the user types.
+
+**Case studies.** They come from the invariants Daikon inferred in Assignment 4. Model: `nvidia/nemotron-3-ultra-550b-a55b:free`.
+
+| Case | Assertion | Result |
+|---|---|---|
+| `Cell.canMergeWith` | `!result \|\| (a == b && a >= 2)` | Too weak: 5 surviving mutants (not merging 2,2 / 4,4 / 8,8 / 16,16 / 32,32). Suggested `result == (a == b && a >= 2)`. |
+| `Cell.equals` | `!result \|\| a == 2 \|\| a == 4 \|\| a == 2048` | Too strong: (0,0), (8,8), (16,16) violate it. Also too weak: it does not force `true` on equal cells. Suggested `result == (a == b)`. |
+| `Cell.mergeWith` | `(long) result == 2L * a` | Too strong: (2^30, 2^30) returns -2147483648 and violates it. |
+
+Full output: `oasis/report-can_merge.md`, `oasis/report-cell_equals.md`, `oasis/report-merge_value.md`.
+
+**What we learned.**
+
+- The evidence is reliable because it is executed, but the LLM's reading of it is not. In `Cell.mergeWith` the tool found the right input (2^30), and the LLM concluded that the method "correctly implements doubling with int overflow". That is the same overflow bug that the fuzzer of Exercise 1 found: the merged cell would be negative and the `Cell` constructor throws.
+- An assertion only sees what its own method does. The suggestion for `canMergeWith` is consistent with the code, but `canMergeWith(2^30, 2^30)` returns `true` and only `mergeWith` fails. The problem shows up when reviewing an assertion on `mergeWith`.
+- The first two cases confirm what Assignment 4 found by hand: Daikon proposes one-directional implications (too weak) and over-fits to the values the tests used (too strong).
+
+**Limitations.**
+
+- A mutant that behaves like the original on every input tried is discarded as possibly equivalent. It may be a real mutant that no input tells apart (4 mutants in `Cell.mergeWith` were discarded this way).
+- The LLM proposes few inputs (only 2 were run for `Cell.mergeWith`), so detection is limited by what it thinks of. Another model or run gives different inputs and mutants.
+- Only static methods with simple parameters and a simple return value, without object state. The `Cell` methods were ported to static functions with the same logic.
+- The free model has usage limits; some runs take minutes because of retries.
