@@ -241,3 +241,65 @@ The traces do not contain any `Cell(1)`, so this change does not alter Daikon's 
 | Daikon invariants | They generalise over many runs and found properties that nobody wrote: the score never decreases, `addRandomTile` and `repOk` do not change the score, `mergeWith` doubles the value, the exact precondition of `mergeWith`. Many are spurious or trivial and need a human to filter them. |
 
 **Which was most useful?** For this program, `repOk()` combined with the fuzzer produced the most useful oracles, because it expresses intent, it is cheap to run on any state, and an automated tool did exercise it on 40 long games. Daikon comes second, and it is the best at *suggesting* oracles: it pointed at the `value >= 2` gap in `repOk()`, which none of the other three sources revealed. Its output is only as good as its traces: with the unit tests alone, it inferred sizes and scores that the tests happened to use, and broadening the traces removed only those that the new runs varied. The most effective use is the combination: Daikon proposes, a person decides which proposals become part of `repOk()`, and the fuzzer then enforces them.
+
+# Assignment 5 Report — Fuzzing Initial Boards and Oracle Refinement
+
+## Exercise 1: Fuzzing initial boards
+
+`Board.fromString(s)` builds a 4x4 board from a string listing its cells row by row, e.g. `[0,0,0,0,4,2,0,0,0,0,0,0,2,2,2,2]`, and `MainCLI` accepts it as its argument:
+
+```bash
+./mvn8 -o clean compile
+java -cp target/classes ar.edu.unrc.game2048.MainCLI "[0,0,0,0,4,2,0,0,0,0,0,0,2,2,2,2]"
+python3 boardFuzzer.py 5000    # Exercise 1a
+python3 boardMutator.py 10000  # Exercise 1b
+```
+
+The first version of `fromString` only handled valid input (split by commas, parse each value, set the cell). Validation of invalid input was left on purpose for 1b, so the mutation fuzzer would have something to find.
+
+### 1a: Grammar-based fuzzer
+
+`boardFuzzer.py` generates boards from a grammar in the Fuzzing Book style: four rows of four cells, each cell `0` or a power of two. Small tiles (2–2048) are weighted three times more than large ones, because boards made only of large, all-different tiles almost never merge.
+
+The harness runs `MainCLI` with each board, plays 5–30 random moves (`RandomFuzzer` from Assignment 3) with `-ea`, and checks that the game exits normally (exit code 0, no stderr, so no `repOk()` assertion failure), that the first printed board is exactly the input, and that the initial score is 0.
+
+| Run | Boards | Failures |
+|---|:---:|:---:|
+| Grammar up to 2^30 | 5000 | 8 |
+| Grammar up to 2^17, after the fix | 5000 | 0 |
+
+**Bugs found.**
+
+1. *Tile overflow* (found by the fuzzer). Merging two 2^30 tiles gives 2^31, which doesn't fit in an `int`: `Cell.mergeWith()` calls `new Cell(-2147483648)`, and the game crashes with `IllegalArgumentException: Cell value cannot be negative`. Minimal input: `[1073741824,1073741824,0,0,0,0,0,0,0,0,0,0,0,0,0,0]` and the move `a`.
+2. *Score overflow* (found while analysing the first one). Four 2^29 tiles in a row add 2^30 twice to the score in one move, which wraps around to a negative number; the `assert board.repOk()` in `MainCLI` catches it. Minimal input: `[536870912,536870912,536870912,536870912,0,0,0,0,0,0,0,0,0,0,0,0]` and the move `a`.
+
+**Fix.** An initial board can only contain tiles up to `Board.MAX_INITIAL_TILE = 131072` (2^17), the largest tile of a real 4x4 game. With that bound the sum of all tiles is at most 16 · 2^17 = 2^21, so neither tiles nor score get near 2^31. The grammar now generates tiles up to 2^17.
+
+### 1b: Mutation-based fuzzer
+
+`boardMutator.py` takes boards from the 1a grammar and applies 1 to 3 random mutations: insert, replace or delete a character. New characters come half the time from the board alphabet (`0-9`, `,`, `[`, `]`) and half from any printable ASCII, so that "almost valid" inputs like an extra digit show up often.
+
+Some mutants stay valid by chance (e.g. a `0` replaced by a `2`), so the harness classifies each one with an oracle independent of the Java code: a board is valid iff it belongs to the language of the grammar. Valid mutants must load exactly as in 1a. Invalid ones must be rejected with a message and a non-zero exit code, without a stack trace. A failure is an invalid board accepted, a crash, or a valid board rejected.
+
+| Run | Mutants | Still valid | Crashes | Invalid accepted |
+|---|:---:|:---:|:---:|:---:|
+| First version of `fromString` | 2000 | 28 | 1888 | 84 |
+| After the fix | 2000 | 28 | 0 | 0 |
+| After the fix, new batch | 10000 | 128 | 0 | 0 |
+
+No valid mutant was ever rejected. **Bugs found:**
+
+| Bug | Example | Cause |
+|---|---|---|
+| Fewer than 16 values accepted | `[0,0,0,512,16384,16384,0,0,32,16,0,0,0,0,0]` | No count check; the missing cells kept the random tiles of `new Board()` |
+| Leading zeros accepted | `...,0,00,0,...` | `Integer.parseInt` accepts them |
+| Missing brackets accepted | `40,0,0,128,...` | `substring(1, len-1)` dropped the first and last characters without checking them |
+| Value 1 accepted | `...,128,1,4096,...` | The `Cell` constructor accepts 1 (Assignment 4) |
+| Trailing comma accepted | `[...,65536,32,]` | `String.split(",")` drops trailing empty values |
+| Invalid boards crash the game | `[...,P0,...]` | Every rejection was an uncaught exception (`NumberFormatException` or `IllegalArgumentException`) |
+
+The most common accepted case (42 of 84) combined the first two: deleting a comma glues two values together (`0,32768` → `032768`), leaving 15 values.
+
+**Fix.** `fromString` now validates the whole string before building the board: brackets, exactly 16 values (`split(",", -1)` keeps trailing empty values), and each value written as a canonical decimal (no sign, spaces or leading zeros) that is 0 or a power of two from 2 up to `MAX_INITIAL_TILE`. Every problem is reported as an `IllegalArgumentException`, and `MainCLI` catches it, prints `Invalid board: <reason>` and exits with code 2. Loading a board rejects 1 even though the `Cell` constructor still accepts it, so every loaded board satisfies `repOk()`.
+
+`BoardTest` has one regression test per bug found in 1a and 1b.

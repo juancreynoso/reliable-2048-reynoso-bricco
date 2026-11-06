@@ -497,6 +497,100 @@ public class BoardTest {
         }
     }
 
+    @Test
+    public void fromStringLoadsCellsRowByRow() {
+        Board board = Board.fromString("[0,0,0,0,4,2,0,0,0,0,0,0,2,2,2,2]");
+
+        assertEquals(4, board.getCell(1, 0).getValue());
+        assertEquals(2, board.getCell(1, 1).getValue());
+        assertEquals(2, board.getCell(3, 3).getValue());
+        assertTrue(board.getCell(0, 0).isEmpty());
+        assertEquals(10, board.getEmptyPositions().size()); // no random tiles added
+        assertEquals(0, board.getScore());
+        assertTrue(board.repOk());
+    }
+
+    @Test
+    public void fromStringBoardCanBePlayed() {
+        Board board = Board.fromString("[2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0]");
+
+        assertTrue(board.moveLeft());
+        assertEquals(4, board.getCell(0, 0).getValue());
+        assertEquals(4, board.getScore());
+    }
+
+    @Test
+    public void fromStringAcceptsTheLargestInitialTile() {
+        Board board = Board.fromString("[131072,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]");
+
+        assertEquals(Board.MAX_INITIAL_TILE, board.getCell(0, 0).getValue());
+        assertTrue(board.repOk());
+    }
+
+    // Found by the grammar-based fuzzer: merging two 2^30 tiles overflowed an int
+    // and crashed in Cell.mergeWith().
+    @Test
+    public void fromStringRejectsTilesWhoseMergeOverflows() {
+        try {
+            Board.fromString("[1073741824,1073741824,0,0,0,0,0,0,0,0,0,0,0,0,0,0]");
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
+    }
+
+    // Found while analysing the bug above: four 2^29 tiles in a row made the score
+    // overflow to a negative value on a single move.
+    @Test
+    public void fromStringRejectsTilesWhoseScoreOverflows() {
+        try {
+            Board.fromString("[536870912,536870912,536870912,536870912,0,0,0,0,0,0,0,0,0,0,0,0]");
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
+    }
+
+    // Invalid boards that the mutation fuzzer found being accepted by fromString().
+    @Test
+    public void fromStringRejectsFewerThan16Values() {
+        assertRejected("[0,0,0,512,16384,16384,0,0,32,16,0,0,0,0,0]");
+    }
+
+    @Test
+    public void fromStringRejectsLeadingZeros() {
+        assertRejected("[0,0,128,0,256,8192,8,512,0,0,0,00,0,0,0,0]");
+    }
+
+    @Test
+    public void fromStringRejectsMissingBrackets() {
+        assertRejected("0,0,0,0,4,2,0,0,0,0,0,0,2,2,2,2");
+    }
+
+    @Test
+    public void fromStringRejectsOne() {
+        assertRejected("[0,0,0,0,8,2,256,8,0,128,1,4096,8,0,0,512]");
+    }
+
+    @Test
+    public void fromStringRejectsTrailingComma() {
+        assertRejected("[0,0,0,0,0,16,0,16,0,256,0,0,131072,65536,32,]");
+    }
+
+    @Test
+    public void fromStringRejectsNonNumericValues() {
+        assertRejected("[16,0,0,0,0,0,0,,0,0,256,8,8,P0,4,64]");
+    }
+
+    private void assertRejected(String board) {
+        try {
+            Board.fromString(board);
+            fail("Expected IllegalArgumentException for " + board);
+        } catch (IllegalArgumentException e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
+    }
+
     /**
      * Helper for testing with an empty board
      * @param board the board to be cleaned

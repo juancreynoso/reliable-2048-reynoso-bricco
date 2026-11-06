@@ -13,7 +13,16 @@ public class MainCLI {
     private final Scanner scanner;
     
     public MainCLI() {
-        this.board = new Board();
+        this(new Board());
+    }
+
+    /**
+     * Starts the game from a given board instead of a random one.
+     *
+     * @param board the initial board
+     */
+    public MainCLI(Board board) {
+        this.board = board;
         this.scanner = new Scanner(System.in);
     }
     
@@ -79,8 +88,20 @@ public class MainCLI {
         System.out.println(board);
     }
     
+    /**
+     * Runs the game. An optional argument gives the initial board, e.g.
+     * "[0,0,0,0,4,2,0,0,0,0,0,0,2,2,2,2]"; without it the board is random.
+     */
     public static void main(String[] args) {
-        MainCLI game = new MainCLI();
+        Board board;
+        try {
+            board = args.length > 0 ? Board.fromString(args[0]) : new Board();
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid board: " + e.getMessage());
+            System.exit(2);
+            return;
+        }
+        MainCLI game = new MainCLI(board);
         game.play();
     }
 }

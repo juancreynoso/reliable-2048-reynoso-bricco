@@ -83,6 +83,69 @@ public class Board {
     }
 
     /**
+     * Largest tile allowed in an initial board: 2^17, the largest tile that can
+     * appear in a real game on a 4x4 board. Larger tiles let merges overflow an
+     * int: two 2^30 tiles merge into a negative value, and the score can wrap
+     * around to a negative number. With this bound the sum of all tiles is at
+     * most 16 * 2^17 = 2^21, far from 2^31.
+     */
+    public static final int MAX_INITIAL_TILE = 131072;
+
+    /**
+     * Creates a 4x4 board from a string that lists its cells row by row,
+     * e.g. "[0,0,0,0,4,2,0,0,0,0,0,0,2,2,2,2]". No random tiles are added:
+     * the board is exactly the one described, with score 0.
+     *
+     * @param s the board description
+     * @return the board described by {@code s}
+     * @throws IllegalArgumentException if {@code s} is not exactly 16 valid tiles
+     *         between brackets: each one 0, or a power of two from 2 up to
+     *         {@link #MAX_INITIAL_TILE}, written without sign, spaces or leading zeros
+     */
+    public static Board fromString(String s) {
+        if (s == null || !s.startsWith("[") || !s.endsWith("]")) {
+            throw new IllegalArgumentException("A board must be written as [v1,...,v16]: " + s);
+        }
+        // -1 keeps trailing empty values, so "[...,2,]" is rejected instead of ignored
+        String[] values = s.substring(1, s.length() - 1).split(",", -1);
+        int cells = DEFAULT_SIZE * DEFAULT_SIZE;
+        if (values.length != cells) {
+            throw new IllegalArgumentException(
+                    "A board needs " + cells + " values, got " + values.length + ": " + s);
+        }
+        int[] tiles = new int[cells];
+        for (int i = 0; i < cells; i++) {
+            tiles[i] = parseTile(values[i]);
+        }
+
+        Board board = new Board();
+        for (int i = 0; i < cells; i++) {   // overwrites every cell, random tiles included
+            board.setCell(i / DEFAULT_SIZE, i % DEFAULT_SIZE, new Cell(tiles[i]));
+        }
+        return board;
+    }
+
+    /**
+     * Parses one tile of a board string.
+     *
+     * @throws IllegalArgumentException if {@code v} is not 0 or a power of two
+     *         from 2 up to {@link #MAX_INITIAL_TILE}
+     */
+    private static int parseTile(String v) {
+        // Canonical decimals only: no sign, spaces or leading zeros, and at most
+        // 6 digits (MAX_INITIAL_TILE has 6), so parseInt cannot overflow.
+        if (!v.matches("0|[1-9][0-9]{0,5}")) {
+            throw new IllegalArgumentException("Not a valid tile: '" + v + "'");
+        }
+        int value = Integer.parseInt(v);
+        boolean powerOfTwo = (value & (value - 1)) == 0;
+        if (value != 0 && (value < 2 || !powerOfTwo || value > MAX_INITIAL_TILE)) {
+            throw new IllegalArgumentException("Not a valid tile: " + value);
+        }
+        return value;
+    }
+
+    /**
      * Initializes the board with all EMPTY cells.
      */
     private void initializeEmpty() {
