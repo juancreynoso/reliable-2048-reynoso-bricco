@@ -1,0 +1,10 @@
+{
+  "name": "Cell.canMergeWith (postcondition too weak)",
+  "source": "Subject.java",
+  "method": "canMerge",
+  "params": [["int", "a"], ["int", "b"]],
+  "return_type": "boolean",
+  "precondition": "a >= 0 && b >= 0 && (a == 0 || (a >= 2 && (a & (a - 1)) == 0)) && (b == 0 || (b >= 2 && (b & (b - 1)) == 0))",
+  "assertion": "!result || (a == b && a >= 2)",
+  "description": "Two cells can merge when both are non-empty and hold the same value. Daikon only inferred one direction: (return == true) ==> this.value == other.value, this.value >= 2 (daikon-output-fuzzer.txt, Cell.canMergeWith EXIT)."
+}

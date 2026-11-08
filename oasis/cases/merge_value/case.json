@@ -1,0 +1,10 @@
+{
+  "name": "Cell.mergeWith (plausible postcondition, hidden overflow)",
+  "source": "Subject.java",
+  "method": "mergeValue",
+  "params": [["int", "a"], ["int", "b"]],
+  "return_type": "int",
+  "precondition": "a == b && a >= 2 && (a & (a - 1)) == 0",
+  "assertion": "(long) result == 2L * a",
+  "description": "Merging two equal cells doubles the value. Daikon inferred 2 * this.value - return.value == 0 (Cell.mergeWith EXIT); written with longs, as Daikon evaluates it, because in int arithmetic the overflow would satisfy the assertion too."
+}
