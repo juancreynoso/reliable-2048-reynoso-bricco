@@ -131,15 +131,17 @@ def analyse(llm, spec, source, assertion, n_inputs, n_mutants, log=print):
         witness = None
         detected = False
         for a, o, b in zip(inputs, base, res):
-            if o["status"] == "SKIP":
+            if o["status"] in ("SKIP", "ASSERTEXC", "HARNESSERR") or \
+                    b["status"] in ("ASSERTEXC", "HARNESSERR"):
                 continue
-            if b["status"] in ("VIOLATION",) and o["status"] == "OK":
-                detected = True
-            if b["status"] == "EXC" and o["status"] != "EXC":
-                detected = True
-            if witness is None and (b["status"], b["result"]) != (o["status"], o["result"]) \
-                    and o["status"] in ("OK", "EXC") and b["status"] in ("OK", "EXC", "VIOLATION"):
-                witness = a
+            if (b["status"], b["result"]) == (o["status"], o["result"]):
+                continue                  # same behaviour on this input
+            # The mutant behaves differently here. This also holds when the original
+            # itself violates the assertion: the mutant is still not the original.
+            if b["status"] == "VIOLATION" or (b["status"] == "EXC" and o["status"] != "EXC"):
+                detected = True           # the assertion catches it
+            elif witness is None:
+                witness = a               # differs and the assertion accepts it
         if detected:
             killed.append({"description": desc})
         elif witness is None:
