@@ -324,9 +324,9 @@ python3 -m unittest oasis/test_oasis.py   # offline, scripted LLM
 
 | Case | Assertion | Result |
 |---|---|---|
-| `Cell.canMergeWith` | `!result \|\| (a == b && a >= 2)` | Too weak: 5 surviving mutants (not merging 2,2 / 4,4 / 8,8 / 16,16 / 32,32). Suggested `result == (a == b && a >= 2)`. |
-| `Cell.equals` | `!result \|\| a == 2 \|\| a == 4 \|\| a == 2048` | Too strong: (0,0), (8,8), (16,16) violate it. Also too weak: it does not force `true` on equal cells. Suggested `result == (a == b)`. |
-| `Cell.mergeWith` | `(long) result == 2L * a` | Too strong: (2^30, 2^30) returns -2147483648 and violates it. |
+| `Cell.canMergeWith` | `!result \|\| (a == b && a >= 2)` | Too weak: 5 surviving mutants (not merging 2,2, 4,4, 8,8 or 16,16; requiring a value >= 4; always `false`). Suggested `result == (a == b && a >= 2)`. |
+| `Cell.equals` | `!result \|\| a == 2 \|\| a == 4 \|\| a == 2048` | Too strong: 15 inputs such as (0,0), (8,8), (16,16) violate it. Also too weak: 5 mutants survive (e.g. `true` only for 2, 4 and 2048), all differing from the original at (0,0). Suggested `result == (a == b)`. |
+| `Cell.mergeWith` | `(long) result == 2L * a` | Too strong: (2^30, 2^30) returns -2147483648 and violates it. 3 mutants are detected; 2 are discarded as equivalent (they only add a static counter or flag). |
 
 Full output: `oasis/report-can_merge.md`, `oasis/report-cell_equals.md`, `oasis/report-merge_value.md`.
 
@@ -338,7 +338,7 @@ Full output: `oasis/report-can_merge.md`, `oasis/report-cell_equals.md`, `oasis/
 
 **Limitations.**
 
-- A mutant that behaves like the original on every input tried is discarded as possibly equivalent. It may be a real mutant that no input tells apart (4 mutants in `Cell.mergeWith` were discarded this way).
-- The LLM proposes few inputs (only 2 were run for `Cell.mergeWith`), so detection is limited by what it thinks of. Another model or run gives different inputs and mutants.
+- A mutant that behaves like the original on every input tried is discarded as possibly equivalent. It may be a real mutant that no input tells apart (2 mutants in `Cell.mergeWith` were discarded this way, and both really are equivalent: they only add a side effect). A mutant whose result differs from the original is never discarded, even where the original already violates the assertion; a review found that the first version of the classifier did discard those, so it was fixed and the reports were regenerated.
+- Detection is limited by what the LLM proposes: in one run for `Cell.canMergeWith` it gave no usable input and only the 4 inputs that came with the mutants were executed. Another model or run gives different inputs and mutants.
 - Only static methods with simple parameters and a simple return value, without object state. The `Cell` methods were ported to static functions with the same logic.
 - The free model has usage limits; some runs take minutes because of retries.

@@ -75,6 +75,36 @@ class OasisTest(unittest.TestCase):
         reasons = {d["description"] for d in r["discarded"]}
         self.assertEqual(reasons, {"equivalent", "broken"})
 
+    def test_mutant_differing_where_original_violates_is_not_equivalent(self):
+        # The original returns -2147483648 on 2^30 and violates the assertion. A mutant
+        # that returns something else there is NOT equivalent: it must not be discarded.
+        spec, src = load("merge_value")
+        big = [1073741824, 1073741824]
+        body = ("public class Subject { static int mergeValue(int a, int b) { "
+                "if (a == 0 && b == 0 || a != b) throw new IllegalArgumentException(); %s } }")
+        mutants = [
+            {"description": "returns 0 at 2^30", "source": body % "return a == 1073741824 ? 0 : a * 2;",
+             "distinguishing_input": big},
+            {"description": "equivalent", "source": body % "return a + a;", "distinguishing_input": big},
+        ]
+        r = oasis.analyse(FakeLLM([[2, 2], big], mutants), spec, src,
+                          spec["assertion"], 10, 2, log=lambda *_: None)
+        self.assertEqual({m["description"] for m in r["killed"]}, {"returns 0 at 2^30"})
+        self.assertEqual({d["description"] for d in r["discarded"]}, {"equivalent"})
+
+    def test_mutant_accepted_by_assertion_where_original_violates_survives(self):
+        # cell_equals: the original violates the assertion on (8, 8); a mutant that is false
+        # there satisfies `!result || ...`, so the assertion accepts it: it survives.
+        spec, src = load("cell_equals")
+        mutants = [{"description": "false on 8,8",
+                    "source": "public class Subject { static boolean cellEquals(int a, int b) "
+                              "{ return a == b && a != 8; } }",
+                    "distinguishing_input": [8, 8]}]
+        r = oasis.analyse(FakeLLM([[8, 8]], mutants), spec, src,
+                          spec["assertion"], 10, 1, log=lambda *_: None)
+        self.assertEqual([m["description"] for m in r["weak"]], ["false on 8,8"])
+        self.assertEqual(r["discarded"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

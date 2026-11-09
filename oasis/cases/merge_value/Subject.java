@@ -1,4 +1,4 @@
-/** Port of Cell.mergeWith(Cell) before the overflow fix: returns the value of the merged cell. */
+/** Same logic as Cell.mergeWith(Cell), returning the int value instead of a Cell. */
 public class Subject {
     static int mergeValue(int a, int b) {
         if (a == 0 && b == 0 || a != b) {

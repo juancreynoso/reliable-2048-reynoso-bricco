@@ -27,28 +27,23 @@ If these inputs are valid, either the assertion is too strong or the program has
 
 ## Possible false negative (assertion too weak)
 
-- mutant **Returns true only when a == b and a is one of {2, 4}. Differs from original on (2048,2048) where original returns true but mutant returns false.** survives; it differs from the original on input `[2048, 2048]`
-- mutant **Returns true only when a == b and a == 2. Differs from original on (4,4) where original returns true but mutant returns false.** survives; it differs from the original on input `[2048, 2048]`
-- mutant **Returns true only for the specific pair (2,4). Differs from original on (2,4) where original returns false but mutant returns true.** survives; it differs from the original on input `[2048, 2048]`
-- mutant **Returns true only for the specific pair (2048,0). Differs from original on (2048,0) where original returns false but mutant returns true.** survives; it differs from the original on input `[2048, 2048]`
+- mutant **Equality only checked for values 2, 4, 2048; returns false for other equal pairs like 8.** survives; it differs from the original on input `[0, 0]`
+- mutant **Equality only checked for values 2 and 4; forgets 2048.** survives; it differs from the original on input `[0, 0]`
+- mutant **Equality only checked for values 2 and 2048; forgets 4.** survives; it differs from the original on input `[0, 0]`
+- mutant **Equality restricted to 2,4,2048 plus an extra true case for (2,4).** survives; it differs from the original on input `[0, 0]`
+- mutant **Equality restricted to 2,4,2048 plus an extra true case for (2048,1024).** survives; it differs from the original on input `[0, 0]`
 
-Killed mutants: 0. Discarded mutants: 1
-- discarded: Returns true only when a == b and a is one of {2, 4, 2048}. Differs from original on (0,0) where original returns true but mutant returns false. (behaves like the original on every input tried (possibly an equivalent mutant))
+Killed mutants: 0. Discarded mutants: 0
 
 ## LLM feedback
 
-The assertion `!result || a == 2 || a == 4 || a == 2048` is both too strong and too weak.
-
-- Too strong: The evidence shows that for many valid inputs where `a == b` (e.g., (0,0), (8,8), (16,16), …) the method correctly returns `true`, but the assertion is violated because `a` is not 2, 4, or 2048. This indicates the assertion incorrectly restricts the values for which equality may hold.
-- Too weak: The surviving mutants demonstrate that the assertion does not require the method to return `true` for all equal pairs (e.g., (2048,2048)). Mutants that change the behavior on such pairs still satisfy the assertion, so the assertion cannot kill them.
-
-The program appears to implement the intended semantics correctly: it returns `true` exactly when `a == b` (given the precondition that both are valid cell values: 0 or powers of two). The assertion should be replaced with a precise specification of this behavior.
+The assertion `!result || a == 2 || a == 4 || a == 2048` is too strong because it incorrectly requires that whenever `cellEquals` returns true, the value `a` must be 2, 4, or 2048. The evidence shows that the method correctly returns true for many other equal pairs (e.g., [0,0], [8,8], [16,16], etc.), all of which violate the assertion. Additionally, the assertion is too weak to kill mutants that incorrectly restrict equality to only {2,4,2048} (or subsets) because those mutants return false for other equal pairs, making `!result` true and thus satisfying the assertion. The correct specification is that `cellEquals` returns true exactly when `a == b` (given the precondition). Therefore, the assertion should be refined to capture this equivalence.
 
 ## Suggested refinements (the user decides)
 
 - `result == (a == b)`
-- `(a == b) == result`
-- `(!result || a == b) && (result || a != b)`
+- `(result && a == b) || (!result && a != b)`
+- `result ? a == b : a != b`
 
 ---
 
