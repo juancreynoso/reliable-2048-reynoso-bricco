@@ -498,6 +498,24 @@ public class BoardTest {
     }
 
     @Test
+    public void boardsWithTheSameSeedPlayTheSameGame() {
+        Board first = new Board(4, 7);
+        Board second = new Board(4, 7);
+        assertEquals(first.toString(), second.toString());
+
+        for (int i = 0; i < 20; i++) {
+            first.moveLeft();  second.moveLeft();
+            first.moveUp();    second.moveUp();
+            assertEquals(first.toString(), second.toString());
+        }
+    }
+
+    @Test
+    public void defaultBoardsAreReproducible() {
+        assertEquals(new Board().toString(), new Board().toString());
+    }
+
+    @Test
     public void fromStringLoadsCellsRowByRow() {
         Board board = Board.fromString("[0,0,0,0,4,2,0,0,0,0,0,0,2,2,2,2]");
 

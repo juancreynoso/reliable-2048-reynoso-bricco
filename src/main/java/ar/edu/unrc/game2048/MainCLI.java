@@ -13,7 +13,7 @@ public class MainCLI {
     private final Scanner scanner;
     
     public MainCLI() {
-        this(new Board());
+        this(new Board(Board.DEFAULT_SIZE, System.nanoTime()));
     }
 
     /**
@@ -90,12 +90,12 @@ public class MainCLI {
     
     /**
      * Runs the game. An optional argument gives the initial board, e.g.
-     * "[0,0,0,0,4,2,0,0,0,0,0,0,2,2,2,2]"; without it the board is random.
+     * "[0,0,0,0,4,2,0,0,0,0,0,0,2,2,2,2]"; without it the board is random (a new seed on every run).
      */
     public static void main(String[] args) {
         Board board;
         try {
-            board = args.length > 0 ? Board.fromString(args[0]) : new Board();
+            board = args.length > 0 ? Board.fromString(args[0]) : new Board(Board.DEFAULT_SIZE, System.nanoTime());
         } catch (IllegalArgumentException e) {
             System.err.println("Invalid board: " + e.getMessage());
             System.exit(2);

@@ -89,6 +89,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M9</version>
                 <configuration>
+                    <!-- One JVM per test class: EvoSuite's runtime instruments the classes it
+                         loads (loop counter, mocks), which otherwise leaks into the next
+                         test classes run in the same JVM. -->
+                    <reuseForks>false</reuseForks>
                     <includes>
                         <include>**/RegressionTest*.java</include>
                         <include>**/ErrorTest*.java</include>
