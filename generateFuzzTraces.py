@@ -14,7 +14,7 @@ from fuzzer import RandomFuzzer
 SEED = 42
 GAMES = 40
 MIN_MOVES, MAX_MOVES = 50, 400
-OUT_DIR = "daikon-traces/fuzzer"
+OUT_DIR = "daikon-traces/seeded/fuzzer"  # Assignment 4 traces (before the seeded Random) stay in daikon-traces/fuzzer
 
 CHICORY = [
     "java", "-cp", "lib/daikon.jar:target/classes", "daikon.Chicory",
@@ -26,10 +26,11 @@ CHICORY = [
 def main():
     random.seed(SEED)
     os.makedirs(OUT_DIR, exist_ok=True)
-    env = dict(os.environ, JAVA_TOOL_OPTIONS="-ea")
     fuzzer = RandomFuzzer(min_length=MIN_MOVES, max_length=MAX_MOVES)
 
     for i in range(GAMES):
+        # -Dseed makes MainCLI place the same random tiles on every run
+        env = dict(os.environ, JAVA_TOOL_OPTIONS=f"-ea -Dseed={SEED + i}")
         result = subprocess.run(
             CHICORY + [f"--dtrace-file=MainCLI-{i:02d}.dtrace.gz",
                        "ar.edu.unrc.game2048.MainCLI"],
