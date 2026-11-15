@@ -180,7 +180,7 @@ script twice produced byte-identical test files.
 **Results.** `Cell`: 538 tests (`RegressionTest0` + `RegressionTest1`).
 `Board`: 516 tests. All pass, and `pom.xml` no longer excludes
 `randoopTests/board`. Repeated runs of `./mvn8 clean test` give the same result:
-**1220 tests, 0 failures, 0 errors** (Randoop, EvoSuite and hand-written suites).
+**1221 tests, 0 failures, 0 errors** (Randoop, EvoSuite and hand-written suites).
 
 **Coverage of the new Randoop suites** (`-Dtest='randoopTests.cell.RegressionTest0,randoopTests.cell.RegressionTest1,randoopTests.board.RegressionTest0,randoopTests.board.RegressionTest1' jacoco:report`):
 
@@ -312,7 +312,7 @@ the numbers are comparable to each other but not to the older tables, because
 
 | Class | Technique | Instruction | Branch | Line | Method |
 |---|---|:---:|:---:|:---:|:---:|
-| Cell  | Manual   | 92% | 89% | 93% | 100% |
+| Cell  | Manual   | 98% | 92% | 96% | 100% |
 | Cell  | Randoop  | 93% | 92% | 93% | 90%  |
 | Cell  | EvoSuite | 98% | 92% | 96% | 100% |
 | Board | Manual   | 99% | 90% | 97% | 100% |
@@ -320,8 +320,12 @@ the numbers are comparable to each other but not to the older tables, because
 | Board | EvoSuite | 84% | 78% | 86% | 96%  |
 
 On `Board`, both generated suites are now well below the manual suite and close
-to each other. On `Cell` the manual suite is no longer the best: it was 100%
-on the old code, but no hand-written test builds a non-power-of-two cell
-(e.g. `new Cell(3)`), so the guard added in Phase 3.2 (`Cell.java` line 38) is
-never executed by it, while both generators reach it on their own.
+to each other. On `Cell`, measuring again showed that no hand-written test
+built a non-power-of-two cell, so the guard added in Phase 3.2 (the fix for
+`new Cell(97)`) was never executed by the manual suite: the bug had been fixed
+without a regression test. We added `CellTest.constructorRejectsNonPowerOfTwo`
+(`new Cell(3)` must throw); the Manual row above already includes it. The
+`Cell` branches still missed by every suite are the `false` paths of
+`repOk()`: since the constructor now rejects every invalid value, no `Cell`
+can reach them.
 

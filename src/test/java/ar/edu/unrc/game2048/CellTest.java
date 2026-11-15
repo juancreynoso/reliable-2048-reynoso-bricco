@@ -209,6 +209,17 @@ public class CellTest {
     }
 
     @Test
+    public void constructorRejectsNonPowerOfTwo() {
+        // regression test for the bug found in Assignment 2 (Phase 3.2): new Cell(97) was accepted
+        try {
+            new Cell(3);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Cell value must be a power of two: 3", e.getMessage());
+        }
+    }
+
+    @Test
     public void mergeWithLargeValueOk() {
         Cell cell1 = new Cell(1024);
         Cell cell2 = new Cell(1024);
