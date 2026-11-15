@@ -223,10 +223,10 @@ All invariants below come from `daikon-output-fuzzer.txt` (tests + 40 fuzzed gam
 **What Daikon found that `repOk()` lacked.** In the `EXIT` of `isEmpty()`, `canMergeWith()`, `mergeWith()` and `equals()`, Daikon reports `this.value >= 2` for every non-empty cell, which is more than `repOk()` required: the old check accepted `Cell(1)` (1 = 2⁰, so `(1 & 0) == 0`). That gap is real: with `setCell(r, c, new Cell(1))`, merging two such cells gave a score of 2, so a score that is not a multiple of 4 was possible while `repOk()` still returned true. The same gap made `score % DEFAULT_SIZE == 0` look "too strong", although it was true for every sensible game.
 
 **Update made to `repOk()`.** `Cell.repOk()` now requires `value == 0 || (value >= 2 && (value & (value - 1)) == 0)`:
-- `CellTest` gets two tests: one for the accepted values (`0`, `2`, `2048`) and one asserting that `new Cell(1).repOk()` is `false`.
+- `CellTest` gets two tests: one for the accepted values (`0`, `2`, `2048`) and one asserting that `new Cell(1)` is rejected (it first checked `new Cell(1).repOk()` is `false`; see the last point).
 - The Randoop regression tests record behaviour, so six assertions that recorded `Cell(1).repOk() == true` (four in `randoopTests/cell/RegressionTest0.java`, two in `RegressionTest1.java`) now expect `false`. Those assertions were recording the gap, not a requirement.
 - `Board.repOk()` is unchanged, since it already delegates to `Cell.repOk()` for every cell.
-- The `Cell(int)` constructor still accepts 1. We kept it as it was (a cell of 1 can still be built, but is reported as invalid by `repOk()`), because changing the constructor is an API change that Assignment 4 does not ask for.
+- At first the `Cell(int)` constructor still accepted 1, so a cell that violates its own `repOk()` could be built. Before the defense we closed that gap: the constructor now throws `IllegalArgumentException` for 1, and the Randoop and EvoSuite suites were regenerated.
 
 The traces do not contain any `Cell(1)`, so this change does not alter Daikon's output for the existing traces.
 
