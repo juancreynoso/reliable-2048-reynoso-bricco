@@ -42,6 +42,18 @@ public class Board {
     private int score;
 
     /**
+     * Seed used when none is given, so boards built by tests (and by Randoop or
+     * EvoSuite) always get the same random tiles.
+     */
+    public static final long DEFAULT_SEED = 42;
+
+    /**
+     * Source of the random tiles. One per board (not static), so a board's tiles
+     * do not depend on what other boards did before it.
+     */
+    private final Random random;
+
+    /**
      * Creates a new board of the default size (4x4) with two random tiles.
      */
     public Board() {
@@ -55,12 +67,25 @@ public class Board {
      * @throws IllegalArgumentException if size <= 0
      */
     public Board(int size) {
+        this(size, DEFAULT_SEED);
+    }
+
+    /**
+     * Creates a new board of the specified size whose random tiles come from
+     * the given seed. The same seed always gives the same game.
+     *
+     * @param size the board size (must be > 0)
+     * @param seed the seed of the random tiles
+     * @throws IllegalArgumentException if size <= 0
+     */
+    public Board(int size, long seed) {
         if (size <= 0) {
             throw new IllegalArgumentException("Board size must be positive: " + size);
         }
         this.size = size;
         this.grid = new Cell[size][size];
         this.score = 0;
+        this.random = new Random(seed);
         initializeEmpty();
         addRandomTile();
         addRandomTile();
@@ -68,6 +93,7 @@ public class Board {
 
     /**
      * Copy constructor - creates a deep copy of another board.
+     * The copy gets its own generator, started from {@link #DEFAULT_SEED}.
      *
      * @param other the board to copy
      */
@@ -75,6 +101,7 @@ public class Board {
         this.size = other.size;
         this.grid = new Cell[size][size];
         this.score = other.score;
+        this.random = new Random(DEFAULT_SEED);
         for (int r = 0; r < size; r++) {
             for (int c = 0; c < size; c++) {
                 this.grid[r][c] = other.grid[r][c];
@@ -463,11 +490,11 @@ public class Board {
         }
 
         // Choose random position
-        int randomIndex = (int) (Math.random() * empty.size());
+        int randomIndex = random.nextInt(empty.size());
         Position pos = empty.stream().skip(randomIndex).findFirst().get();
 
         // 90% chance of 2, 10% chance of 4 (standard 2048 rules)
-        int value = Math.random() < 0.9 ? 2 : 4;
+        int value = random.nextDouble() < 0.9 ? 2 : 4;
         grid[pos.row][pos.col] = new Cell(value);
 
         return true;

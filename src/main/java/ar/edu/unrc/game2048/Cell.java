@@ -4,18 +4,18 @@ import java.util.Objects;
 
 /**
  * Represents a single cell in the 2048 game board.
- * A cell is either empty (value = 0) or contains a power of two (2, 4, 8, ...).
+ * A cell is either empty (value = 0) or contains a power of two from 2 on (2, 4, 8, ...).
  * 
  * Representation Invariant:
  * - value >= 0
- * - if value > 0, then value is a power of two 
+ * - if value > 0, then value is a power of two and value >= 2
  * 
  * Immutable class - once created, a Cell cannot change its value.
  */
 public final class Cell {
 
     /**
-     * Cell value (0 for empty, or a power of two).
+     * Cell value (0 for empty, or a power of two >= 2).
      */
     private final int value;
     
@@ -27,8 +27,8 @@ public final class Cell {
     /**
      * Creates a new cell with the given value.
      * 
-     * @param value the value of the cell (must be 0 or a power of two)
-     * @throws IllegalArgumentException if the value is negative or not a power of two (except 0)
+     * @param value the value of the cell (must be 0 or a power of two >= 2)
+     * @throws IllegalArgumentException if the value is negative, 1, or not a power of two (except 0)
      */
     public Cell(int value) {
         if (value < 0) {
@@ -36,6 +36,10 @@ public final class Cell {
         }
         if (value != 0 && (value & (value - 1)) != 0) {
             throw new IllegalArgumentException("Cell value must be a power of two: " + value);
+        }
+        if (value == 1) {
+            // 1 is 2^0, but the smallest tile is 2: such a cell would break repOk()
+            throw new IllegalArgumentException("Cell value must be 0 or at least 2: " + value);
         }
         this.value = value;
     }

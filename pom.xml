@@ -45,11 +45,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0</version>
-            </plugin>
 
             <plugin>
                 <groupId>org.pitest</groupId>
@@ -89,18 +84,16 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M9</version>
                 <configuration>
+                    <!-- One JVM per test class: EvoSuite's runtime instruments the classes it
+                         loads (loop counter, mocks), which otherwise leaks into the next
+                         test classes run in the same JVM. -->
+                    <reuseForks>false</reuseForks>
                     <includes>
                         <include>**/RegressionTest*.java</include>
                         <include>**/ErrorTest*.java</include>
                         <include>**/*Test.java</include>
                     </includes>
                     <excludes>
-                        <!-- Board.addRandomTile() calls Math.random() directly (no seedable
-                             source), so these Randoop-generated regression tests hard-code
-                             exact tile placements and are flaky by construction. Kept in the
-                             repo as documented Phase 3 findings (see TESTING-RESULTS.md);
-                             run explicitly with -Dtest=randoopTests.board.RegressionTest0. -->
-                        <exclude>**/randoopTests/board/**</exclude>
                         <!-- Randoop emits a JUnit4 @Suite wrapper (exactly "RegressionTest.java",
                              no numeric suffix) when it splits a class's tests across multiple
                              RegressionTestN.java files. The wildcard include above also matches

@@ -87,7 +87,8 @@ seed, so tests that hard-code exact tile placement can't reproduce on a
 second run.
 
 Since those failures are non-deterministic and were breaking the default
-`mvn test`, `pom.xml` now excludes `**/randoopTests/board/**`; `randoopTests.cell` stays in.
+`mvn test`, `pom.xml` excluded `**/randoopTests/board/**` at this point; `randoopTests.cell` stayed in.
+This exclusion only hid the flakiness; it was later fixed at its cause (see Phase 3.3).
 
 **Coverage vs. hand-written suites** — Randoop-only run
 (`-Dtest='randoopTests.cell.RegressionTest0,randoopTests.board.RegressionTest0'
@@ -141,6 +142,59 @@ to the `repOk()` work; `Board` itself wasn't changed.
 Full suite after the fix (`BoardTest`, `CellTest`, `randoopTests.cell.*`):
 **655 tests, 0 failures, 0 errors**.
 
+# Phase 3.3 — Fixing the flaky Board suite (seeded Random)
+
+Excluding `randoopTests.board` from `mvn test` (Phase 3.1) avoided the flaky
+tests but did not fix them. The cause was in the code under test, not in
+Randoop: `Board.addRandomTile()` used `Math.random()`, a global generator with
+no seed, so a fresh `Board` got different tiles on every run.
+
+**Fix.** Each `Board` now has its own `java.util.Random` started from a seed:
+
+- `Board(int size, long seed)` is a new constructor; `Board()` and
+  `Board(int size)` use `Board.DEFAULT_SEED` (42).
+- The generator is per board, not static, so the tiles of one board do not
+  depend on how many boards were created before it (that would make test
+  results depend on test order).
+- The copy constructor starts its own generator from `DEFAULT_SEED`.
+- `MainCLI` still plays a different game every time (it picks a new seed per
+  game), and `-Dseed=N` replays a specific one.
+
+**Randoop regenerated with a fixed seed.** `runRandoop.sh` generates both
+classes with `--randomseed=42 --deterministic=true` and a limit of 1000
+generated tests (`--generated-limit=1000 --time-limit=0`) instead of a time
+limit, because a time limit stops at a different point on every run. Running the
+script twice produced byte-identical test files.
+
+- `--flaky-test-behavior=HALT`: Randoop re-runs the tests it generates, and if
+  one fails it stops instead of writing it. This is how Randoop protects itself
+  from flaky tests: it filters them after the fact, but it does not control the
+  randomness of the code under test. That is why the seed had to go into `Board`.
+- For `Board`: `--literals-level=NONE` and `--omit-field` on `WINNING_VALUE`,
+  `MAX_INITIAL_TILE` and `DEFAULT_SEED`. Without them Randoop reused those
+  constants as board sizes and built a 131072x131072 grid that never finished.
+- The script copies the classes to a temp dir and runs Randoop there. Randoop's
+  flaky filter compiles and runs the generated tests, and that step breaks when
+  the path has spaces or accents, as this repo's path does.
+
+**Results.** `Cell`: 538 tests (`RegressionTest0` + `RegressionTest1`).
+`Board`: 516 tests. All pass, and `pom.xml` no longer excludes
+`randoopTests/board`. Repeated runs of `./mvn8 clean test` give the same result:
+**1221 tests, 0 failures, 0 errors** (Randoop, EvoSuite and hand-written suites).
+
+**Coverage of the new Randoop suites** (`-Dtest='randoopTests.cell.RegressionTest0,randoopTests.cell.RegressionTest1,randoopTests.board.RegressionTest0,randoopTests.board.RegressionTest1' jacoco:report`):
+
+| Class | Instruction | Branch | Line | Method |
+|---|:---:|:---:|:---:|:---:|
+| Cell — Randoop (seeded)  | 93% (172/185)  | 92% (33/36)   | 93% (25/27)   | 90% (9/10)  |
+| Board — Randoop (seeded) | 82% (952/1156) | 76% (121/160) | 86% (163/190) | 93% (26/28) |
+
+Board went down compared with Phase 3.1 (87% / 80% / 90% instructions /
+branches / lines). Two reasons: `Board` has more code now (1156 instructions
+against 911 in Phase 2), and without literals Randoop only builds boards from
+the sizes it makes up itself, so it reaches fewer merge and game-over states.
+That is the price of making the suite deterministic and making it finish.
+
 
 # Assignment 3 - Evosuite  and Fuzzing
 ## Phase 1 - Run Evosuite
@@ -174,7 +228,7 @@ Yes, a few, and they share the same root cause: `Board`'s random tile placement.
 - `test48`: reads `board0.getCell(1, 1)` from a fresh board and asserts it equals `2`, assuming that specific cell got a tile at generation time.
 - `test28`: creates `board0` and never uses it again (leftover noise from the genetic search), then writes `assertFalse(boolean1 == boolean0)` instead of the much clearer `assertTrue(boolean0)`.
 
-These would normally make the suite flaky on every rerun, but they don't: the `@EvoRunnerParameters(mockJVMNonDeterminism = true, ...)` on the test class makes EvoSuite's own runner mock `Math.random()`, replaying the exact sequence it saw during generation. This is a real difference from Randoop, whose plain JUnit tests have no such mocking - which is exactly why the Randoop suite for `Board` (Phase 3.1) was flaky and this one isn't.
+These would normally make the suite flaky on every rerun, but they don't: the `@EvoRunnerParameters(mockJVMNonDeterminism = true, ...)` on the test class makes EvoSuite's own runner mock `Math.random()`, replaying the exact sequence it saw during generation. This is a real difference from Randoop, whose plain JUnit tests have no such mocking - which is exactly why the Randoop suite for `Board` (Phase 3.1) was flaky and this one wasn't. (Since Phase 3.3 `Board` no longer uses `Math.random()`; see section 1.4 for the regenerated suite.)
 
 
 ### 1.3 Run JaCoCo to measure coverage
@@ -212,4 +266,66 @@ We could observate that:
   deliberately.
 - Method coverage is where EvoSuite matches manual exactly (100% on both
   classes). Randoop is the outlier there (89% on `Cell`).
+
+### 1.4 Regenerated with a fixed seed (after Phase 3.3)
+
+After the seeded `Random` in `Board` (Phase 3.3) and the `Cell(1)` fix, the
+EvoSuite suites were regenerated for both classes with `runEvosuite.sh`. Settings
+(explained in the script's comments):
+
+- `-seed 42` with a budget in statements (`-Dstopping_condition=MaxStatements`),
+  not in seconds. A time budget stops the search at a different point on every
+  run, so a seed alone is not enough. With these settings the search is
+  reproducible (same generations and same fitness). The order of the assertions
+  in the output file can still change between runs.
+- `-Dassertion_strategy=ALL`: keeps every assertion, since the default
+  (`MUTATION`) filter is not deterministic.
+- `-Dclient_on_thread=true`: the default separate client process talks to
+  EvoSuite's master over RMI, which failed intermittently here.
+- `Board` only: `-Dmax_int=16 -Dprimitive_pool=0 -Ddynamic_pool=0`, so EvoSuite
+  does not reuse `2048` / `131072` (constants of `Board`) as board sizes.
+
+**Flaky filter.** EvoSuite generated 57 tests for `Board` and wrote 55. The other
+2 were dropped in its "Compiling and checking tests" step, where it re-runs the
+generated tests and removes the unstable ones. So EvoSuite protects against
+flakiness in two ways: it mocks non-determinism (`mockJVMNonDeterminism`:
+`Math.random`, clock, files, network) and it filters out tests that still fail on re-run.
+
+**EvoSuite's own coverage** (last two rows of `evosuite-report/statistics.csv`):
+`Cell` 91.5% (241/267 goals), `Board` 83.0% (1274/1602 goals).
+
+**JaCoCo coverage** (same method as 1.3: `separateClassLoader = false` only while
+measuring, then back to `true`): `Cell_ESTest` has 26 tests and `Board_ESTest` has 55.
+
+| Class | Instruction | Branch | Line | Method |
+|---|:---:|:---:|:---:|:---:|
+| Cell — EvoSuite (seeded)  | 98% (182/185)  | 92% (33/36)   | 96% (26/27)   | 100% (10/10) |
+| Board — EvoSuite (seeded) | 84% (975/1156) | 78% (124/160) | 86% (163/190) | 96% (27/28)  |
+
+`Board` coverage dropped (96% / 89% / 95% in section 1.3). This is a trade-off:
+limiting integers to 16 keeps EvoSuite from building huge boards, which made the
+generation slow and the tests heavy, but it also explores fewer inputs.
+
+**Updated comparison** (all three suites measured on the current code, so
+the numbers are comparable to each other but not to the older tables, because
+`Board` and `Cell` have more code now):
+
+| Class | Technique | Instruction | Branch | Line | Method |
+|---|---|:---:|:---:|:---:|:---:|
+| Cell  | Manual   | 98% | 92% | 96% | 100% |
+| Cell  | Randoop  | 93% | 92% | 93% | 90%  |
+| Cell  | EvoSuite | 98% | 92% | 96% | 100% |
+| Board | Manual   | 99% | 90% | 97% | 100% |
+| Board | Randoop  | 82% | 76% | 86% | 93%  |
+| Board | EvoSuite | 84% | 78% | 86% | 96%  |
+
+On `Board`, both generated suites are now well below the manual suite and close
+to each other. On `Cell`, measuring again showed that no hand-written test
+built a non-power-of-two cell, so the guard added in Phase 3.2 (the fix for
+`new Cell(97)`) was never executed by the manual suite: the bug had been fixed
+without a regression test. We added `CellTest.constructorRejectsNonPowerOfTwo`
+(`new Cell(3)` must throw); the Manual row above already includes it. The
+`Cell` branches still missed by every suite are the `false` paths of
+`repOk()`: since the constructor now rejects every invalid value, no `Cell`
+can reach them.
 

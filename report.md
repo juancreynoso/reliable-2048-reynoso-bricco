@@ -223,10 +223,10 @@ All invariants below come from `daikon-output-fuzzer.txt` (tests + 40 fuzzed gam
 **What Daikon found that `repOk()` lacked.** In the `EXIT` of `isEmpty()`, `canMergeWith()`, `mergeWith()` and `equals()`, Daikon reports `this.value >= 2` for every non-empty cell, which is more than `repOk()` required: the old check accepted `Cell(1)` (1 = 2⁰, so `(1 & 0) == 0`). That gap is real: with `setCell(r, c, new Cell(1))`, merging two such cells gave a score of 2, so a score that is not a multiple of 4 was possible while `repOk()` still returned true. The same gap made `score % DEFAULT_SIZE == 0` look "too strong", although it was true for every sensible game.
 
 **Update made to `repOk()`.** `Cell.repOk()` now requires `value == 0 || (value >= 2 && (value & (value - 1)) == 0)`:
-- `CellTest` gets two tests: one for the accepted values (`0`, `2`, `2048`) and one asserting that `new Cell(1).repOk()` is `false`.
+- `CellTest` gets two tests: one for the accepted values (`0`, `2`, `2048`) and one asserting that `new Cell(1)` is rejected (it first checked `new Cell(1).repOk()` is `false`; see the last point).
 - The Randoop regression tests record behaviour, so six assertions that recorded `Cell(1).repOk() == true` (four in `randoopTests/cell/RegressionTest0.java`, two in `RegressionTest1.java`) now expect `false`. Those assertions were recording the gap, not a requirement.
 - `Board.repOk()` is unchanged, since it already delegates to `Cell.repOk()` for every cell.
-- The `Cell(int)` constructor still accepts 1. We kept it as it was (a cell of 1 can still be built, but is reported as invalid by `repOk()`), because changing the constructor is an API change that Assignment 4 does not ask for.
+- At first the `Cell(int)` constructor still accepted 1, so a cell that violates its own `repOk()` could be built. Before the defense we closed that gap: the constructor now throws `IllegalArgumentException` for 1, and the Randoop and EvoSuite suites were regenerated.
 
 The traces do not contain any `Cell(1)`, so this change does not alter Daikon's output for the existing traces.
 
@@ -241,6 +241,47 @@ The traces do not contain any `Cell(1)`, so this change does not alter Daikon's 
 | Daikon invariants | They generalise over many runs and found properties that nobody wrote: the score never decreases, `addRandomTile` and `repOk` do not change the score, `mergeWith` doubles the value, the exact precondition of `mergeWith`. Many are spurious or trivial and need a human to filter them. |
 
 **Which was most useful?** For this program, `repOk()` combined with the fuzzer produced the most useful oracles, because it expresses intent, it is cheap to run on any state, and an automated tool did exercise it on 40 long games. Daikon comes second, and it is the best at *suggesting* oracles: it pointed at the `value >= 2` gap in `repOk()`, which none of the other three sources revealed. Its output is only as good as its traces: with the unit tests alone, it inferred sizes and scores that the tests happened to use, and broadening the traces removed only those that the new runs varied. The most effective use is the combination: Daikon proposes, a person decides which proposals become part of `repOk()`, and the fuzzer then enforces them.
+
+## Phase 5 (added before the defense): Randoop executions as Daikon input
+
+The traces above came from the manual tests and the fuzzer only. Randoop's suites exercise `Cell` and `Board` with values and call sequences that neither of them uses, so they are a natural extra input for Daikon. This needed the Randoop suite for `Board` to be deterministic first (`Board` now takes its random tiles from a seeded `Random`, see TESTING-RESULTS.md).
+
+Because `Board` and `Cell` changed (seeded `Random`, `Cell(1)` rejected), the manual and fuzzer traces were regenerated too, in `daikon-traces/seeded/`. The Assignment 4 traces and outputs above are kept as they were. `MainCLI` accepts `-Dseed=N`, so the 40 fuzzed games are now reproducible (two runs give the same traces).
+
+```bash
+python3 generateFuzzTraces.py                       # daikon-traces/seeded/fuzzer
+java -cp "lib/daikon.jar:target/classes:target/test-classes:$(cat /tmp/cp.txt)" daikon.Chicory \
+     --ppt-select-pattern="ar.edu.unrc.game2048.Board|ar.edu.unrc.game2048.Cell" \
+     --output-dir=daikon-traces/randoop --dtrace-file=RandoopCell.dtrace.gz \
+     org.junit.runner.JUnitCore randoopTests.cell.RegressionTest0 randoopTests.cell.RegressionTest1
+java -cp "..." daikon.Chicory --ppt-select-pattern="..." --sample-start=100 \
+     --output-dir=daikon-traces/randoop --dtrace-file=RandoopBoard.dtrace.gz \
+     org.junit.runner.JUnitCore randoopTests.board.RegressionTest0 randoopTests.board.RegressionTest1
+java -Xmx4g -cp "lib/daikon.jar:target/classes" daikon.Daikon \
+     daikon-traces/seeded/JUnitCore.dtrace.gz daikon-traces/seeded/fuzzer/*.dtrace.gz > daikon-output-seeded.txt
+java -Xmx4g -cp "lib/daikon.jar:target/classes" daikon.Daikon \
+     daikon-traces/seeded/JUnitCore.dtrace.gz daikon-traces/seeded/fuzzer/*.dtrace.gz \
+     daikon-traces/randoop/*.dtrace.gz > daikon-output-randoop.txt
+```
+
+The `Board` suite is traced with `--sample-start=100` (every call is recorded until a method has been seen 100 times, then a sample): Randoop builds boards of up to 100×100 (most of them 97×97, from `(int) 'a'`), and recording the whole grid on every call produced a 1.4 GB trace.
+
+Adding Randoop removed 193 invariants and added 352 in the program points both runs share (most of them in `Board`), plus 6 new program points (for example `addRandomTile()` returning `false` on a full board, which the other inputs never reach).
+
+| Invariant | Tests + fuzzer | + Randoop | Result |
+|---|:---:|:---:|---|
+| `Cell.equals`: `(return == true) ==> this.value one of { 2, 4, 2048 }` | ok | x | Over-fitted, eliminated (the same invariant is the `cell_equals` case of Exercise 2 of Assignment 5) |
+| `Cell.equals`: `(return == true) ==> this.value >= 2` | ok | x | Wrong, eliminated: `Cell.EMPTY.equals(Cell.EMPTY)` is true |
+| `Board`: `this.size one of { 2, 4, 5 }` | ok | x | Spurious, eliminated |
+| `Board`: `this.score % this.size == 0` | ok | x | Spurious, eliminated |
+| `setCell()` ENTER: `this.score == 0`, `this.size one of { 2, 4 }`, `DEFAULT_SIZE > row` | ok | x | Spurious preconditions, eliminated |
+| `getCell()` ENTER: `this.size one of { 4, 97 }` | x | ok | New and spurious: almost every board Randoop builds has size 97 (`(int) 'a'`), and `getCell()` was only called on sizes 4 and 97 |
+| `setCell()` ENTER: `this.score one of { 0, 4, 16 }` | x | ok | New and spurious: Randoop's games are short |
+| `Board`: comparisons with `DEFAULT_SEED` and `MAX_INITIAL_TILE` | x | ok | New and meaningless: Daikon compares fields with any constant |
+| `Board`: `score % DEFAULT_SIZE == 0` | ok | ok | Survives (correct in practice, see Phase 4) |
+| `Cell`: value is 0 or a power of two ≥ 2 | x | x | Still not inferred as a class invariant |
+
+**Conclusion.** Randoop's executions do make the invariants stronger in the sense that matters: they falsify over-fitted and wrong ones that the tests and the fuzzer let through, the clearest being the `{ 2, 4, 2048 }` postcondition of `Cell.equals`. They also bring their own bias (mostly 97×97 boards, short games) and new spurious invariants, so the best input is the combination of the three sources, not Randoop alone.
 
 # Assignment 5 Report — Fuzzing Initial Boards and Oracle Refinement
 

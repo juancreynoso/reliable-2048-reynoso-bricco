@@ -198,9 +198,25 @@ public class CellTest {
     }
 
     @Test
-    public void repOkRejectsOne() {
+    public void constructorRejectsOne() {
         // 1 is 2^0, but the smallest tile in the game is 2
-        assertFalse(new Cell(1).repOk());
+        try {
+            new Cell(1);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
+    }
+
+    @Test
+    public void constructorRejectsNonPowerOfTwo() {
+        // regression test for the bug found in Assignment 2 (Phase 3.2): new Cell(97) was accepted
+        try {
+            new Cell(3);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Cell value must be a power of two: 3", e.getMessage());
+        }
     }
 
     @Test
