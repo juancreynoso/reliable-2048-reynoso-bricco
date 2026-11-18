@@ -3,8 +3,10 @@
 #
 # - repOk() is annotated with @randoop.CheckRep: Randoop calls it after every
 #   generated call, and a false result becomes an error-revealing test (ErrorTest*.java).
-# - -ea enables the `assert repOk()` postconditions inside Board, so a violation
-#   is also caught at the method that causes it.
+# - NO -ea: with assertions on, the `assert repOk()` inside Board.move() throws an
+#   AssertionError first, Randoop classifies it as an expected exception and never
+#   runs the @CheckRep check. The check must come from @CheckRep, not from assert.
+# - randoop-literals.txt gives the boundary values of int (2^29, 2^30, MAX_VALUE).
 # - Same seed + --deterministic => running it twice gives byte-identical tests.
 # - --flaky-test-behavior=HALT: stop instead of writing a test that fails on re-run.
 # - Board.MAX_SIZE bounds the board size, so Randoop can now use the class
@@ -25,20 +27,20 @@ cd "$REPO"
 # breaks when the classpath has spaces or accents (like this repo's path): work in /tmp.
 WORK="$(mktemp -d)"
 cp -r target/classes "$WORK/classes"
-cp lib/randoop-all-4.3.4.jar "$WORK/"
+cp lib/randoop-all-4.3.4.jar randoop-literals.txt "$WORK/"
 cd "$WORK"
 
 CP="randoop-all-4.3.4.jar:classes"
 COMMON=(--randomseed=42 --deterministic=true --time-limit=0 --generated-limit=1000
         --flaky-test-behavior=HALT --junit-output-dir=out
-        --literals-file=CLASSES --literals-level=ALL)
+        --literals-file=CLASSES --literals-file=randoop-literals.txt --literals-level=ALL)
 
-"$JAVA" -ea -cp "$CP" randoop.main.Main gentests "${COMMON[@]}" \
+"$JAVA" -cp "$CP" randoop.main.Main gentests "${COMMON[@]}" \
     --testclass=ar.edu.unrc.game2048.Cell --junit-package-name=randoopTests.cell
 
 # Cell is also given to the Board run, so Randoop can build large tiles
 # (mergeWith chains) and put them on a board with setCell.
-"$JAVA" -ea -cp "$CP" randoop.main.Main gentests "${COMMON[@]}" \
+"$JAVA" -cp "$CP" randoop.main.Main gentests "${COMMON[@]}" \
     --testclass=ar.edu.unrc.game2048.Board --testclass=ar.edu.unrc.game2048.Cell \
     --junit-package-name=randoopTests.board
 

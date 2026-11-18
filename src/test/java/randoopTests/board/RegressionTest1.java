@@ -25,160 +25,210 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test501");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        boolean boolean1 = board0.isWinningBoard();
-        boolean boolean2 = board0.moveLeft();
-        org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + false + "'", boolean1 == false);
+        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
+        boolean boolean2 = board1.moveUp();
+        boolean boolean3 = board1.isLosingBoard();
+        boolean boolean4 = board1.isFull();
+        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board1);
         org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + false + "'", boolean4 == false);
     }
 
     @Test
     public void test502() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test502");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        ar.edu.unrc.game2048.Cell cell4 = board1.getCell(0, 0);
-        java.lang.String str5 = board1.toString();
-        ar.edu.unrc.game2048.Board.Direction direction6 = ar.edu.unrc.game2048.Board.Direction.UP;
-        boolean boolean7 = board1.move(direction6);
-        boolean boolean8 = board1.isLosingBoard();
-        boolean boolean9 = board1.moveRight();
-        boolean boolean10 = board1.moveUp();
-        ar.edu.unrc.game2048.Board board11 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board12 = new ar.edu.unrc.game2048.Board(board11);
-        boolean boolean13 = board12.isFull();
-        ar.edu.unrc.game2048.Cell cell16 = board12.getCell(0, (int) (byte) 0);
-        java.lang.String str17 = cell16.toString();
-        int int18 = cell16.getValue();
-        int int19 = cell16.getValue();
-        ar.edu.unrc.game2048.Board board20 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board21 = new ar.edu.unrc.game2048.Board(board20);
-        boolean boolean22 = board21.isFull();
-        ar.edu.unrc.game2048.Cell cell25 = board21.getCell(0, (int) (byte) 0);
-        java.lang.String str26 = cell25.toString();
-        int int27 = cell25.getValue();
-        int int28 = cell25.getValue();
-        java.lang.String str29 = cell25.toString();
-        int int30 = cell25.getValue();
-        java.lang.String str31 = cell25.toString();
-        boolean boolean32 = cell16.canMergeWith(cell25);
-        int int33 = cell25.getValue();
-        ar.edu.unrc.game2048.Board board34 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board35 = new ar.edu.unrc.game2048.Board(board34);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet36 = board35.getEmptyPositions();
-        boolean boolean37 = board35.isLosingBoard();
-        boolean boolean38 = board35.moveUp();
-        ar.edu.unrc.game2048.Board board39 = new ar.edu.unrc.game2048.Board(board35);
-        boolean boolean40 = cell25.equals((java.lang.Object) board39);
-        boolean boolean41 = board1.equals((java.lang.Object) board39);
-        org.junit.Assert.assertNotNull(cell4);
-        org.junit.Assert.assertEquals("'" + str5 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str5, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + direction6 + "' != '" + ar.edu.unrc.game2048.Board.Direction.UP + "'", direction6.equals(ar.edu.unrc.game2048.Board.Direction.UP));
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
-        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9 == true);
-        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
-        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", boolean13 == false);
-        org.junit.Assert.assertNotNull(cell16);
-        org.junit.Assert.assertEquals("'" + str17 + "' != '" + "." + "'", str17, ".");
-        org.junit.Assert.assertTrue("'" + int18 + "' != '" + 0 + "'", int18 == 0);
-        org.junit.Assert.assertTrue("'" + int19 + "' != '" + 0 + "'", int19 == 0);
-        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", boolean22 == false);
-        org.junit.Assert.assertNotNull(cell25);
-        org.junit.Assert.assertEquals("'" + str26 + "' != '" + "." + "'", str26, ".");
-        org.junit.Assert.assertTrue("'" + int27 + "' != '" + 0 + "'", int27 == 0);
-        org.junit.Assert.assertTrue("'" + int28 + "' != '" + 0 + "'", int28 == 0);
-        org.junit.Assert.assertEquals("'" + str29 + "' != '" + "." + "'", str29, ".");
-        org.junit.Assert.assertTrue("'" + int30 + "' != '" + 0 + "'", int30 == 0);
-        org.junit.Assert.assertEquals("'" + str31 + "' != '" + "." + "'", str31, ".");
-        org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", boolean32 == false);
-        org.junit.Assert.assertTrue("'" + int33 + "' != '" + 0 + "'", int33 == 0);
-        org.junit.Assert.assertNotNull(positionSet36);
-        org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + false + "'", boolean37 == false);
-        org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38 == true);
-        org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + false + "'", boolean40 == false);
-        org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + false + "'", boolean41 == false);
+        ar.edu.unrc.game2048.Board board2 = new ar.edu.unrc.game2048.Board(2, (long) '#');
+        java.lang.String str3 = board2.toString();
+        org.junit.Assert.assertEquals("'" + str3 + "' != '" + "Score: 0\n+-----+-----+\n|     |     |\n+-----+-----+\n|    2|    2|\n+-----+-----+\n" + "'", str3, "Score: 0\n+-----+-----+\n|     |     |\n+-----+-----+\n|    2|    2|\n+-----+-----+\n");
     }
 
     @Test
     public void test503() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test503");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet1 = board0.getEmptyPositions();
-        boolean boolean2 = board0.isWinningBoard();
-        boolean boolean3 = board0.isFull();
-        java.lang.String str4 = board0.toString();
-        java.lang.Class<?> wildcardClass5 = board0.getClass();
-        org.junit.Assert.assertNotNull(positionSet1);
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertEquals("'" + str4 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str4, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertNotNull(wildcardClass5);
+        ar.edu.unrc.game2048.Board.Position position2 = new ar.edu.unrc.game2048.Board.Position((-1), (int) (byte) -1);
+        int int3 = position2.row;
+        org.junit.Assert.assertTrue("'" + int3 + "' != '" + (-1) + "'", int3 == (-1));
     }
 
     @Test
     public void test504() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test504");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        boolean boolean5 = board1.moveUp();
-        boolean boolean6 = board1.moveUp();
-        boolean boolean7 = board1.moveRight();
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
+        // The following exception was thrown during execution in test generation
+        try {
+            ar.edu.unrc.game2048.Board board2 = new ar.edu.unrc.game2048.Board((int) 'a', 0L);
+            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: Board size must be between 1 and 16: 97");
+        } catch (java.lang.IllegalArgumentException e) {
+            // Expected exception.
+        }
     }
 
     @Test
     public void test505() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test505");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet4 = board1.getEmptyPositions();
-        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board1);
-        boolean boolean6 = board1.moveDown();
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertNotNull(positionSet4);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
+        ar.edu.unrc.game2048.Cell cell0 = ar.edu.unrc.game2048.Cell.EMPTY;
+        boolean boolean1 = cell0.isEmpty();
+        ar.edu.unrc.game2048.Cell cell2 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int3 = cell2.getValue();
+        boolean boolean5 = cell2.equals((java.lang.Object) "\n");
+        ar.edu.unrc.game2048.Board board6 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board7 = new ar.edu.unrc.game2048.Board(board6);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet8 = board7.getEmptyPositions();
+        boolean boolean9 = board7.isFull();
+        boolean boolean10 = board7.moveDown();
+        ar.edu.unrc.game2048.Board board11 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board12 = new ar.edu.unrc.game2048.Board(board11);
+        boolean boolean13 = board12.isFull();
+        boolean boolean14 = board7.equals((java.lang.Object) board12);
+        boolean boolean15 = cell2.equals((java.lang.Object) boolean14);
+        int int16 = cell2.getValue();
+        boolean boolean17 = cell0.canMergeWith(cell2);
+        ar.edu.unrc.game2048.Cell cell18 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int19 = cell18.getValue();
+        java.lang.String str20 = cell18.toString();
+        java.lang.String str21 = cell18.toString();
+        ar.edu.unrc.game2048.Cell cell22 = ar.edu.unrc.game2048.Cell.EMPTY;
+        boolean boolean24 = cell22.equals((java.lang.Object) (-1.0f));
+        boolean boolean25 = cell18.canMergeWith(cell22);
+        ar.edu.unrc.game2048.Board board28 = new ar.edu.unrc.game2048.Board(2, (long) '#');
+        long long29 = board28.getScore();
+        java.lang.String str30 = board28.toString();
+        java.lang.String str31 = board28.toString();
+        boolean boolean32 = cell18.equals((java.lang.Object) board28);
+        boolean boolean33 = cell2.canMergeWith(cell18);
+        java.lang.Class<?> wildcardClass34 = cell2.getClass();
+        org.junit.Assert.assertNotNull(cell0);
+        org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1 == true);
+        org.junit.Assert.assertNotNull(cell2);
+        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 0 + "'", int3 == 0);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
+        org.junit.Assert.assertNotNull(positionSet8);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", boolean9 == false);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", boolean13 == false);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
+        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", boolean15 == false);
+        org.junit.Assert.assertTrue("'" + int16 + "' != '" + 0 + "'", int16 == 0);
+        org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
+        org.junit.Assert.assertNotNull(cell18);
+        org.junit.Assert.assertTrue("'" + int19 + "' != '" + 0 + "'", int19 == 0);
+        org.junit.Assert.assertEquals("'" + str20 + "' != '" + "." + "'", str20, ".");
+        org.junit.Assert.assertEquals("'" + str21 + "' != '" + "." + "'", str21, ".");
+        org.junit.Assert.assertNotNull(cell22);
+        org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + false + "'", boolean24 == false);
+        org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + false + "'", boolean25 == false);
+        org.junit.Assert.assertTrue("'" + long29 + "' != '" + 0L + "'", long29 == 0L);
+        org.junit.Assert.assertEquals("'" + str30 + "' != '" + "Score: 0\n+-----+-----+\n|     |     |\n+-----+-----+\n|    2|    2|\n+-----+-----+\n" + "'", str30, "Score: 0\n+-----+-----+\n|     |     |\n+-----+-----+\n|    2|    2|\n+-----+-----+\n");
+        org.junit.Assert.assertEquals("'" + str31 + "' != '" + "Score: 0\n+-----+-----+\n|     |     |\n+-----+-----+\n|    2|    2|\n+-----+-----+\n" + "'", str31, "Score: 0\n+-----+-----+\n|     |     |\n+-----+-----+\n|    2|    2|\n+-----+-----+\n");
+        org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", boolean32 == false);
+        org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", boolean33 == false);
+        org.junit.Assert.assertNotNull(wildcardClass34);
     }
 
     @Test
     public void test506() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test506");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        boolean boolean5 = board1.moveDown();
-        boolean boolean6 = board1.moveUp();
-        boolean boolean7 = board1.moveLeft();
-        boolean boolean8 = board1.moveUp();
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board(board1);
-        boolean boolean10 = board9.moveDown();
-        boolean boolean11 = board9.moveDown();
-        org.junit.Assert.assertNotNull(positionSet2);
+        ar.edu.unrc.game2048.Cell cell0 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int1 = cell0.getValue();
+        boolean boolean3 = cell0.equals((java.lang.Object) "\n");
+        ar.edu.unrc.game2048.Board board4 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board4);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet6 = board5.getEmptyPositions();
+        boolean boolean7 = board5.isFull();
+        boolean boolean8 = board5.moveDown();
+        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board10 = new ar.edu.unrc.game2048.Board(board9);
+        boolean boolean11 = board10.isFull();
+        boolean boolean12 = board5.equals((java.lang.Object) board10);
+        boolean boolean13 = cell0.equals((java.lang.Object) boolean12);
+        int int14 = cell0.getValue();
+        ar.edu.unrc.game2048.Board.Position position17 = new ar.edu.unrc.game2048.Board.Position((int) (short) 100, 2);
+        int int18 = position17.row;
+        ar.edu.unrc.game2048.Cell cell19 = ar.edu.unrc.game2048.Cell.EMPTY;
+        boolean boolean20 = position17.equals((java.lang.Object) cell19);
+        ar.edu.unrc.game2048.Board board21 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board22 = new ar.edu.unrc.game2048.Board(board21);
+        boolean boolean23 = board21.moveUp();
+        boolean boolean24 = board21.isFull();
+        boolean boolean25 = board21.moveRight();
+        boolean boolean26 = cell19.equals((java.lang.Object) boolean25);
+        ar.edu.unrc.game2048.Cell cell27 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int28 = cell27.getValue();
+        boolean boolean30 = cell27.equals((java.lang.Object) "\n");
+        ar.edu.unrc.game2048.Board board31 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board32 = new ar.edu.unrc.game2048.Board(board31);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet33 = board32.getEmptyPositions();
+        boolean boolean34 = board32.isFull();
+        boolean boolean35 = board32.moveDown();
+        ar.edu.unrc.game2048.Board board36 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board37 = new ar.edu.unrc.game2048.Board(board36);
+        boolean boolean38 = board37.isFull();
+        boolean boolean39 = board32.equals((java.lang.Object) board37);
+        boolean boolean40 = cell27.equals((java.lang.Object) boolean39);
+        boolean boolean41 = cell19.equals((java.lang.Object) boolean40);
+        ar.edu.unrc.game2048.Cell cell42 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int43 = cell42.getValue();
+        java.lang.String str44 = cell42.toString();
+        java.lang.String str45 = cell42.toString();
+        boolean boolean46 = cell42.isEmpty();
+        boolean boolean47 = cell42.isEmpty();
+        java.lang.String str48 = cell42.toString();
+        ar.edu.unrc.game2048.Cell cell49 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int50 = cell49.getValue();
+        boolean boolean52 = cell49.equals((java.lang.Object) "\n");
+        boolean boolean53 = cell42.canMergeWith(cell49);
+        boolean boolean54 = cell19.canMergeWith(cell49);
+        // The following exception was thrown during execution in test generation
+        try {
+            ar.edu.unrc.game2048.Cell cell55 = cell0.mergeWith(cell49);
+            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: Cannot merge cells: . and .");
+        } catch (java.lang.IllegalArgumentException e) {
+            // Expected exception.
+        }
+        org.junit.Assert.assertNotNull(cell0);
+        org.junit.Assert.assertTrue("'" + int1 + "' != '" + 0 + "'", int1 == 0);
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
+        org.junit.Assert.assertNotNull(positionSet6);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
-        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
-        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11 == true);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", boolean11 == false);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", boolean13 == false);
+        org.junit.Assert.assertTrue("'" + int14 + "' != '" + 0 + "'", int14 == 0);
+        org.junit.Assert.assertTrue("'" + int18 + "' != '" + 100 + "'", int18 == 100);
+        org.junit.Assert.assertNotNull(cell19);
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + false + "'", boolean20 == false);
+        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23 == true);
+        org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + false + "'", boolean24 == false);
+        org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25 == true);
+        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", boolean26 == false);
+        org.junit.Assert.assertNotNull(cell27);
+        org.junit.Assert.assertTrue("'" + int28 + "' != '" + 0 + "'", int28 == 0);
+        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
+        org.junit.Assert.assertNotNull(positionSet33);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", boolean34 == false);
+        org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + true + "'", boolean35 == true);
+        org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + false + "'", boolean38 == false);
+        org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + false + "'", boolean39 == false);
+        org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + false + "'", boolean40 == false);
+        org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + false + "'", boolean41 == false);
+        org.junit.Assert.assertNotNull(cell42);
+        org.junit.Assert.assertTrue("'" + int43 + "' != '" + 0 + "'", int43 == 0);
+        org.junit.Assert.assertEquals("'" + str44 + "' != '" + "." + "'", str44, ".");
+        org.junit.Assert.assertEquals("'" + str45 + "' != '" + "." + "'", str45, ".");
+        org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46 == true);
+        org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + true + "'", boolean47 == true);
+        org.junit.Assert.assertEquals("'" + str48 + "' != '" + "." + "'", str48, ".");
+        org.junit.Assert.assertNotNull(cell49);
+        org.junit.Assert.assertTrue("'" + int50 + "' != '" + 0 + "'", int50 == 0);
+        org.junit.Assert.assertTrue("'" + boolean52 + "' != '" + false + "'", boolean52 == false);
+        org.junit.Assert.assertTrue("'" + boolean53 + "' != '" + false + "'", boolean53 == false);
+        org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + false + "'", boolean54 == false);
     }
 
     @Test
@@ -190,47 +240,21 @@ public class RegressionTest1 {
         java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
         boolean boolean3 = board1.isFull();
         boolean boolean4 = board1.moveDown();
-        boolean boolean6 = board1.equals((java.lang.Object) "0|[1-9][0-9]{0,5}");
-        boolean boolean7 = board1.isLosingBoard();
-        ar.edu.unrc.game2048.Board board8 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board(board8);
-        ar.edu.unrc.game2048.Cell cell12 = board9.getCell(0, 0);
-        java.lang.String str13 = board9.toString();
-        boolean boolean14 = board1.equals((java.lang.Object) board9);
-        boolean boolean15 = board9.moveLeft();
-        boolean boolean16 = board9.moveUp();
-        boolean boolean17 = board9.moveUp();
-        ar.edu.unrc.game2048.Cell cell20 = board9.getCell(3, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board21 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board22 = new ar.edu.unrc.game2048.Board(board21);
-        boolean boolean23 = board22.isFull();
-        ar.edu.unrc.game2048.Cell cell26 = board22.getCell(0, (int) (byte) 0);
-        int int27 = cell26.getValue();
-        java.lang.Object obj28 = null;
-        boolean boolean29 = cell26.equals(obj28);
-        // The following exception was thrown during execution in test generation
-        try {
-            ar.edu.unrc.game2048.Cell cell30 = cell20.mergeWith(cell26);
-            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: Cannot merge cells: . and .");
-        } catch (java.lang.IllegalArgumentException e) {
-            // Expected exception.
-        }
+        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board6 = new ar.edu.unrc.game2048.Board(board5);
+        boolean boolean7 = board6.isFull();
+        boolean boolean8 = board1.equals((java.lang.Object) board6);
+        java.lang.String str9 = board6.toString();
+        long long10 = board6.getScore();
+        boolean boolean11 = board6.isWinningBoard();
         org.junit.Assert.assertNotNull(positionSet2);
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertNotNull(cell12);
-        org.junit.Assert.assertEquals("'" + str13 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str13, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
-        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16 == true);
-        org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17 == true);
-        org.junit.Assert.assertNotNull(cell20);
-        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + false + "'", boolean23 == false);
-        org.junit.Assert.assertNotNull(cell26);
-        org.junit.Assert.assertTrue("'" + int27 + "' != '" + 0 + "'", int27 == 0);
-        org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + false + "'", boolean29 == false);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
+        org.junit.Assert.assertEquals("'" + str9 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str9, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
+        org.junit.Assert.assertTrue("'" + long10 + "' != '" + 0L + "'", long10 == 0L);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", boolean11 == false);
     }
 
     @Test
@@ -239,125 +263,137 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test508");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        boolean boolean2 = board1.isFull();
-        ar.edu.unrc.game2048.Cell cell5 = board1.getCell(0, (int) (byte) 0);
-        java.lang.String str6 = cell5.toString();
-        int int7 = cell5.getValue();
-        int int8 = cell5.getValue();
-        java.lang.String str9 = cell5.toString();
-        int int10 = cell5.getValue();
-        int int11 = cell5.getValue();
-        int int12 = cell5.getValue();
-        java.lang.String str13 = cell5.toString();
-        boolean boolean14 = cell5.isEmpty();
-        ar.edu.unrc.game2048.Board board15 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board16 = new ar.edu.unrc.game2048.Board(board15);
-        boolean boolean17 = board16.isFull();
-        ar.edu.unrc.game2048.Cell cell20 = board16.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board21 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board22 = new ar.edu.unrc.game2048.Board(board21);
-        boolean boolean23 = board22.isFull();
-        ar.edu.unrc.game2048.Cell cell26 = board22.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board27 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board28 = new ar.edu.unrc.game2048.Board(board27);
-        boolean boolean29 = board28.isFull();
-        ar.edu.unrc.game2048.Cell cell32 = board28.getCell(0, (int) (byte) 0);
-        boolean boolean33 = cell26.canMergeWith(cell32);
-        boolean boolean34 = cell20.canMergeWith(cell26);
-        boolean boolean35 = cell26.isEmpty();
-        boolean boolean36 = cell5.canMergeWith(cell26);
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
-        org.junit.Assert.assertNotNull(cell5);
-        org.junit.Assert.assertEquals("'" + str6 + "' != '" + "." + "'", str6, ".");
-        org.junit.Assert.assertTrue("'" + int7 + "' != '" + 0 + "'", int7 == 0);
-        org.junit.Assert.assertTrue("'" + int8 + "' != '" + 0 + "'", int8 == 0);
-        org.junit.Assert.assertEquals("'" + str9 + "' != '" + "." + "'", str9, ".");
-        org.junit.Assert.assertTrue("'" + int10 + "' != '" + 0 + "'", int10 == 0);
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + 0 + "'", int11 == 0);
-        org.junit.Assert.assertTrue("'" + int12 + "' != '" + 0 + "'", int12 == 0);
-        org.junit.Assert.assertEquals("'" + str13 + "' != '" + "." + "'", str13, ".");
-        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14 == true);
-        org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
-        org.junit.Assert.assertNotNull(cell20);
-        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + false + "'", boolean23 == false);
-        org.junit.Assert.assertNotNull(cell26);
-        org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + false + "'", boolean29 == false);
-        org.junit.Assert.assertNotNull(cell32);
-        org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", boolean33 == false);
-        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", boolean34 == false);
-        org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + true + "'", boolean35 == true);
-        org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", boolean36 == false);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
+        boolean boolean3 = board1.moveDown();
+        boolean boolean4 = board1.moveLeft();
+        org.junit.Assert.assertNotNull(positionSet2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3 == true);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
     }
 
     @Test
     public void test509() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test509");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        boolean boolean2 = board1.isFull();
-        ar.edu.unrc.game2048.Cell cell5 = board1.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board6 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board7 = new ar.edu.unrc.game2048.Board(board6);
-        boolean boolean8 = board7.isFull();
-        ar.edu.unrc.game2048.Cell cell11 = board7.getCell(0, (int) (byte) 0);
-        boolean boolean12 = cell5.canMergeWith(cell11);
-        java.lang.Class<?> wildcardClass13 = cell5.getClass();
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
-        org.junit.Assert.assertNotNull(cell5);
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
-        org.junit.Assert.assertNotNull(cell11);
-        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
-        org.junit.Assert.assertNotNull(wildcardClass13);
+        ar.edu.unrc.game2048.Board board2 = new ar.edu.unrc.game2048.Board(3, 0L);
     }
 
     @Test
     public void test510() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test510");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        boolean boolean6 = board1.equals((java.lang.Object) "0|[1-9][0-9]{0,5}");
-        boolean boolean7 = board1.isLosingBoard();
-        ar.edu.unrc.game2048.Board board8 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board(board8);
-        ar.edu.unrc.game2048.Cell cell12 = board9.getCell(0, 0);
-        java.lang.String str13 = board9.toString();
-        boolean boolean14 = board1.equals((java.lang.Object) board9);
-        boolean boolean15 = board9.moveLeft();
-        boolean boolean16 = board9.isFull();
-        ar.edu.unrc.game2048.Board board17 = new ar.edu.unrc.game2048.Board(board9);
-        org.junit.Assert.assertNotNull(positionSet2);
+        ar.edu.unrc.game2048.Cell cell0 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int1 = cell0.getValue();
+        boolean boolean3 = cell0.equals((java.lang.Object) "\n");
+        ar.edu.unrc.game2048.Board board4 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board4);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet6 = board5.getEmptyPositions();
+        boolean boolean7 = board5.isFull();
+        boolean boolean8 = board5.moveDown();
+        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board10 = new ar.edu.unrc.game2048.Board(board9);
+        boolean boolean11 = board10.isFull();
+        boolean boolean12 = board5.equals((java.lang.Object) board10);
+        boolean boolean13 = cell0.equals((java.lang.Object) boolean12);
+        int int14 = cell0.getValue();
+        ar.edu.unrc.game2048.Cell cell15 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int16 = cell15.getValue();
+        boolean boolean18 = cell15.equals((java.lang.Object) "\n");
+        ar.edu.unrc.game2048.Board board19 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board20 = new ar.edu.unrc.game2048.Board(board19);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet21 = board20.getEmptyPositions();
+        boolean boolean22 = board20.isFull();
+        boolean boolean23 = board20.moveDown();
+        ar.edu.unrc.game2048.Board board24 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board25 = new ar.edu.unrc.game2048.Board(board24);
+        boolean boolean26 = board25.isFull();
+        boolean boolean27 = board20.equals((java.lang.Object) board25);
+        boolean boolean28 = cell15.equals((java.lang.Object) boolean27);
+        int int29 = cell15.getValue();
+        boolean boolean30 = cell0.canMergeWith(cell15);
+        ar.edu.unrc.game2048.Board board31 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board32 = new ar.edu.unrc.game2048.Board(board31);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet33 = board32.getEmptyPositions();
+        boolean boolean34 = board32.moveDown();
+        boolean boolean35 = cell0.equals((java.lang.Object) board32);
+        java.lang.String str36 = cell0.toString();
+        ar.edu.unrc.game2048.Cell cell38 = new ar.edu.unrc.game2048.Cell(1073741824);
+        int int39 = cell38.getValue();
+        int int40 = cell38.getValue();
+        ar.edu.unrc.game2048.Cell cell41 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int42 = cell41.getValue();
+        java.lang.String str43 = cell41.toString();
+        boolean boolean44 = cell38.canMergeWith(cell41);
+        boolean boolean45 = cell0.canMergeWith(cell38);
+        ar.edu.unrc.game2048.Cell cell46 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int47 = cell46.getValue();
+        boolean boolean49 = cell46.equals((java.lang.Object) "\n");
+        boolean boolean50 = cell46.isEmpty();
+        boolean boolean51 = cell0.canMergeWith(cell46);
+        org.junit.Assert.assertNotNull(cell0);
+        org.junit.Assert.assertTrue("'" + int1 + "' != '" + 0 + "'", int1 == 0);
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+        org.junit.Assert.assertNotNull(positionSet6);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertNotNull(cell12);
-        org.junit.Assert.assertEquals("'" + str13 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str13, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
-        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", boolean11 == false);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", boolean13 == false);
+        org.junit.Assert.assertTrue("'" + int14 + "' != '" + 0 + "'", int14 == 0);
+        org.junit.Assert.assertNotNull(cell15);
+        org.junit.Assert.assertTrue("'" + int16 + "' != '" + 0 + "'", int16 == 0);
+        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", boolean18 == false);
+        org.junit.Assert.assertNotNull(positionSet21);
+        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", boolean22 == false);
+        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23 == true);
+        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", boolean26 == false);
+        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", boolean27 == false);
+        org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + false + "'", boolean28 == false);
+        org.junit.Assert.assertTrue("'" + int29 + "' != '" + 0 + "'", int29 == 0);
+        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
+        org.junit.Assert.assertNotNull(positionSet33);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34 == true);
+        org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + false + "'", boolean35 == false);
+        org.junit.Assert.assertEquals("'" + str36 + "' != '" + "." + "'", str36, ".");
+        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 1073741824 + "'", int39 == 1073741824);
+        org.junit.Assert.assertTrue("'" + int40 + "' != '" + 1073741824 + "'", int40 == 1073741824);
+        org.junit.Assert.assertNotNull(cell41);
+        org.junit.Assert.assertTrue("'" + int42 + "' != '" + 0 + "'", int42 == 0);
+        org.junit.Assert.assertEquals("'" + str43 + "' != '" + "." + "'", str43, ".");
+        org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + false + "'", boolean44 == false);
+        org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + false + "'", boolean45 == false);
+        org.junit.Assert.assertNotNull(cell46);
+        org.junit.Assert.assertTrue("'" + int47 + "' != '" + 0 + "'", int47 == 0);
+        org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + false + "'", boolean49 == false);
+        org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + true + "'", boolean50 == true);
+        org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + false + "'", boolean51 == false);
     }
 
     @Test
     public void test511() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test511");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isLosingBoard();
-        boolean boolean4 = board1.moveUp();
-        long long5 = board1.getScore();
-        boolean boolean6 = board1.isWinningBoard();
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + long5 + "' != '" + 0L + "'", long5 == 0L);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+        ar.edu.unrc.game2048.Cell cell0 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int1 = cell0.getValue();
+        ar.edu.unrc.game2048.Cell cell3 = new ar.edu.unrc.game2048.Cell(1073741824);
+        int int4 = cell3.getValue();
+        int int5 = cell3.getValue();
+        ar.edu.unrc.game2048.Cell cell6 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int7 = cell6.getValue();
+        java.lang.String str8 = cell6.toString();
+        boolean boolean9 = cell3.canMergeWith(cell6);
+        boolean boolean10 = cell0.canMergeWith(cell6);
+        boolean boolean12 = cell6.equals((java.lang.Object) "A board must be written as [v1,...,v16]: ");
+        org.junit.Assert.assertNotNull(cell0);
+        org.junit.Assert.assertTrue("'" + int1 + "' != '" + 0 + "'", int1 == 0);
+        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 1073741824 + "'", int4 == 1073741824);
+        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 1073741824 + "'", int5 == 1073741824);
+        org.junit.Assert.assertNotNull(cell6);
+        org.junit.Assert.assertTrue("'" + int7 + "' != '" + 0 + "'", int7 == 0);
+        org.junit.Assert.assertEquals("'" + str8 + "' != '" + "." + "'", str8, ".");
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", boolean9 == false);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
     }
 
     @Test
@@ -366,19 +402,15 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test512");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isLosingBoard();
+        boolean boolean2 = board1.moveRight();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet3 = board1.getEmptyPositions();
         ar.edu.unrc.game2048.Board board4 = new ar.edu.unrc.game2048.Board(board1);
-        ar.edu.unrc.game2048.Cell cell7 = null;
-        // The following exception was thrown during execution in test generation
-        try {
-            board4.setCell((int) (byte) 10, 0, cell7);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Position (10, 0) is out of bounds for board size 4");
-        } catch (java.lang.IndexOutOfBoundsException e) {
-            // Expected exception.
-        }
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
+        boolean boolean5 = board4.hasEmptyCells();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet6 = board4.getEmptyPositions();
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
+        org.junit.Assert.assertNotNull(positionSet3);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
+        org.junit.Assert.assertNotNull(positionSet6);
     }
 
     @Test
@@ -387,30 +419,19 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test513");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        boolean boolean6 = board1.equals((java.lang.Object) "0|[1-9][0-9]{0,5}");
-        boolean boolean7 = board1.isLosingBoard();
-        ar.edu.unrc.game2048.Board board8 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board(board8);
-        ar.edu.unrc.game2048.Cell cell12 = board9.getCell(0, 0);
-        java.lang.String str13 = board9.toString();
-        boolean boolean14 = board1.equals((java.lang.Object) board9);
-        boolean boolean15 = board9.moveLeft();
-        boolean boolean16 = board9.isLosingBoard();
-        int int17 = board9.getSize();
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
+        boolean boolean2 = board0.moveUp();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet3 = board0.getEmptyPositions();
+        boolean boolean4 = board0.moveUp();
+        // The following exception was thrown during execution in test generation
+        try {
+            ar.edu.unrc.game2048.Cell cell7 = board0.getCell(4, (int) (byte) 10);
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Position (4, 10) is out of bounds for board size 4");
+        } catch (java.lang.IndexOutOfBoundsException e) {
+            // Expected exception.
+        }
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
+        org.junit.Assert.assertNotNull(positionSet3);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertNotNull(cell12);
-        org.junit.Assert.assertEquals("'" + str13 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str13, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
-        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
-        org.junit.Assert.assertTrue("'" + int17 + "' != '" + 4 + "'", int17 == 4);
     }
 
     @Test
@@ -418,169 +439,125 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test514");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        int int5 = board1.getSize();
-        boolean boolean6 = board1.isWinningBoard();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet7 = board1.getEmptyPositions();
-        int int8 = board1.getSize();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet9 = board1.getEmptyPositions();
-        ar.edu.unrc.game2048.Cell cell12 = board1.getCell((int) (byte) 0, 1);
-        boolean boolean13 = board1.isWinningBoard();
-        org.junit.Assert.assertNotNull(positionSet2);
+        boolean boolean1 = board0.hasEmptyCells();
+        boolean boolean2 = board0.moveDown();
+        boolean boolean3 = board0.isWinningBoard();
+        boolean boolean4 = board0.moveLeft();
+        boolean boolean5 = board0.moveRight();
+        org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1 == true);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 4 + "'", int5 == 4);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-        org.junit.Assert.assertNotNull(positionSet7);
-        org.junit.Assert.assertTrue("'" + int8 + "' != '" + 4 + "'", int8 == 4);
-        org.junit.Assert.assertNotNull(positionSet9);
-        org.junit.Assert.assertNotNull(cell12);
-        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", boolean13 == false);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
     }
 
     @Test
     public void test515() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test515");
-        ar.edu.unrc.game2048.Board.Position position2 = new ar.edu.unrc.game2048.Board.Position((int) ' ', (int) ' ');
+        ar.edu.unrc.game2048.Board.Position position2 = new ar.edu.unrc.game2048.Board.Position(2048, (int) (byte) 1);
     }
 
     @Test
     public void test516() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test516");
-        ar.edu.unrc.game2048.Cell cell1 = new ar.edu.unrc.game2048.Cell(0);
-        ar.edu.unrc.game2048.Board board2 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board3 = new ar.edu.unrc.game2048.Board(board2);
-        ar.edu.unrc.game2048.Cell cell6 = board3.getCell(0, 0);
-        boolean boolean7 = board3.isFull();
-        boolean boolean8 = cell1.equals((java.lang.Object) board3);
-        boolean boolean9 = board3.moveUp();
-        boolean boolean10 = board3.moveLeft();
-        java.lang.String str11 = board3.toString();
-        int int12 = board3.getSize();
-        org.junit.Assert.assertNotNull(cell6);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
-        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9 == true);
-        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
-        org.junit.Assert.assertEquals("'" + str11 + "' != '" + "Score: 4\n+-----+-----+-----+-----+\n|    4|     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n" + "'", str11, "Score: 4\n+-----+-----+-----+-----+\n|    4|     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + int12 + "' != '" + 4 + "'", int12 == 4);
+        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
+        boolean boolean3 = board1.moveRight();
+        boolean boolean4 = board1.moveLeft();
+        boolean boolean6 = board1.equals((java.lang.Object) (short) 0);
+        int int7 = board1.getSize();
+        boolean boolean8 = board1.hasEmptyCells();
+        org.junit.Assert.assertNotNull(positionSet2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3 == true);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+        org.junit.Assert.assertTrue("'" + int7 + "' != '" + 4 + "'", int7 == 4);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
     }
 
     @Test
     public void test517() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test517");
-        ar.edu.unrc.game2048.Cell cell1 = new ar.edu.unrc.game2048.Cell(0);
-        ar.edu.unrc.game2048.Board board2 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board3 = new ar.edu.unrc.game2048.Board(board2);
-        ar.edu.unrc.game2048.Cell cell6 = board3.getCell(0, 0);
-        boolean boolean7 = board3.isFull();
-        boolean boolean8 = cell1.equals((java.lang.Object) board3);
-        boolean boolean9 = board3.moveDown();
-        boolean boolean10 = board3.isLosingBoard();
-        org.junit.Assert.assertNotNull(cell6);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
-        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9 == true);
-        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
+        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
+        boolean boolean2 = board0.isWinningBoard();
+        java.lang.String str3 = board0.toString();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet4 = board0.getEmptyPositions();
+        boolean boolean5 = board0.moveLeft();
+        ar.edu.unrc.game2048.Board board6 = new ar.edu.unrc.game2048.Board(board0);
+        // The following exception was thrown during execution in test generation
+        try {
+            ar.edu.unrc.game2048.Cell cell9 = board0.getCell((-1), 131072);
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Position (-1, 131072) is out of bounds for board size 4");
+        } catch (java.lang.IndexOutOfBoundsException e) {
+            // Expected exception.
+        }
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
+        org.junit.Assert.assertEquals("'" + str3 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str3, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
+        org.junit.Assert.assertNotNull(positionSet4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
     }
 
     @Test
     public void test518() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test518");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        boolean boolean2 = board1.isFull();
-        ar.edu.unrc.game2048.Cell cell5 = board1.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board6 = new ar.edu.unrc.game2048.Board(board1);
-        int int7 = board6.getSize();
-        boolean boolean8 = board6.isLosingBoard();
-        boolean boolean9 = board6.moveUp();
-        java.lang.Class<?> wildcardClass10 = board6.getClass();
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
-        org.junit.Assert.assertNotNull(cell5);
-        org.junit.Assert.assertTrue("'" + int7 + "' != '" + 4 + "'", int7 == 4);
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
-        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9 == true);
-        org.junit.Assert.assertNotNull(wildcardClass10);
+        ar.edu.unrc.game2048.Cell cell0 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int1 = cell0.getValue();
+        boolean boolean3 = cell0.equals((java.lang.Object) "\n");
+        ar.edu.unrc.game2048.Board board4 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board4);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet6 = board5.getEmptyPositions();
+        boolean boolean7 = board5.isFull();
+        boolean boolean8 = board5.moveDown();
+        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board10 = new ar.edu.unrc.game2048.Board(board9);
+        boolean boolean11 = board10.isFull();
+        boolean boolean12 = board5.equals((java.lang.Object) board10);
+        boolean boolean13 = cell0.equals((java.lang.Object) boolean12);
+        int int14 = cell0.getValue();
+        java.lang.Class<?> wildcardClass15 = cell0.getClass();
+        org.junit.Assert.assertNotNull(cell0);
+        org.junit.Assert.assertTrue("'" + int1 + "' != '" + 0 + "'", int1 == 0);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
+        org.junit.Assert.assertNotNull(positionSet6);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", boolean11 == false);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", boolean13 == false);
+        org.junit.Assert.assertTrue("'" + int14 + "' != '" + 0 + "'", int14 == 0);
+        org.junit.Assert.assertNotNull(wildcardClass15);
     }
 
     @Test
     public void test519() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test519");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet4 = board1.getEmptyPositions();
-        int int5 = board1.getSize();
-        boolean boolean6 = board1.moveDown();
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertNotNull(positionSet4);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 4 + "'", int5 == 4);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
+        ar.edu.unrc.game2048.Board.Position position2 = new ar.edu.unrc.game2048.Board.Position((-2147483648), (int) (byte) 1);
+        int int3 = position2.col;
+        int int4 = position2.row;
+        int int5 = position2.row;
+        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 1 + "'", int3 == 1);
+        org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-2147483648) + "'", int4 == (-2147483648));
+        org.junit.Assert.assertTrue("'" + int5 + "' != '" + (-2147483648) + "'", int5 == (-2147483648));
     }
 
     @Test
     public void test520() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test520");
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(2);
-        ar.edu.unrc.game2048.Board board2 = new ar.edu.unrc.game2048.Board(board1);
-        java.lang.String str3 = board2.toString();
-        ar.edu.unrc.game2048.Board board4 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board4);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet6 = board5.getEmptyPositions();
-        boolean boolean7 = board5.isFull();
-        boolean boolean8 = board5.moveDown();
-        int int9 = board5.getSize();
-        java.lang.String str10 = board5.toString();
-        ar.edu.unrc.game2048.Board.Direction direction11 = ar.edu.unrc.game2048.Board.Direction.LEFT;
-        boolean boolean12 = board5.move(direction11);
-        ar.edu.unrc.game2048.Board board13 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board14 = new ar.edu.unrc.game2048.Board(board13);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet15 = board14.getEmptyPositions();
-        boolean boolean16 = board14.isFull();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet17 = board14.getEmptyPositions();
-        ar.edu.unrc.game2048.Board.Direction direction18 = ar.edu.unrc.game2048.Board.Direction.UP;
-        boolean boolean19 = board14.move(direction18);
-        boolean boolean20 = board5.move(direction18);
-        ar.edu.unrc.game2048.Board board21 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board22 = new ar.edu.unrc.game2048.Board(board21);
-        boolean boolean23 = board21.isWinningBoard();
-        int int24 = board21.getSize();
-        ar.edu.unrc.game2048.Board.Direction direction25 = ar.edu.unrc.game2048.Board.Direction.LEFT;
-        boolean boolean26 = board21.move(direction25);
-        boolean boolean27 = board5.move(direction25);
-        boolean boolean28 = board2.move(direction25);
-        org.junit.Assert.assertEquals("'" + str3 + "' != '" + "Score: 0\n+-----+-----+\n|     |    2|\n+-----+-----+\n|     |    2|\n+-----+-----+\n" + "'", str3, "Score: 0\n+-----+-----+\n|     |    2|\n+-----+-----+\n|     |    2|\n+-----+-----+\n");
-        org.junit.Assert.assertNotNull(positionSet6);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
-        org.junit.Assert.assertTrue("'" + int9 + "' != '" + 4 + "'", int9 == 4);
-        org.junit.Assert.assertEquals("'" + str10 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n" + "'", str10, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + direction11 + "' != '" + ar.edu.unrc.game2048.Board.Direction.LEFT + "'", direction11.equals(ar.edu.unrc.game2048.Board.Direction.LEFT));
-        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12 == true);
-        org.junit.Assert.assertNotNull(positionSet15);
-        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
-        org.junit.Assert.assertNotNull(positionSet17);
-        org.junit.Assert.assertTrue("'" + direction18 + "' != '" + ar.edu.unrc.game2048.Board.Direction.UP + "'", direction18.equals(ar.edu.unrc.game2048.Board.Direction.UP));
-        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19 == true);
-        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20 == true);
-        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + false + "'", boolean23 == false);
-        org.junit.Assert.assertTrue("'" + int24 + "' != '" + 4 + "'", int24 == 4);
-        org.junit.Assert.assertTrue("'" + direction25 + "' != '" + ar.edu.unrc.game2048.Board.Direction.LEFT + "'", direction25.equals(ar.edu.unrc.game2048.Board.Direction.LEFT));
-        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + true + "'", boolean26 == true);
-        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + true + "'", boolean27 == true);
-        org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28 == true);
+        // The following exception was thrown during execution in test generation
+        try {
+            ar.edu.unrc.game2048.Board board1 = ar.edu.unrc.game2048.Board.fromString("Score: 0\n+-----+-----+\n|     |     |\n+-----+-----+\n|    2|    2|\n+-----+-----+\n");
+            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: A board must be written as [v1,...,v16]: Score: 0?+-----+-----+?|     |     |?+-----+-----+?|    2|    2|?+-----+-----+?");
+        } catch (java.lang.IllegalArgumentException e) {
+            // Expected exception.
+        }
     }
 
     @Test
@@ -589,214 +566,190 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test521");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
+        boolean boolean2 = board1.moveUp();
         boolean boolean3 = board1.isLosingBoard();
-        ar.edu.unrc.game2048.Board board4 = new ar.edu.unrc.game2048.Board(board1);
-        long long5 = board4.getScore();
-        org.junit.Assert.assertNotNull(positionSet2);
+        boolean boolean4 = board1.isFull();
+        java.lang.String str5 = board1.toString();
+        long long6 = board1.getScore();
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + long5 + "' != '" + 0L + "'", long5 == 0L);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + false + "'", boolean4 == false);
+        org.junit.Assert.assertEquals("'" + str5 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n" + "'", str5, "Score: 0\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n");
+        org.junit.Assert.assertTrue("'" + long6 + "' != '" + 0L + "'", long6 == 0L);
     }
 
     @Test
     public void test522() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test522");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isLosingBoard();
-        boolean boolean4 = board1.moveUp();
-        long long5 = board1.getScore();
-        boolean boolean6 = board1.isLosingBoard();
-        boolean boolean7 = board1.isWinningBoard();
-        boolean boolean8 = board1.moveLeft();
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + long5 + "' != '" + 0L + "'", long5 == 0L);
+        ar.edu.unrc.game2048.Board.Position position2 = new ar.edu.unrc.game2048.Board.Position((int) (byte) -1, 0);
+        java.lang.String str3 = position2.toString();
+        int int4 = position2.col;
+        boolean boolean6 = position2.equals((java.lang.Object) " values, got ");
+        java.lang.String str7 = position2.toString();
+        int int8 = position2.col;
+        org.junit.Assert.assertEquals("'" + str3 + "' != '" + "(-1, 0)" + "'", str3, "(-1, 0)");
+        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 0 + "'", int4 == 0);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+        org.junit.Assert.assertEquals("'" + str7 + "' != '" + "(-1, 0)" + "'", str7, "(-1, 0)");
+        org.junit.Assert.assertTrue("'" + int8 + "' != '" + 0 + "'", int8 == 0);
     }
 
     @Test
     public void test523() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test523");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        boolean boolean6 = board1.equals((java.lang.Object) "0|[1-9][0-9]{0,5}");
-        boolean boolean7 = board1.isLosingBoard();
-        ar.edu.unrc.game2048.Board board8 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board(board8);
-        ar.edu.unrc.game2048.Cell cell12 = board9.getCell(0, 0);
-        java.lang.String str13 = board9.toString();
-        boolean boolean14 = board1.equals((java.lang.Object) board9);
-        boolean boolean15 = board9.moveLeft();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet16 = board9.getEmptyPositions();
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertNotNull(cell12);
-        org.junit.Assert.assertEquals("'" + str13 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str13, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
-        org.junit.Assert.assertNotNull(positionSet16);
+        ar.edu.unrc.game2048.Board.Position position2 = new ar.edu.unrc.game2048.Board.Position((int) (short) 1, 1073741824);
     }
 
     @Test
     public void test524() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test524");
-        ar.edu.unrc.game2048.Board.Position position2 = new ar.edu.unrc.game2048.Board.Position((int) (byte) 1, 0);
+        ar.edu.unrc.game2048.Cell cell0 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int1 = cell0.getValue();
+        boolean boolean3 = cell0.equals((java.lang.Object) "\n");
+        ar.edu.unrc.game2048.Board board4 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board4);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet6 = board5.getEmptyPositions();
+        boolean boolean7 = board5.isFull();
+        boolean boolean8 = board5.moveDown();
+        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board10 = new ar.edu.unrc.game2048.Board(board9);
+        boolean boolean11 = board10.isFull();
+        boolean boolean12 = board5.equals((java.lang.Object) board10);
+        boolean boolean13 = cell0.equals((java.lang.Object) boolean12);
+        int int14 = cell0.getValue();
+        ar.edu.unrc.game2048.Cell cell15 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int16 = cell15.getValue();
+        boolean boolean18 = cell15.equals((java.lang.Object) "\n");
+        ar.edu.unrc.game2048.Board board19 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board20 = new ar.edu.unrc.game2048.Board(board19);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet21 = board20.getEmptyPositions();
+        boolean boolean22 = board20.isFull();
+        boolean boolean23 = board20.moveDown();
+        ar.edu.unrc.game2048.Board board24 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board25 = new ar.edu.unrc.game2048.Board(board24);
+        boolean boolean26 = board25.isFull();
+        boolean boolean27 = board20.equals((java.lang.Object) board25);
+        boolean boolean28 = cell15.equals((java.lang.Object) boolean27);
+        int int29 = cell15.getValue();
+        boolean boolean30 = cell0.canMergeWith(cell15);
+        ar.edu.unrc.game2048.Board board31 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board32 = new ar.edu.unrc.game2048.Board(board31);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet33 = board32.getEmptyPositions();
+        boolean boolean34 = board32.moveDown();
+        boolean boolean35 = cell0.equals((java.lang.Object) board32);
+        boolean boolean36 = board32.isFull();
+        boolean boolean37 = board32.moveDown();
+        long long38 = board32.getScore();
+        boolean boolean39 = board32.isFull();
+        boolean boolean40 = board32.isFull();
+        org.junit.Assert.assertNotNull(cell0);
+        org.junit.Assert.assertTrue("'" + int1 + "' != '" + 0 + "'", int1 == 0);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
+        org.junit.Assert.assertNotNull(positionSet6);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", boolean11 == false);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", boolean13 == false);
+        org.junit.Assert.assertTrue("'" + int14 + "' != '" + 0 + "'", int14 == 0);
+        org.junit.Assert.assertNotNull(cell15);
+        org.junit.Assert.assertTrue("'" + int16 + "' != '" + 0 + "'", int16 == 0);
+        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", boolean18 == false);
+        org.junit.Assert.assertNotNull(positionSet21);
+        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", boolean22 == false);
+        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23 == true);
+        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", boolean26 == false);
+        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", boolean27 == false);
+        org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + false + "'", boolean28 == false);
+        org.junit.Assert.assertTrue("'" + int29 + "' != '" + 0 + "'", int29 == 0);
+        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
+        org.junit.Assert.assertNotNull(positionSet33);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34 == true);
+        org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + false + "'", boolean35 == false);
+        org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", boolean36 == false);
+        org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + true + "'", boolean37 == true);
+        org.junit.Assert.assertTrue("'" + long38 + "' != '" + 4L + "'", long38 == 4L);
+        org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + false + "'", boolean39 == false);
+        org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + false + "'", boolean40 == false);
     }
 
     @Test
     public void test525() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test525");
-        ar.edu.unrc.game2048.Board.Position position2 = new ar.edu.unrc.game2048.Board.Position(1, (int) (short) 100);
+        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
+        int int2 = board1.getSize();
+        int int3 = board1.getSize();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet4 = board1.getEmptyPositions();
+        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board1);
+        int int6 = board5.getSize();
+        org.junit.Assert.assertTrue("'" + int2 + "' != '" + 4 + "'", int2 == 4);
+        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 4 + "'", int3 == 4);
+        org.junit.Assert.assertNotNull(positionSet4);
+        org.junit.Assert.assertTrue("'" + int6 + "' != '" + 4 + "'", int6 == 4);
     }
 
     @Test
     public void test526() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test526");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        boolean boolean5 = board1.moveDown();
-        boolean boolean6 = board1.moveUp();
-        boolean boolean7 = board1.moveLeft();
-        ar.edu.unrc.game2048.Board board10 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board11 = new ar.edu.unrc.game2048.Board(board10);
-        boolean boolean12 = board11.isFull();
-        ar.edu.unrc.game2048.Cell cell15 = board11.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board16 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board17 = new ar.edu.unrc.game2048.Board(board16);
-        boolean boolean18 = board17.isFull();
-        ar.edu.unrc.game2048.Cell cell21 = board17.getCell(0, (int) (byte) 0);
-        int int22 = cell21.getValue();
-        int int23 = cell21.getValue();
-        boolean boolean24 = cell15.canMergeWith(cell21);
-        ar.edu.unrc.game2048.Board board25 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board26 = new ar.edu.unrc.game2048.Board(board25);
-        boolean boolean27 = board26.isFull();
-        ar.edu.unrc.game2048.Cell cell30 = board26.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board31 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board32 = new ar.edu.unrc.game2048.Board(board31);
-        boolean boolean33 = board32.isFull();
-        ar.edu.unrc.game2048.Cell cell36 = board32.getCell(0, (int) (byte) 0);
-        boolean boolean37 = cell30.canMergeWith(cell36);
-        int int38 = cell36.getValue();
-        boolean boolean39 = cell21.equals((java.lang.Object) int38);
-        java.lang.String str40 = cell21.toString();
-        ar.edu.unrc.game2048.Board board41 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Cell cell44 = board41.getCell(1, 0);
-        boolean boolean45 = cell21.canMergeWith(cell44);
-        board1.setCell((int) (byte) 1, (int) (short) 1, cell21);
-        boolean boolean47 = board1.moveLeft();
-        boolean boolean48 = board1.moveDown();
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
+        ar.edu.unrc.game2048.Cell cell0 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int1 = cell0.getValue();
+        java.lang.String str2 = cell0.toString();
+        java.lang.String str3 = cell0.toString();
+        ar.edu.unrc.game2048.Cell cell4 = ar.edu.unrc.game2048.Cell.EMPTY;
+        boolean boolean6 = cell4.equals((java.lang.Object) (-1.0f));
+        boolean boolean7 = cell0.canMergeWith(cell4);
+        boolean boolean8 = cell4.isEmpty();
+        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board10 = new ar.edu.unrc.game2048.Board(board9);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet11 = board10.getEmptyPositions();
+        boolean boolean12 = board10.isFull();
+        boolean boolean13 = board10.moveDown();
+        ar.edu.unrc.game2048.Board board14 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board15 = new ar.edu.unrc.game2048.Board(board14);
+        boolean boolean16 = board15.isFull();
+        boolean boolean17 = board10.equals((java.lang.Object) board15);
+        java.lang.String str18 = board15.toString();
+        long long19 = board15.getScore();
+        long long20 = board15.getScore();
+        boolean boolean21 = cell4.equals((java.lang.Object) board15);
+        java.lang.String str22 = cell4.toString();
+        boolean boolean24 = cell4.equals((java.lang.Object) 100.0f);
+        org.junit.Assert.assertNotNull(cell0);
+        org.junit.Assert.assertTrue("'" + int1 + "' != '" + 0 + "'", int1 == 0);
+        org.junit.Assert.assertEquals("'" + str2 + "' != '" + "." + "'", str2, ".");
+        org.junit.Assert.assertEquals("'" + str3 + "' != '" + "." + "'", str3, ".");
+        org.junit.Assert.assertNotNull(cell4);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+        org.junit.Assert.assertNotNull(positionSet11);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
-        org.junit.Assert.assertNotNull(cell15);
-        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", boolean18 == false);
-        org.junit.Assert.assertNotNull(cell21);
-        org.junit.Assert.assertTrue("'" + int22 + "' != '" + 0 + "'", int22 == 0);
-        org.junit.Assert.assertTrue("'" + int23 + "' != '" + 0 + "'", int23 == 0);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13 == true);
+        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
+        org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
+        org.junit.Assert.assertEquals("'" + str18 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str18, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
+        org.junit.Assert.assertTrue("'" + long19 + "' != '" + 0L + "'", long19 == 0L);
+        org.junit.Assert.assertTrue("'" + long20 + "' != '" + 0L + "'", long20 == 0L);
+        org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", boolean21 == false);
+        org.junit.Assert.assertEquals("'" + str22 + "' != '" + "." + "'", str22, ".");
         org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + false + "'", boolean24 == false);
-        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", boolean27 == false);
-        org.junit.Assert.assertNotNull(cell30);
-        org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", boolean33 == false);
-        org.junit.Assert.assertNotNull(cell36);
-        org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + false + "'", boolean37 == false);
-        org.junit.Assert.assertTrue("'" + int38 + "' != '" + 0 + "'", int38 == 0);
-        org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + false + "'", boolean39 == false);
-        org.junit.Assert.assertEquals("'" + str40 + "' != '" + "." + "'", str40, ".");
-        org.junit.Assert.assertNotNull(cell44);
-        org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + false + "'", boolean45 == false);
-        org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + true + "'", boolean47 == true);
-        org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48 == true);
     }
 
     @Test
     public void test527() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test527");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        boolean boolean2 = board1.isFull();
-        ar.edu.unrc.game2048.Cell cell5 = board1.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board6 = new ar.edu.unrc.game2048.Board(board1);
-        ar.edu.unrc.game2048.Board board7 = new ar.edu.unrc.game2048.Board(board6);
-        boolean boolean8 = board6.moveUp();
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board10 = new ar.edu.unrc.game2048.Board(board9);
-        boolean boolean11 = board10.isFull();
-        ar.edu.unrc.game2048.Cell cell14 = board10.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board15 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board16 = new ar.edu.unrc.game2048.Board(board15);
-        boolean boolean17 = board16.isFull();
-        ar.edu.unrc.game2048.Cell cell20 = board16.getCell(0, (int) (byte) 0);
-        boolean boolean21 = cell14.canMergeWith(cell20);
-        ar.edu.unrc.game2048.Board board22 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board23 = new ar.edu.unrc.game2048.Board(board22);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet24 = board23.getEmptyPositions();
-        boolean boolean25 = board23.isFull();
-        boolean boolean26 = board23.moveDown();
-        boolean boolean27 = board23.isWinningBoard();
-        boolean boolean28 = board23.moveLeft();
-        boolean boolean29 = board23.isWinningBoard();
-        ar.edu.unrc.game2048.Board board30 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board31 = new ar.edu.unrc.game2048.Board(board30);
-        boolean boolean32 = board31.isFull();
-        ar.edu.unrc.game2048.Cell cell35 = board31.getCell(0, (int) (byte) 0);
-        boolean boolean37 = cell35.equals((java.lang.Object) 100.0f);
-        ar.edu.unrc.game2048.Board board38 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board39 = new ar.edu.unrc.game2048.Board(board38);
-        boolean boolean40 = board39.isFull();
-        ar.edu.unrc.game2048.Cell cell43 = board39.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board44 = new ar.edu.unrc.game2048.Board(board39);
-        boolean boolean45 = cell35.equals((java.lang.Object) board44);
-        boolean boolean46 = board23.equals((java.lang.Object) board44);
-        boolean boolean47 = cell14.equals((java.lang.Object) board23);
-        boolean boolean48 = board6.equals((java.lang.Object) cell14);
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
-        org.junit.Assert.assertNotNull(cell5);
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
-        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", boolean11 == false);
-        org.junit.Assert.assertNotNull(cell14);
-        org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
-        org.junit.Assert.assertNotNull(cell20);
-        org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", boolean21 == false);
-        org.junit.Assert.assertNotNull(positionSet24);
-        org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + false + "'", boolean25 == false);
-        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + true + "'", boolean26 == true);
-        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", boolean27 == false);
-        org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28 == true);
-        org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + false + "'", boolean29 == false);
-        org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", boolean32 == false);
-        org.junit.Assert.assertNotNull(cell35);
-        org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + false + "'", boolean37 == false);
-        org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + false + "'", boolean40 == false);
-        org.junit.Assert.assertNotNull(cell43);
-        org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + false + "'", boolean45 == false);
-        org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + false + "'", boolean46 == false);
-        org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + false + "'", boolean47 == false);
-        org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + false + "'", boolean48 == false);
+        ar.edu.unrc.game2048.Board board2 = new ar.edu.unrc.game2048.Board(2, (long) (-2147483648));
+        boolean boolean3 = board2.moveDown();
+        boolean boolean4 = board2.isWinningBoard();
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3 == true);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + false + "'", boolean4 == false);
     }
 
     @Test
@@ -806,46 +759,22 @@ public class RegressionTest1 {
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
         java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        boolean boolean5 = board1.isWinningBoard();
-        boolean boolean6 = board1.moveLeft();
-        boolean boolean7 = board1.isWinningBoard();
-        ar.edu.unrc.game2048.Board.Position position10 = new ar.edu.unrc.game2048.Board.Position((int) (byte) 0, (int) (short) 10);
-        boolean boolean12 = position10.equals((java.lang.Object) 10.0f);
-        int int13 = position10.col;
-        boolean boolean15 = position10.equals((java.lang.Object) 0);
-        int int16 = position10.row;
-        ar.edu.unrc.game2048.Board board17 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board18 = new ar.edu.unrc.game2048.Board(board17);
-        ar.edu.unrc.game2048.Cell cell21 = board18.getCell(0, 0);
-        java.lang.String str22 = board18.toString();
-        long long23 = board18.getScore();
-        boolean boolean24 = position10.equals((java.lang.Object) board18);
-        boolean boolean25 = board1.equals((java.lang.Object) position10);
-        ar.edu.unrc.game2048.Board board26 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board27 = new ar.edu.unrc.game2048.Board(board26);
-        int int28 = board27.getSize();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet29 = board27.getEmptyPositions();
-        boolean boolean30 = board1.equals((java.lang.Object) board27);
+        boolean boolean3 = board1.moveDown();
+        boolean boolean4 = board1.isLosingBoard();
+        boolean boolean5 = board1.isFull();
+        boolean boolean7 = board1.equals((java.lang.Object) " and ");
+        // The following exception was thrown during execution in test generation
+        try {
+            ar.edu.unrc.game2048.Cell cell10 = board1.getCell(536870912, (int) (byte) 1);
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Position (536870912, 1) is out of bounds for board size 4");
+        } catch (java.lang.IndexOutOfBoundsException e) {
+            // Expected exception.
+        }
         org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3 == true);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + false + "'", boolean4 == false);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
-        org.junit.Assert.assertTrue("'" + int13 + "' != '" + 10 + "'", int13 == 10);
-        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", boolean15 == false);
-        org.junit.Assert.assertTrue("'" + int16 + "' != '" + 0 + "'", int16 == 0);
-        org.junit.Assert.assertNotNull(cell21);
-        org.junit.Assert.assertEquals("'" + str22 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str22, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + long23 + "' != '" + 0L + "'", long23 == 0L);
-        org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + false + "'", boolean24 == false);
-        org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + false + "'", boolean25 == false);
-        org.junit.Assert.assertTrue("'" + int28 + "' != '" + 4 + "'", int28 == 4);
-        org.junit.Assert.assertNotNull(positionSet29);
-        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
     }
 
     @Test
@@ -854,18 +783,26 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test529");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        boolean boolean2 = board0.isWinningBoard();
-        int int3 = board0.getSize();
-        ar.edu.unrc.game2048.Board.Direction direction4 = ar.edu.unrc.game2048.Board.Direction.LEFT;
-        boolean boolean5 = board0.move(direction4);
-        boolean boolean7 = board0.equals((java.lang.Object) "]");
-        boolean boolean8 = board0.moveRight();
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
+        int int2 = board1.getSize();
+        int int3 = board1.getSize();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet4 = board1.getEmptyPositions();
+        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board1);
+        boolean boolean6 = board1.moveUp();
+        boolean boolean7 = board1.moveDown();
+        ar.edu.unrc.game2048.Board board8 = new ar.edu.unrc.game2048.Board(board1);
+        boolean boolean9 = board8.moveRight();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet10 = board8.getEmptyPositions();
+        boolean boolean11 = board8.moveUp();
+        long long12 = board8.getScore();
+        org.junit.Assert.assertTrue("'" + int2 + "' != '" + 4 + "'", int2 == 4);
         org.junit.Assert.assertTrue("'" + int3 + "' != '" + 4 + "'", int3 == 4);
-        org.junit.Assert.assertTrue("'" + direction4 + "' != '" + ar.edu.unrc.game2048.Board.Direction.LEFT + "'", direction4.equals(ar.edu.unrc.game2048.Board.Direction.LEFT));
-        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+        org.junit.Assert.assertNotNull(positionSet4);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9 == true);
+        org.junit.Assert.assertNotNull(positionSet10);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11 == true);
+        org.junit.Assert.assertTrue("'" + long12 + "' != '" + 4L + "'", long12 == 4L);
     }
 
     @Test
@@ -874,49 +811,22 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test530");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        boolean boolean5 = board1.moveDown();
-        boolean boolean6 = board1.moveUp();
-        boolean boolean7 = board1.moveLeft();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet8 = board1.getEmptyPositions();
-        boolean boolean9 = board1.moveRight();
-        boolean boolean10 = board1.moveLeft();
-        ar.edu.unrc.game2048.Board board13 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board14 = new ar.edu.unrc.game2048.Board(board13);
-        boolean boolean15 = board14.isFull();
-        ar.edu.unrc.game2048.Cell cell18 = board14.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board19 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board20 = new ar.edu.unrc.game2048.Board(board19);
-        boolean boolean21 = board20.isFull();
-        ar.edu.unrc.game2048.Cell cell24 = board20.getCell(0, (int) (byte) 0);
-        int int25 = cell24.getValue();
-        int int26 = cell24.getValue();
-        boolean boolean27 = cell18.canMergeWith(cell24);
-        // The following exception was thrown during execution in test generation
-        try {
-            board1.setCell(0, 10, cell18);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Position (0, 10) is out of bounds for board size 4");
-        } catch (java.lang.IndexOutOfBoundsException e) {
-            // Expected exception.
-        }
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
-        org.junit.Assert.assertNotNull(positionSet8);
-        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9 == true);
-        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
-        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", boolean15 == false);
-        org.junit.Assert.assertNotNull(cell18);
-        org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", boolean21 == false);
-        org.junit.Assert.assertNotNull(cell24);
-        org.junit.Assert.assertTrue("'" + int25 + "' != '" + 0 + "'", int25 == 0);
-        org.junit.Assert.assertTrue("'" + int26 + "' != '" + 0 + "'", int26 == 0);
-        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", boolean27 == false);
+        int int2 = board1.getSize();
+        int int3 = board1.getSize();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet4 = board1.getEmptyPositions();
+        java.lang.String str5 = board1.toString();
+        ar.edu.unrc.game2048.Board board6 = new ar.edu.unrc.game2048.Board(board1);
+        ar.edu.unrc.game2048.Board.Direction direction7 = ar.edu.unrc.game2048.Board.Direction.RIGHT;
+        boolean boolean8 = board6.move(direction7);
+        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board(board6);
+        long long10 = board9.getScore();
+        org.junit.Assert.assertTrue("'" + int2 + "' != '" + 4 + "'", int2 == 4);
+        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 4 + "'", int3 == 4);
+        org.junit.Assert.assertNotNull(positionSet4);
+        org.junit.Assert.assertEquals("'" + str5 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str5, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
+        org.junit.Assert.assertTrue("'" + direction7 + "' != '" + ar.edu.unrc.game2048.Board.Direction.RIGHT + "'", direction7.equals(ar.edu.unrc.game2048.Board.Direction.RIGHT));
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+        org.junit.Assert.assertTrue("'" + long10 + "' != '" + 0L + "'", long10 == 0L);
     }
 
     @Test
@@ -925,48 +835,14 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test531");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        int int5 = board1.getSize();
-        java.lang.String str6 = board1.toString();
-        ar.edu.unrc.game2048.Board.Direction direction7 = ar.edu.unrc.game2048.Board.Direction.LEFT;
-        boolean boolean8 = board1.move(direction7);
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board10 = new ar.edu.unrc.game2048.Board(board9);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet11 = board10.getEmptyPositions();
-        boolean boolean12 = board10.isFull();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet13 = board10.getEmptyPositions();
-        ar.edu.unrc.game2048.Board.Direction direction14 = ar.edu.unrc.game2048.Board.Direction.UP;
-        boolean boolean15 = board10.move(direction14);
-        boolean boolean16 = board1.move(direction14);
-        ar.edu.unrc.game2048.Board board17 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board18 = new ar.edu.unrc.game2048.Board(board17);
-        boolean boolean19 = board17.isWinningBoard();
-        int int20 = board17.getSize();
-        ar.edu.unrc.game2048.Board.Direction direction21 = ar.edu.unrc.game2048.Board.Direction.LEFT;
-        boolean boolean22 = board17.move(direction21);
-        boolean boolean23 = board1.move(direction21);
-        java.lang.Class<?> wildcardClass24 = board1.getClass();
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 4 + "'", int5 == 4);
-        org.junit.Assert.assertEquals("'" + str6 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n" + "'", str6, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + direction7 + "' != '" + ar.edu.unrc.game2048.Board.Direction.LEFT + "'", direction7.equals(ar.edu.unrc.game2048.Board.Direction.LEFT));
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
-        org.junit.Assert.assertNotNull(positionSet11);
-        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
-        org.junit.Assert.assertNotNull(positionSet13);
-        org.junit.Assert.assertTrue("'" + direction14 + "' != '" + ar.edu.unrc.game2048.Board.Direction.UP + "'", direction14.equals(ar.edu.unrc.game2048.Board.Direction.UP));
-        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
-        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16 == true);
-        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", boolean19 == false);
-        org.junit.Assert.assertTrue("'" + int20 + "' != '" + 4 + "'", int20 == 4);
-        org.junit.Assert.assertTrue("'" + direction21 + "' != '" + ar.edu.unrc.game2048.Board.Direction.LEFT + "'", direction21.equals(ar.edu.unrc.game2048.Board.Direction.LEFT));
-        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22 == true);
-        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23 == true);
-        org.junit.Assert.assertNotNull(wildcardClass24);
+        boolean boolean2 = board0.moveUp();
+        java.lang.String str3 = board0.toString();
+        java.lang.String str4 = board0.toString();
+        boolean boolean5 = board0.moveDown();
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
+        org.junit.Assert.assertEquals("'" + str3 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n" + "'", str3, "Score: 0\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n");
+        org.junit.Assert.assertEquals("'" + str4 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n" + "'", str4, "Score: 0\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n");
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
     }
 
     @Test
@@ -975,135 +851,49 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test532");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        int int5 = board1.getSize();
-        boolean boolean6 = board1.isLosingBoard();
-        long long7 = board1.getScore();
-        ar.edu.unrc.game2048.Board board8 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board(board8);
-        int int10 = board9.getSize();
-        boolean boolean11 = board9.moveLeft();
-        long long12 = board9.getScore();
-        boolean boolean13 = board9.isFull();
-        java.lang.String str14 = board9.toString();
-        ar.edu.unrc.game2048.Board board15 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board16 = new ar.edu.unrc.game2048.Board(board15);
-        boolean boolean17 = board15.isWinningBoard();
-        int int18 = board15.getSize();
-        ar.edu.unrc.game2048.Board.Direction direction19 = ar.edu.unrc.game2048.Board.Direction.LEFT;
-        boolean boolean20 = board15.move(direction19);
-        boolean boolean21 = board9.move(direction19);
-        boolean boolean22 = board1.move(direction19);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet23 = board1.getEmptyPositions();
-        ar.edu.unrc.game2048.Board board24 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board25 = new ar.edu.unrc.game2048.Board(board24);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet26 = board25.getEmptyPositions();
-        boolean boolean27 = board25.isFull();
-        boolean boolean28 = board25.moveDown();
-        int int29 = board25.getSize();
-        boolean boolean30 = board25.isLosingBoard();
-        long long31 = board25.getScore();
-        ar.edu.unrc.game2048.Board board32 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board33 = new ar.edu.unrc.game2048.Board(board32);
-        int int34 = board33.getSize();
-        boolean boolean35 = board33.moveLeft();
-        long long36 = board33.getScore();
-        boolean boolean37 = board33.isFull();
-        java.lang.String str38 = board33.toString();
-        ar.edu.unrc.game2048.Board board39 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board40 = new ar.edu.unrc.game2048.Board(board39);
-        boolean boolean41 = board39.isWinningBoard();
-        int int42 = board39.getSize();
-        ar.edu.unrc.game2048.Board.Direction direction43 = ar.edu.unrc.game2048.Board.Direction.LEFT;
-        boolean boolean44 = board39.move(direction43);
-        boolean boolean45 = board33.move(direction43);
-        boolean boolean46 = board25.move(direction43);
-        boolean boolean47 = board25.isFull();
-        boolean boolean48 = board1.equals((java.lang.Object) boolean47);
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 4 + "'", int5 == 4);
+        int int2 = board1.getSize();
+        int int3 = board1.getSize();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet4 = board1.getEmptyPositions();
+        java.lang.String str5 = board1.toString();
+        boolean boolean6 = board1.isFull();
+        boolean boolean7 = board1.hasEmptyCells();
+        boolean boolean8 = board1.hasEmptyCells();
+        boolean boolean9 = board1.hasEmptyCells();
+        boolean boolean10 = board1.isWinningBoard();
+        org.junit.Assert.assertTrue("'" + int2 + "' != '" + 4 + "'", int2 == 4);
+        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 4 + "'", int3 == 4);
+        org.junit.Assert.assertNotNull(positionSet4);
+        org.junit.Assert.assertEquals("'" + str5 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str5, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-        org.junit.Assert.assertTrue("'" + long7 + "' != '" + 0L + "'", long7 == 0L);
-        org.junit.Assert.assertTrue("'" + int10 + "' != '" + 4 + "'", int10 == 4);
-        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11 == true);
-        org.junit.Assert.assertTrue("'" + long12 + "' != '" + 0L + "'", long12 == 0L);
-        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", boolean13 == false);
-        org.junit.Assert.assertEquals("'" + str14 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n" + "'", str14, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
-        org.junit.Assert.assertTrue("'" + int18 + "' != '" + 4 + "'", int18 == 4);
-        org.junit.Assert.assertTrue("'" + direction19 + "' != '" + ar.edu.unrc.game2048.Board.Direction.LEFT + "'", direction19.equals(ar.edu.unrc.game2048.Board.Direction.LEFT));
-        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20 == true);
-        org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + true + "'", boolean21 == true);
-        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22 == true);
-        org.junit.Assert.assertNotNull(positionSet23);
-        org.junit.Assert.assertNotNull(positionSet26);
-        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", boolean27 == false);
-        org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28 == true);
-        org.junit.Assert.assertTrue("'" + int29 + "' != '" + 4 + "'", int29 == 4);
-        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
-        org.junit.Assert.assertTrue("'" + long31 + "' != '" + 0L + "'", long31 == 0L);
-        org.junit.Assert.assertTrue("'" + int34 + "' != '" + 4 + "'", int34 == 4);
-        org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + true + "'", boolean35 == true);
-        org.junit.Assert.assertTrue("'" + long36 + "' != '" + 0L + "'", long36 == 0L);
-        org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + false + "'", boolean37 == false);
-        org.junit.Assert.assertEquals("'" + str38 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n" + "'", str38, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + false + "'", boolean41 == false);
-        org.junit.Assert.assertTrue("'" + int42 + "' != '" + 4 + "'", int42 == 4);
-        org.junit.Assert.assertTrue("'" + direction43 + "' != '" + ar.edu.unrc.game2048.Board.Direction.LEFT + "'", direction43.equals(ar.edu.unrc.game2048.Board.Direction.LEFT));
-        org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + true + "'", boolean44 == true);
-        org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + true + "'", boolean45 == true);
-        org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46 == true);
-        org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + false + "'", boolean47 == false);
-        org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + false + "'", boolean48 == false);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9 == true);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
     }
 
     @Test
     public void test533() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test533");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        boolean boolean6 = board1.equals((java.lang.Object) "0|[1-9][0-9]{0,5}");
-        boolean boolean7 = board1.isLosingBoard();
-        ar.edu.unrc.game2048.Board board8 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board(board8);
-        ar.edu.unrc.game2048.Cell cell12 = board9.getCell(0, 0);
-        java.lang.String str13 = board9.toString();
-        boolean boolean14 = board1.equals((java.lang.Object) board9);
-        boolean boolean15 = board9.moveLeft();
-        boolean boolean16 = board9.moveUp();
-        boolean boolean17 = board9.moveRight();
-        boolean boolean18 = board9.hasEmptyCells();
-        boolean boolean19 = board9.moveLeft();
-        boolean boolean20 = board9.moveDown();
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertNotNull(cell12);
-        org.junit.Assert.assertEquals("'" + str13 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str13, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", boolean14 == false);
-        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
-        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16 == true);
-        org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17 == true);
-        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18 == true);
-        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19 == true);
-        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20 == true);
+        ar.edu.unrc.game2048.Cell cell0 = ar.edu.unrc.game2048.Cell.EMPTY;
+        boolean boolean2 = cell0.equals((java.lang.Object) (-1.0f));
+        boolean boolean3 = cell0.isEmpty();
+        org.junit.Assert.assertNotNull(cell0);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3 == true);
     }
 
     @Test
     public void test534() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test534");
-        ar.edu.unrc.game2048.Board.Position position2 = new ar.edu.unrc.game2048.Board.Position(131072, 0);
+        // The following exception was thrown during execution in test generation
+        try {
+            ar.edu.unrc.game2048.Board board1 = ar.edu.unrc.game2048.Board.fromString("Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|    2|    2|     |     |\n+-----+-----+-----+-----+\n");
+            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: A board must be written as [v1,...,v16]: Score: 0?+-----+-----+-----+-----+?|     |     |     |     |?+-----+-----+-----+-----+?|    2|     |     |     |?+-----+-----+-----+-----+?|    2|     |     |     |?+-----+-----+-----+-----+?|    2|    2|     |     |?+-----+-----+-----+-----+?");
+        } catch (java.lang.IllegalArgumentException e) {
+            // Expected exception.
+        }
     }
 
     @Test
@@ -1112,10 +902,16 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test535");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        boolean boolean2 = board1.moveRight();
-        boolean boolean3 = board1.isFull();
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
+        boolean boolean3 = board1.moveDown();
+        boolean boolean4 = board1.isLosingBoard();
+        boolean boolean5 = board1.isFull();
+        long long6 = board1.getScore();
+        org.junit.Assert.assertNotNull(positionSet2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3 == true);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + false + "'", boolean4 == false);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
+        org.junit.Assert.assertTrue("'" + long6 + "' != '" + 0L + "'", long6 == 0L);
     }
 
     @Test
@@ -1124,117 +920,42 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test536");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        boolean boolean2 = board1.isFull();
-        ar.edu.unrc.game2048.Cell cell5 = board1.getCell(0, (int) (byte) 0);
-        boolean boolean7 = cell5.equals((java.lang.Object) 100.0f);
-        ar.edu.unrc.game2048.Board board8 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board(board8);
-        boolean boolean10 = board9.isFull();
-        ar.edu.unrc.game2048.Cell cell13 = board9.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board14 = new ar.edu.unrc.game2048.Board(board9);
-        boolean boolean15 = cell5.equals((java.lang.Object) board14);
-        int int16 = cell5.getValue();
-        int int17 = cell5.getValue();
-        ar.edu.unrc.game2048.Board board18 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board19 = new ar.edu.unrc.game2048.Board(board18);
-        boolean boolean20 = board19.isFull();
-        ar.edu.unrc.game2048.Cell cell23 = board19.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board24 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board25 = new ar.edu.unrc.game2048.Board(board24);
-        boolean boolean26 = board25.isFull();
-        ar.edu.unrc.game2048.Cell cell29 = board25.getCell(0, (int) (byte) 0);
-        boolean boolean31 = cell29.equals((java.lang.Object) 100.0f);
-        ar.edu.unrc.game2048.Board board32 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board33 = new ar.edu.unrc.game2048.Board(board32);
-        boolean boolean34 = board33.isFull();
-        ar.edu.unrc.game2048.Cell cell37 = board33.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board38 = new ar.edu.unrc.game2048.Board(board33);
-        boolean boolean39 = cell29.equals((java.lang.Object) board38);
-        boolean boolean40 = cell23.canMergeWith(cell29);
-        java.lang.String str41 = cell29.toString();
-        java.lang.String str42 = cell29.toString();
-        boolean boolean43 = cell5.canMergeWith(cell29);
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
-        org.junit.Assert.assertNotNull(cell5);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
+        boolean boolean3 = board1.moveRight();
+        boolean boolean4 = board1.moveLeft();
+        boolean boolean5 = board1.moveUp();
+        boolean boolean6 = board1.moveDown();
+        boolean boolean7 = board1.isLosingBoard();
+        boolean boolean8 = board1.moveLeft();
+        org.junit.Assert.assertNotNull(positionSet2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3 == true);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
-        org.junit.Assert.assertNotNull(cell13);
-        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", boolean15 == false);
-        org.junit.Assert.assertTrue("'" + int16 + "' != '" + 0 + "'", int16 == 0);
-        org.junit.Assert.assertTrue("'" + int17 + "' != '" + 0 + "'", int17 == 0);
-        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + false + "'", boolean20 == false);
-        org.junit.Assert.assertNotNull(cell23);
-        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", boolean26 == false);
-        org.junit.Assert.assertNotNull(cell29);
-        org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + false + "'", boolean31 == false);
-        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", boolean34 == false);
-        org.junit.Assert.assertNotNull(cell37);
-        org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + false + "'", boolean39 == false);
-        org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + false + "'", boolean40 == false);
-        org.junit.Assert.assertEquals("'" + str41 + "' != '" + "." + "'", str41, ".");
-        org.junit.Assert.assertEquals("'" + str42 + "' != '" + "." + "'", str42, ".");
-        org.junit.Assert.assertTrue("'" + boolean43 + "' != '" + false + "'", boolean43 == false);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
     }
 
     @Test
     public void test537() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test537");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        boolean boolean2 = board1.isFull();
-        ar.edu.unrc.game2048.Cell cell5 = board1.getCell(0, (int) (byte) 0);
-        int int6 = cell5.getValue();
-        int int7 = cell5.getValue();
-        int int8 = cell5.getValue();
-        ar.edu.unrc.game2048.Board.Position position11 = new ar.edu.unrc.game2048.Board.Position((int) 'a', 10);
-        java.lang.String str12 = position11.toString();
-        ar.edu.unrc.game2048.Board board13 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board14 = new ar.edu.unrc.game2048.Board(board13);
-        ar.edu.unrc.game2048.Cell cell17 = board14.getCell(0, 0);
-        boolean boolean18 = position11.equals((java.lang.Object) cell17);
-        int int19 = cell17.getValue();
         // The following exception was thrown during execution in test generation
         try {
-            ar.edu.unrc.game2048.Cell cell20 = cell5.mergeWith(cell17);
-            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: Cannot merge cells: . and .");
+            ar.edu.unrc.game2048.Board board1 = ar.edu.unrc.game2048.Board.fromString("-----+");
+            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: A board must be written as [v1,...,v16]: -----+");
         } catch (java.lang.IllegalArgumentException e) {
             // Expected exception.
         }
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
-        org.junit.Assert.assertNotNull(cell5);
-        org.junit.Assert.assertTrue("'" + int6 + "' != '" + 0 + "'", int6 == 0);
-        org.junit.Assert.assertTrue("'" + int7 + "' != '" + 0 + "'", int7 == 0);
-        org.junit.Assert.assertTrue("'" + int8 + "' != '" + 0 + "'", int8 == 0);
-        org.junit.Assert.assertEquals("'" + str12 + "' != '" + "(97, 10)" + "'", str12, "(97, 10)");
-        org.junit.Assert.assertNotNull(cell17);
-        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", boolean18 == false);
-        org.junit.Assert.assertTrue("'" + int19 + "' != '" + 0 + "'", int19 == 0);
     }
 
     @Test
     public void test538() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test538");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet3 = board1.getEmptyPositions();
-        ar.edu.unrc.game2048.Board board4 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board4);
-        boolean boolean6 = board4.isWinningBoard();
-        int int7 = board4.getSize();
-        ar.edu.unrc.game2048.Board.Direction direction8 = ar.edu.unrc.game2048.Board.Direction.LEFT;
-        boolean boolean9 = board4.move(direction8);
-        boolean boolean10 = board1.move(direction8);
-        ar.edu.unrc.game2048.Board board11 = new ar.edu.unrc.game2048.Board(board1);
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertNotNull(positionSet3);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-        org.junit.Assert.assertTrue("'" + int7 + "' != '" + 4 + "'", int7 == 4);
-        org.junit.Assert.assertTrue("'" + direction8 + "' != '" + ar.edu.unrc.game2048.Board.Direction.LEFT + "'", direction8.equals(ar.edu.unrc.game2048.Board.Direction.LEFT));
-        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9 == true);
-        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
+        ar.edu.unrc.game2048.Board.Position position2 = new ar.edu.unrc.game2048.Board.Position(1, (int) (short) 100);
+        java.lang.Class<?> wildcardClass3 = position2.getClass();
+        org.junit.Assert.assertNotNull(wildcardClass3);
     }
 
     @Test
@@ -1243,40 +964,173 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test539");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet4 = board1.getEmptyPositions();
-        java.lang.String str5 = board1.toString();
-        boolean boolean6 = board1.isWinningBoard();
-        boolean boolean7 = board1.isLosingBoard();
-        boolean boolean8 = board1.isWinningBoard();
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertNotNull(positionSet4);
-        org.junit.Assert.assertEquals("'" + str5 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str5, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
+        int int2 = board0.getSize();
+        ar.edu.unrc.game2048.Board board3 = new ar.edu.unrc.game2048.Board(board0);
+        long long4 = board0.getScore();
+        java.lang.Object obj5 = null;
+        boolean boolean6 = board0.equals(obj5);
+        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board(2, (long) '#');
+        int int10 = board9.getSize();
+        ar.edu.unrc.game2048.Board.Direction direction11 = ar.edu.unrc.game2048.Board.Direction.RIGHT;
+        boolean boolean12 = board9.move(direction11);
+        boolean boolean13 = board9.moveDown();
+        ar.edu.unrc.game2048.Board board16 = new ar.edu.unrc.game2048.Board(2, (long) '#');
+        long long17 = board16.getScore();
+        java.lang.String str18 = board16.toString();
+        ar.edu.unrc.game2048.Board.Direction direction19 = ar.edu.unrc.game2048.Board.Direction.RIGHT;
+        boolean boolean20 = board16.move(direction19);
+        boolean boolean21 = board9.move(direction19);
+        boolean boolean22 = board0.move(direction19);
+        ar.edu.unrc.game2048.Board.Direction direction23 = ar.edu.unrc.game2048.Board.Direction.UP;
+        boolean boolean24 = board0.move(direction23);
+        ar.edu.unrc.game2048.Cell cell27 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int28 = cell27.getValue();
+        ar.edu.unrc.game2048.Board board29 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board30 = new ar.edu.unrc.game2048.Board(board29);
+        long long31 = board29.getScore();
+        boolean boolean32 = board29.isWinningBoard();
+        boolean boolean33 = cell27.equals((java.lang.Object) board29);
+        java.lang.String str34 = cell27.toString();
+        // The following exception was thrown during execution in test generation
+        try {
+            board0.setCell(2147483647, (-2147483648), cell27);
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Position (2147483647, -2147483648) is out of bounds for board size 4");
+        } catch (java.lang.IndexOutOfBoundsException e) {
+            // Expected exception.
+        }
+        org.junit.Assert.assertTrue("'" + int2 + "' != '" + 4 + "'", int2 == 4);
+        org.junit.Assert.assertTrue("'" + long4 + "' != '" + 0L + "'", long4 == 0L);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
+        org.junit.Assert.assertTrue("'" + int10 + "' != '" + 2 + "'", int10 == 2);
+        org.junit.Assert.assertTrue("'" + direction11 + "' != '" + ar.edu.unrc.game2048.Board.Direction.RIGHT + "'", direction11.equals(ar.edu.unrc.game2048.Board.Direction.RIGHT));
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12 == true);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13 == true);
+        org.junit.Assert.assertTrue("'" + long17 + "' != '" + 0L + "'", long17 == 0L);
+        org.junit.Assert.assertEquals("'" + str18 + "' != '" + "Score: 0\n+-----+-----+\n|     |     |\n+-----+-----+\n|    2|    2|\n+-----+-----+\n" + "'", str18, "Score: 0\n+-----+-----+\n|     |     |\n+-----+-----+\n|    2|    2|\n+-----+-----+\n");
+        org.junit.Assert.assertTrue("'" + direction19 + "' != '" + ar.edu.unrc.game2048.Board.Direction.RIGHT + "'", direction19.equals(ar.edu.unrc.game2048.Board.Direction.RIGHT));
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20 == true);
+        org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + true + "'", boolean21 == true);
+        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22 == true);
+        org.junit.Assert.assertTrue("'" + direction23 + "' != '" + ar.edu.unrc.game2048.Board.Direction.UP + "'", direction23.equals(ar.edu.unrc.game2048.Board.Direction.UP));
+        org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24 == true);
+        org.junit.Assert.assertNotNull(cell27);
+        org.junit.Assert.assertTrue("'" + int28 + "' != '" + 0 + "'", int28 == 0);
+        org.junit.Assert.assertTrue("'" + long31 + "' != '" + 0L + "'", long31 == 0L);
+        org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", boolean32 == false);
+        org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", boolean33 == false);
+        org.junit.Assert.assertEquals("'" + str34 + "' != '" + "." + "'", str34, ".");
     }
 
     @Test
     public void test540() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test540");
-        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        boolean boolean2 = board0.isWinningBoard();
-        boolean boolean3 = board0.moveUp();
-        ar.edu.unrc.game2048.Board.Direction direction4 = ar.edu.unrc.game2048.Board.Direction.DOWN;
-        boolean boolean5 = board0.move(direction4);
-        boolean boolean6 = board0.isLosingBoard();
-        boolean boolean7 = board0.hasEmptyCells();
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3 == true);
-        org.junit.Assert.assertTrue("'" + direction4 + "' != '" + ar.edu.unrc.game2048.Board.Direction.DOWN + "'", direction4.equals(ar.edu.unrc.game2048.Board.Direction.DOWN));
-        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
+        ar.edu.unrc.game2048.Cell cell0 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int1 = cell0.getValue();
+        boolean boolean3 = cell0.equals((java.lang.Object) "\n");
+        ar.edu.unrc.game2048.Board board4 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board4);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet6 = board5.getEmptyPositions();
+        boolean boolean7 = board5.isFull();
+        boolean boolean8 = board5.moveDown();
+        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board10 = new ar.edu.unrc.game2048.Board(board9);
+        boolean boolean11 = board10.isFull();
+        boolean boolean12 = board5.equals((java.lang.Object) board10);
+        boolean boolean13 = cell0.equals((java.lang.Object) boolean12);
+        int int14 = cell0.getValue();
+        ar.edu.unrc.game2048.Cell cell15 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int16 = cell15.getValue();
+        boolean boolean18 = cell15.equals((java.lang.Object) "\n");
+        ar.edu.unrc.game2048.Board board19 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board20 = new ar.edu.unrc.game2048.Board(board19);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet21 = board20.getEmptyPositions();
+        boolean boolean22 = board20.isFull();
+        boolean boolean23 = board20.moveDown();
+        ar.edu.unrc.game2048.Board board24 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board25 = new ar.edu.unrc.game2048.Board(board24);
+        boolean boolean26 = board25.isFull();
+        boolean boolean27 = board20.equals((java.lang.Object) board25);
+        boolean boolean28 = cell15.equals((java.lang.Object) boolean27);
+        int int29 = cell15.getValue();
+        boolean boolean30 = cell0.canMergeWith(cell15);
+        ar.edu.unrc.game2048.Board board31 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board32 = new ar.edu.unrc.game2048.Board(board31);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet33 = board32.getEmptyPositions();
+        boolean boolean34 = board32.moveDown();
+        boolean boolean35 = cell0.equals((java.lang.Object) board32);
+        java.lang.String str36 = cell0.toString();
+        ar.edu.unrc.game2048.Cell cell38 = new ar.edu.unrc.game2048.Cell(1073741824);
+        int int39 = cell38.getValue();
+        int int40 = cell38.getValue();
+        ar.edu.unrc.game2048.Cell cell41 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int42 = cell41.getValue();
+        java.lang.String str43 = cell41.toString();
+        boolean boolean44 = cell38.canMergeWith(cell41);
+        boolean boolean45 = cell0.canMergeWith(cell38);
+        int int46 = cell38.getValue();
+        ar.edu.unrc.game2048.Cell cell47 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int48 = cell47.getValue();
+        java.lang.String str49 = cell47.toString();
+        java.lang.String str50 = cell47.toString();
+        boolean boolean51 = cell47.isEmpty();
+        boolean boolean52 = cell47.isEmpty();
+        java.lang.String str53 = cell47.toString();
+        ar.edu.unrc.game2048.Cell cell54 = ar.edu.unrc.game2048.Cell.EMPTY;
+        int int55 = cell54.getValue();
+        boolean boolean57 = cell54.equals((java.lang.Object) "\n");
+        boolean boolean58 = cell47.canMergeWith(cell54);
+        // The following exception was thrown during execution in test generation
+        try {
+            ar.edu.unrc.game2048.Cell cell59 = cell38.mergeWith(cell47);
+            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: Cannot merge cells: 1073741824 and .");
+        } catch (java.lang.IllegalArgumentException e) {
+            // Expected exception.
+        }
+        org.junit.Assert.assertNotNull(cell0);
+        org.junit.Assert.assertTrue("'" + int1 + "' != '" + 0 + "'", int1 == 0);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
+        org.junit.Assert.assertNotNull(positionSet6);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", boolean11 == false);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", boolean13 == false);
+        org.junit.Assert.assertTrue("'" + int14 + "' != '" + 0 + "'", int14 == 0);
+        org.junit.Assert.assertNotNull(cell15);
+        org.junit.Assert.assertTrue("'" + int16 + "' != '" + 0 + "'", int16 == 0);
+        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", boolean18 == false);
+        org.junit.Assert.assertNotNull(positionSet21);
+        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", boolean22 == false);
+        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23 == true);
+        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", boolean26 == false);
+        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", boolean27 == false);
+        org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + false + "'", boolean28 == false);
+        org.junit.Assert.assertTrue("'" + int29 + "' != '" + 0 + "'", int29 == 0);
+        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
+        org.junit.Assert.assertNotNull(positionSet33);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34 == true);
+        org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + false + "'", boolean35 == false);
+        org.junit.Assert.assertEquals("'" + str36 + "' != '" + "." + "'", str36, ".");
+        org.junit.Assert.assertTrue("'" + int39 + "' != '" + 1073741824 + "'", int39 == 1073741824);
+        org.junit.Assert.assertTrue("'" + int40 + "' != '" + 1073741824 + "'", int40 == 1073741824);
+        org.junit.Assert.assertNotNull(cell41);
+        org.junit.Assert.assertTrue("'" + int42 + "' != '" + 0 + "'", int42 == 0);
+        org.junit.Assert.assertEquals("'" + str43 + "' != '" + "." + "'", str43, ".");
+        org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + false + "'", boolean44 == false);
+        org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + false + "'", boolean45 == false);
+        org.junit.Assert.assertTrue("'" + int46 + "' != '" + 1073741824 + "'", int46 == 1073741824);
+        org.junit.Assert.assertNotNull(cell47);
+        org.junit.Assert.assertTrue("'" + int48 + "' != '" + 0 + "'", int48 == 0);
+        org.junit.Assert.assertEquals("'" + str49 + "' != '" + "." + "'", str49, ".");
+        org.junit.Assert.assertEquals("'" + str50 + "' != '" + "." + "'", str50, ".");
+        org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + true + "'", boolean51 == true);
+        org.junit.Assert.assertTrue("'" + boolean52 + "' != '" + true + "'", boolean52 == true);
+        org.junit.Assert.assertEquals("'" + str53 + "' != '" + "." + "'", str53, ".");
+        org.junit.Assert.assertNotNull(cell54);
+        org.junit.Assert.assertTrue("'" + int55 + "' != '" + 0 + "'", int55 == 0);
+        org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + false + "'", boolean57 == false);
+        org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + false + "'", boolean58 == false);
     }
 
     @Test
@@ -1285,35 +1139,60 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test541");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet3 = board1.getEmptyPositions();
-        ar.edu.unrc.game2048.Board board6 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board7 = new ar.edu.unrc.game2048.Board(board6);
-        boolean boolean8 = board7.isFull();
-        ar.edu.unrc.game2048.Cell cell11 = board7.getCell(0, (int) (byte) 0);
-        java.lang.String str12 = cell11.toString();
-        int int13 = cell11.getValue();
-        board1.setCell(0, 0, cell11);
-        ar.edu.unrc.game2048.Board board15 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board16 = new ar.edu.unrc.game2048.Board(board15);
-        boolean boolean17 = board16.isFull();
-        ar.edu.unrc.game2048.Cell cell20 = board16.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board21 = new ar.edu.unrc.game2048.Board(board16);
-        ar.edu.unrc.game2048.Board board22 = new ar.edu.unrc.game2048.Board(board16);
-        ar.edu.unrc.game2048.Board.Direction direction23 = ar.edu.unrc.game2048.Board.Direction.UP;
-        boolean boolean24 = board16.move(direction23);
-        boolean boolean25 = board1.move(direction23);
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertNotNull(positionSet3);
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
-        org.junit.Assert.assertNotNull(cell11);
-        org.junit.Assert.assertEquals("'" + str12 + "' != '" + "." + "'", str12, ".");
-        org.junit.Assert.assertTrue("'" + int13 + "' != '" + 0 + "'", int13 == 0);
-        org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", boolean17 == false);
-        org.junit.Assert.assertNotNull(cell20);
-        org.junit.Assert.assertTrue("'" + direction23 + "' != '" + ar.edu.unrc.game2048.Board.Direction.UP + "'", direction23.equals(ar.edu.unrc.game2048.Board.Direction.UP));
-        org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24 == true);
-        org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25 == true);
+        int int2 = board1.getSize();
+        int int3 = board1.getSize();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet4 = board1.getEmptyPositions();
+        java.lang.String str5 = board1.toString();
+        boolean boolean6 = board1.isFull();
+        boolean boolean7 = board1.hasEmptyCells();
+        boolean boolean8 = board1.moveRight();
+        boolean boolean9 = board1.isWinningBoard();
+        boolean boolean10 = board1.moveLeft();
+        boolean boolean11 = board1.moveUp();
+        boolean boolean12 = board1.moveDown();
+        ar.edu.unrc.game2048.Board board13 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board14 = new ar.edu.unrc.game2048.Board(board13);
+        int int15 = board14.getSize();
+        int int16 = board14.getSize();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet17 = board14.getEmptyPositions();
+        java.lang.String str18 = board14.toString();
+        boolean boolean19 = board14.isFull();
+        boolean boolean20 = board14.hasEmptyCells();
+        boolean boolean21 = board14.hasEmptyCells();
+        boolean boolean22 = board14.hasEmptyCells();
+        ar.edu.unrc.game2048.Board board23 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board24 = new ar.edu.unrc.game2048.Board(board23);
+        long long25 = board23.getScore();
+        boolean boolean26 = board23.isWinningBoard();
+        ar.edu.unrc.game2048.Board.Direction direction27 = ar.edu.unrc.game2048.Board.Direction.DOWN;
+        boolean boolean28 = board23.move(direction27);
+        boolean boolean29 = board14.move(direction27);
+        boolean boolean30 = board1.move(direction27);
+        org.junit.Assert.assertTrue("'" + int2 + "' != '" + 4 + "'", int2 == 4);
+        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 4 + "'", int3 == 4);
+        org.junit.Assert.assertNotNull(positionSet4);
+        org.junit.Assert.assertEquals("'" + str5 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str5, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", boolean9 == false);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11 == true);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12 == true);
+        org.junit.Assert.assertTrue("'" + int15 + "' != '" + 4 + "'", int15 == 4);
+        org.junit.Assert.assertTrue("'" + int16 + "' != '" + 4 + "'", int16 == 4);
+        org.junit.Assert.assertNotNull(positionSet17);
+        org.junit.Assert.assertEquals("'" + str18 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str18, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
+        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", boolean19 == false);
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20 == true);
+        org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + true + "'", boolean21 == true);
+        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22 == true);
+        org.junit.Assert.assertTrue("'" + long25 + "' != '" + 0L + "'", long25 == 0L);
+        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", boolean26 == false);
+        org.junit.Assert.assertTrue("'" + direction27 + "' != '" + ar.edu.unrc.game2048.Board.Direction.DOWN + "'", direction27.equals(ar.edu.unrc.game2048.Board.Direction.DOWN));
+        org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28 == true);
+        org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29 == true);
+        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", boolean30 == false);
     }
 
     @Test
@@ -1322,17 +1201,24 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test542");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        boolean boolean2 = board1.isFull();
-        ar.edu.unrc.game2048.Cell cell5 = board1.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board6 = new ar.edu.unrc.game2048.Board(board1);
-        boolean boolean7 = board1.moveLeft();
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet8 = board1.getEmptyPositions();
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board(board1);
-        ar.edu.unrc.game2048.Board board10 = new ar.edu.unrc.game2048.Board(board1);
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
-        org.junit.Assert.assertNotNull(cell5);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
-        org.junit.Assert.assertNotNull(positionSet8);
+        boolean boolean2 = board1.moveUp();
+        ar.edu.unrc.game2048.Board board3 = new ar.edu.unrc.game2048.Board(board1);
+        ar.edu.unrc.game2048.Board board4 = new ar.edu.unrc.game2048.Board(board1);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet5 = board1.getEmptyPositions();
+        ar.edu.unrc.game2048.Board board6 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board7 = new ar.edu.unrc.game2048.Board(board6);
+        boolean boolean8 = board6.moveUp();
+        java.lang.String str9 = board6.toString();
+        java.lang.String str10 = board6.toString();
+        boolean boolean11 = board1.equals((java.lang.Object) str10);
+        boolean boolean12 = board1.moveRight();
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
+        org.junit.Assert.assertNotNull(positionSet5);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+        org.junit.Assert.assertEquals("'" + str9 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n" + "'", str9, "Score: 0\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n");
+        org.junit.Assert.assertEquals("'" + str10 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n" + "'", str10, "Score: 0\n+-----+-----+-----+-----+\n|     |    2|     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n");
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", boolean11 == false);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12 == true);
     }
 
     @Test
@@ -1341,182 +1227,32 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test543");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        boolean boolean5 = board1.isWinningBoard();
-        ar.edu.unrc.game2048.Board board6 = new ar.edu.unrc.game2048.Board(board1);
-        boolean boolean7 = board1.isLosingBoard();
-        int int8 = board1.getSize();
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board10 = new ar.edu.unrc.game2048.Board(board9);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet11 = board10.getEmptyPositions();
-        boolean boolean12 = board10.isFull();
-        boolean boolean13 = board10.moveDown();
-        int int14 = board10.getSize();
-        boolean boolean15 = board10.isLosingBoard();
-        long long16 = board10.getScore();
-        ar.edu.unrc.game2048.Board board17 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board18 = new ar.edu.unrc.game2048.Board(board17);
-        int int19 = board18.getSize();
-        boolean boolean20 = board18.moveLeft();
-        long long21 = board18.getScore();
-        boolean boolean22 = board18.isFull();
-        java.lang.String str23 = board18.toString();
-        ar.edu.unrc.game2048.Board board24 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board25 = new ar.edu.unrc.game2048.Board(board24);
-        boolean boolean26 = board24.isWinningBoard();
-        int int27 = board24.getSize();
-        ar.edu.unrc.game2048.Board.Direction direction28 = ar.edu.unrc.game2048.Board.Direction.LEFT;
-        boolean boolean29 = board24.move(direction28);
-        boolean boolean30 = board18.move(direction28);
-        boolean boolean31 = board10.move(direction28);
-        boolean boolean32 = board1.move(direction28);
-        ar.edu.unrc.game2048.Board board35 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board36 = new ar.edu.unrc.game2048.Board(board35);
-        boolean boolean37 = board36.isFull();
-        ar.edu.unrc.game2048.Cell cell40 = board36.getCell(0, (int) (byte) 0);
-        java.lang.String str41 = cell40.toString();
-        ar.edu.unrc.game2048.Board board42 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Cell cell45 = board42.getCell(1, 0);
-        boolean boolean46 = cell40.canMergeWith(cell45);
-        ar.edu.unrc.game2048.Board board47 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board48 = new ar.edu.unrc.game2048.Board(board47);
-        boolean boolean49 = board48.isFull();
-        ar.edu.unrc.game2048.Cell cell52 = board48.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board53 = new ar.edu.unrc.game2048.Board(board48);
-        boolean boolean54 = board48.moveLeft();
-        long long55 = board48.getScore();
-        boolean boolean56 = cell45.equals((java.lang.Object) long55);
-        ar.edu.unrc.game2048.Board board57 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board58 = new ar.edu.unrc.game2048.Board(board57);
-        boolean boolean59 = board58.isFull();
-        ar.edu.unrc.game2048.Cell cell62 = board58.getCell(0, (int) (byte) 0);
-        java.lang.String str63 = cell62.toString();
-        int int64 = cell62.getValue();
-        int int65 = cell62.getValue();
-        ar.edu.unrc.game2048.Board board66 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board67 = new ar.edu.unrc.game2048.Board(board66);
-        boolean boolean68 = board67.isFull();
-        ar.edu.unrc.game2048.Cell cell71 = board67.getCell(0, (int) (byte) 0);
-        java.lang.String str72 = cell71.toString();
-        int int73 = cell71.getValue();
-        int int74 = cell71.getValue();
-        java.lang.String str75 = cell71.toString();
-        int int76 = cell71.getValue();
-        java.lang.String str77 = cell71.toString();
-        boolean boolean78 = cell62.canMergeWith(cell71);
-        boolean boolean79 = cell45.equals((java.lang.Object) cell62);
-        // The following exception was thrown during execution in test generation
-        try {
-            board1.setCell(10, 2, cell45);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Position (10, 2) is out of bounds for board size 4");
-        } catch (java.lang.IndexOutOfBoundsException e) {
-            // Expected exception.
-        }
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertTrue("'" + int8 + "' != '" + 4 + "'", int8 == 4);
-        org.junit.Assert.assertNotNull(positionSet11);
-        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", boolean12 == false);
-        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13 == true);
-        org.junit.Assert.assertTrue("'" + int14 + "' != '" + 4 + "'", int14 == 4);
-        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", boolean15 == false);
-        org.junit.Assert.assertTrue("'" + long16 + "' != '" + 0L + "'", long16 == 0L);
-        org.junit.Assert.assertTrue("'" + int19 + "' != '" + 4 + "'", int19 == 4);
-        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20 == true);
-        org.junit.Assert.assertTrue("'" + long21 + "' != '" + 0L + "'", long21 == 0L);
-        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", boolean22 == false);
-        org.junit.Assert.assertEquals("'" + str23 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n" + "'", str23, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n");
-        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", boolean26 == false);
-        org.junit.Assert.assertTrue("'" + int27 + "' != '" + 4 + "'", int27 == 4);
-        org.junit.Assert.assertTrue("'" + direction28 + "' != '" + ar.edu.unrc.game2048.Board.Direction.LEFT + "'", direction28.equals(ar.edu.unrc.game2048.Board.Direction.LEFT));
-        org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29 == true);
-        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + true + "'", boolean30 == true);
-        org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31 == true);
-        org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + true + "'", boolean32 == true);
-        org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + false + "'", boolean37 == false);
-        org.junit.Assert.assertNotNull(cell40);
-        org.junit.Assert.assertEquals("'" + str41 + "' != '" + "." + "'", str41, ".");
-        org.junit.Assert.assertNotNull(cell45);
-        org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + false + "'", boolean46 == false);
-        org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + false + "'", boolean49 == false);
-        org.junit.Assert.assertNotNull(cell52);
-        org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + true + "'", boolean54 == true);
-        org.junit.Assert.assertTrue("'" + long55 + "' != '" + 0L + "'", long55 == 0L);
-        org.junit.Assert.assertTrue("'" + boolean56 + "' != '" + false + "'", boolean56 == false);
-        org.junit.Assert.assertTrue("'" + boolean59 + "' != '" + false + "'", boolean59 == false);
-        org.junit.Assert.assertNotNull(cell62);
-        org.junit.Assert.assertEquals("'" + str63 + "' != '" + "." + "'", str63, ".");
-        org.junit.Assert.assertTrue("'" + int64 + "' != '" + 0 + "'", int64 == 0);
-        org.junit.Assert.assertTrue("'" + int65 + "' != '" + 0 + "'", int65 == 0);
-        org.junit.Assert.assertTrue("'" + boolean68 + "' != '" + false + "'", boolean68 == false);
-        org.junit.Assert.assertNotNull(cell71);
-        org.junit.Assert.assertEquals("'" + str72 + "' != '" + "." + "'", str72, ".");
-        org.junit.Assert.assertTrue("'" + int73 + "' != '" + 0 + "'", int73 == 0);
-        org.junit.Assert.assertTrue("'" + int74 + "' != '" + 0 + "'", int74 == 0);
-        org.junit.Assert.assertEquals("'" + str75 + "' != '" + "." + "'", str75, ".");
-        org.junit.Assert.assertTrue("'" + int76 + "' != '" + 0 + "'", int76 == 0);
-        org.junit.Assert.assertEquals("'" + str77 + "' != '" + "." + "'", str77, ".");
-        org.junit.Assert.assertTrue("'" + boolean78 + "' != '" + false + "'", boolean78 == false);
-        org.junit.Assert.assertTrue("'" + boolean79 + "' != '" + true + "'", boolean79 == true);
+        boolean boolean2 = board0.isWinningBoard();
+        java.lang.String str3 = board0.toString();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet4 = board0.getEmptyPositions();
+        boolean boolean5 = board0.moveUp();
+        java.lang.Class<?> wildcardClass6 = board0.getClass();
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
+        org.junit.Assert.assertEquals("'" + str3 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str3, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |     |     |    2|\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|     |    2|     |     |\n+-----+-----+-----+-----+\n");
+        org.junit.Assert.assertNotNull(positionSet4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
+        org.junit.Assert.assertNotNull(wildcardClass6);
     }
 
     @Test
     public void test544() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test544");
-        ar.edu.unrc.game2048.Board.Position position2 = new ar.edu.unrc.game2048.Board.Position((int) (byte) 0, (int) (short) 10);
-        boolean boolean4 = position2.equals((java.lang.Object) '4');
-        boolean boolean6 = position2.equals((java.lang.Object) 'a');
-        int int7 = position2.col;
-        ar.edu.unrc.game2048.Board board8 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board9 = new ar.edu.unrc.game2048.Board(board8);
-        boolean boolean10 = board9.isFull();
-        ar.edu.unrc.game2048.Cell cell13 = board9.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board14 = new ar.edu.unrc.game2048.Board(board9);
-        boolean boolean15 = board9.moveLeft();
-        boolean boolean16 = position2.equals((java.lang.Object) boolean15);
-        ar.edu.unrc.game2048.Board board17 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board18 = new ar.edu.unrc.game2048.Board(board17);
-        boolean boolean19 = board18.isFull();
-        ar.edu.unrc.game2048.Cell cell22 = board18.getCell(0, (int) (byte) 0);
-        boolean boolean24 = cell22.equals((java.lang.Object) 100.0f);
-        ar.edu.unrc.game2048.Board board25 = new ar.edu.unrc.game2048.Board();
-        ar.edu.unrc.game2048.Board board26 = new ar.edu.unrc.game2048.Board(board25);
-        boolean boolean27 = board26.isFull();
-        ar.edu.unrc.game2048.Cell cell30 = board26.getCell(0, (int) (byte) 0);
-        ar.edu.unrc.game2048.Board board31 = new ar.edu.unrc.game2048.Board(board26);
-        boolean boolean32 = cell22.equals((java.lang.Object) board31);
-        boolean boolean33 = position2.equals((java.lang.Object) board31);
-        ar.edu.unrc.game2048.Board.Direction direction34 = ar.edu.unrc.game2048.Board.Direction.UP;
-        boolean boolean35 = board31.move(direction34);
-        // The following exception was thrown during execution in test generation
-        try {
-            ar.edu.unrc.game2048.Cell cell38 = board31.getCell(0, (int) (short) 100);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Position (0, 100) is out of bounds for board size 4");
-        } catch (java.lang.IndexOutOfBoundsException e) {
-            // Expected exception.
-        }
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + false + "'", boolean4 == false);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-        org.junit.Assert.assertTrue("'" + int7 + "' != '" + 10 + "'", int7 == 10);
-        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
-        org.junit.Assert.assertNotNull(cell13);
-        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15 == true);
-        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", boolean16 == false);
-        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", boolean19 == false);
-        org.junit.Assert.assertNotNull(cell22);
-        org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + false + "'", boolean24 == false);
-        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", boolean27 == false);
-        org.junit.Assert.assertNotNull(cell30);
-        org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", boolean32 == false);
-        org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", boolean33 == false);
-        org.junit.Assert.assertTrue("'" + direction34 + "' != '" + ar.edu.unrc.game2048.Board.Direction.UP + "'", direction34.equals(ar.edu.unrc.game2048.Board.Direction.UP));
-        org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + true + "'", boolean35 == true);
+        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
+        boolean boolean2 = board1.moveUp();
+        ar.edu.unrc.game2048.Board board3 = new ar.edu.unrc.game2048.Board(board1);
+        boolean boolean4 = board3.moveRight();
+        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board3);
+        long long6 = board5.getScore();
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
+        org.junit.Assert.assertTrue("'" + long6 + "' != '" + 4L + "'", long6 == 4L);
     }
 
     @Test
@@ -1525,26 +1261,41 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test545");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        boolean boolean2 = board0.isWinningBoard();
-        boolean boolean3 = board0.moveUp();
-        ar.edu.unrc.game2048.Board.Direction direction4 = ar.edu.unrc.game2048.Board.Direction.DOWN;
-        boolean boolean5 = board0.move(direction4);
-        boolean boolean6 = board0.isLosingBoard();
-        ar.edu.unrc.game2048.Board board7 = new ar.edu.unrc.game2048.Board(board0);
-        boolean boolean8 = board7.moveDown();
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
+        boolean boolean3 = board1.moveRight();
+        boolean boolean4 = board1.moveLeft();
+        boolean boolean5 = board1.isFull();
+        boolean boolean6 = board1.isWinningBoard();
+        java.lang.String str7 = board1.toString();
+        org.junit.Assert.assertNotNull(positionSet2);
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3 == true);
-        org.junit.Assert.assertTrue("'" + direction4 + "' != '" + ar.edu.unrc.game2048.Board.Direction.DOWN + "'", direction4.equals(ar.edu.unrc.game2048.Board.Direction.DOWN));
-        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
-        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
+        org.junit.Assert.assertEquals("'" + str7 + "' != '" + "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|    2|    2|     |     |\n+-----+-----+-----+-----+\n" + "'", str7, "Score: 0\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|    2|    2|     |     |\n+-----+-----+-----+-----+\n");
     }
 
     @Test
     public void test546() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test546");
-        ar.edu.unrc.game2048.Cell cell1 = new ar.edu.unrc.game2048.Cell((int) (byte) 0);
+        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
+        int int2 = board1.getSize();
+        int int3 = board1.getSize();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet4 = board1.getEmptyPositions();
+        ar.edu.unrc.game2048.Board board5 = new ar.edu.unrc.game2048.Board(board1);
+        boolean boolean6 = board1.moveUp();
+        boolean boolean7 = board1.moveDown();
+        int int8 = board1.getSize();
+        boolean boolean9 = board1.isFull();
+        org.junit.Assert.assertTrue("'" + int2 + "' != '" + 4 + "'", int2 == 4);
+        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 4 + "'", int3 == 4);
+        org.junit.Assert.assertNotNull(positionSet4);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
+        org.junit.Assert.assertTrue("'" + int8 + "' != '" + 4 + "'", int8 == 4);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", boolean9 == false);
     }
 
     @Test
@@ -1553,27 +1304,158 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test547");
         ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
         ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
-        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
-        boolean boolean3 = board1.isFull();
-        boolean boolean4 = board1.moveDown();
-        boolean boolean5 = board1.isWinningBoard();
-        boolean boolean6 = board1.moveLeft();
-        boolean boolean7 = board1.isWinningBoard();
-        java.lang.String str8 = board1.toString();
-        org.junit.Assert.assertNotNull(positionSet2);
-        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", boolean3 == false);
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5 == false);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
-        org.junit.Assert.assertEquals("'" + str8 + "' != '" + "Score: 4\n+-----+-----+-----+-----+\n|     |     |    2|     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|    4|     |     |     |\n+-----+-----+-----+-----+\n" + "'", str8, "Score: 4\n+-----+-----+-----+-----+\n|     |     |    2|     |\n+-----+-----+-----+-----+\n|     |     |     |     |\n+-----+-----+-----+-----+\n|    2|     |     |     |\n+-----+-----+-----+-----+\n|    4|     |     |     |\n+-----+-----+-----+-----+\n");
+        boolean boolean2 = board1.moveUp();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet3 = board1.getEmptyPositions();
+        boolean boolean4 = board1.isFull();
+        boolean boolean5 = board1.moveLeft();
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
+        org.junit.Assert.assertNotNull(positionSet3);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + false + "'", boolean4 == false);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
     }
 
     @Test
     public void test548() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test548");
-        ar.edu.unrc.game2048.Board.Position position2 = new ar.edu.unrc.game2048.Board.Position(2, (int) (short) 0);
+        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
+        boolean boolean2 = board1.isFull();
+        ar.edu.unrc.game2048.Board board3 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board4 = new ar.edu.unrc.game2048.Board(board3);
+        long long5 = board3.getScore();
+        boolean boolean6 = board3.isLosingBoard();
+        ar.edu.unrc.game2048.Board board7 = new ar.edu.unrc.game2048.Board(board3);
+        boolean boolean8 = board7.isFull();
+        boolean boolean9 = board1.equals((java.lang.Object) boolean8);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
+        org.junit.Assert.assertTrue("'" + long5 + "' != '" + 0L + "'", long5 == 0L);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", boolean8 == false);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", boolean9 == false);
+    }
+
+    @Test
+    public void test549() throws Throwable {
+        if (debug)
+            System.out.format("%n%s%n", "RegressionTest1.test549");
+        ar.edu.unrc.game2048.Cell cell0 = ar.edu.unrc.game2048.Cell.EMPTY;
+        boolean boolean2 = cell0.equals((java.lang.Object) (-1.0f));
+        java.lang.Class<?> wildcardClass3 = cell0.getClass();
+        org.junit.Assert.assertNotNull(cell0);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2 == false);
+        org.junit.Assert.assertNotNull(wildcardClass3);
+    }
+
+    @Test
+    public void test550() throws Throwable {
+        if (debug)
+            System.out.format("%n%s%n", "RegressionTest1.test550");
+        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet2 = board1.getEmptyPositions();
+        boolean boolean3 = board1.moveRight();
+        boolean boolean4 = board1.moveDown();
+        int int5 = board1.getSize();
+        boolean boolean6 = board1.moveRight();
+        org.junit.Assert.assertNotNull(positionSet2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3 == true);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
+        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 4 + "'", int5 == 4);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+    }
+
+    @Test
+    public void test551() throws Throwable {
+        if (debug)
+            System.out.format("%n%s%n", "RegressionTest1.test551");
+        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
+        boolean boolean2 = board1.moveRight();
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet3 = board1.getEmptyPositions();
+        ar.edu.unrc.game2048.Board board4 = new ar.edu.unrc.game2048.Board(board1);
+        boolean boolean5 = board4.hasEmptyCells();
+        boolean boolean6 = board4.isFull();
+        boolean boolean7 = board4.moveDown();
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
+        org.junit.Assert.assertNotNull(positionSet3);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
+    }
+
+    @Test
+    public void test552() throws Throwable {
+        if (debug)
+            System.out.format("%n%s%n", "RegressionTest1.test552");
+        ar.edu.unrc.game2048.Board board0 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board1 = new ar.edu.unrc.game2048.Board(board0);
+        boolean boolean2 = board1.moveRight();
+        boolean boolean3 = board1.moveLeft();
+        boolean boolean4 = board1.moveLeft();
+        int int5 = board1.getSize();
+        boolean boolean6 = board1.isLosingBoard();
+        ar.edu.unrc.game2048.Board board7 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board8 = new ar.edu.unrc.game2048.Board(board7);
+        java.util.Set<ar.edu.unrc.game2048.Board.Position> positionSet9 = board8.getEmptyPositions();
+        boolean boolean10 = board8.moveRight();
+        boolean boolean11 = board8.moveLeft();
+        boolean boolean12 = board8.moveUp();
+        boolean boolean13 = board1.equals((java.lang.Object) boolean12);
+        boolean boolean14 = board1.moveRight();
+        ar.edu.unrc.game2048.Cell cell17 = board1.getCell(1, 0);
+        java.lang.String str18 = cell17.toString();
+        ar.edu.unrc.game2048.Board board19 = new ar.edu.unrc.game2048.Board();
+        ar.edu.unrc.game2048.Board board20 = new ar.edu.unrc.game2048.Board(board19);
+        int int21 = board20.getSize();
+        boolean boolean22 = board20.moveRight();
+        boolean boolean23 = board20.isLosingBoard();
+        boolean boolean24 = cell17.equals((java.lang.Object) board20);
+        ar.edu.unrc.game2048.Cell cell25 = null;
+        boolean boolean26 = cell17.canMergeWith(cell25);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2 == true);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3 == true);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
+        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 4 + "'", int5 == 4);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+        org.junit.Assert.assertNotNull(positionSet9);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11 == true);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12 == true);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", boolean13 == false);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14 == true);
+        org.junit.Assert.assertNotNull(cell17);
+        org.junit.Assert.assertEquals("'" + str18 + "' != '" + "." + "'", str18, ".");
+        org.junit.Assert.assertTrue("'" + int21 + "' != '" + 4 + "'", int21 == 4);
+        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22 == true);
+        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + false + "'", boolean23 == false);
+        org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + false + "'", boolean24 == false);
+        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", boolean26 == false);
+    }
+
+    @Test
+    public void test553() throws Throwable {
+        if (debug)
+            System.out.format("%n%s%n", "RegressionTest1.test553");
+        ar.edu.unrc.game2048.Board board2 = new ar.edu.unrc.game2048.Board(2, (long) (-2147483648));
+        ar.edu.unrc.game2048.Board.Position position5 = new ar.edu.unrc.game2048.Board.Position(16, (-2147483648));
+        boolean boolean6 = board2.equals((java.lang.Object) position5);
+        boolean boolean7 = board2.moveUp();
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", boolean6 == false);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", boolean7 == false);
+    }
+
+    @Test
+    public void test554() throws Throwable {
+        if (debug)
+            System.out.format("%n%s%n", "RegressionTest1.test554");
+        // The following exception was thrown during execution in test generation
+        try {
+            ar.edu.unrc.game2048.Board board2 = new ar.edu.unrc.game2048.Board((int) '4', (long) 2048);
+            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: Board size must be between 1 and 16: 52");
+        } catch (java.lang.IllegalArgumentException e) {
+            // Expected exception.
+        }
     }
 }
 
