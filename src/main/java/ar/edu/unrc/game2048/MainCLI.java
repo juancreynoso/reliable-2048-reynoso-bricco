@@ -49,6 +49,13 @@ public class MainCLI {
             }
             
             System.out.print("Enter move: ");
+            // Found by the time-based fuzzing campaign: when stdin ended without
+            // "q", nextLine() threw NoSuchElementException. End of input now quits.
+            if (!scanner.hasNextLine()) {
+                System.out.println();
+                System.out.println("End of input. Final score: " + board.getScore());
+                break;
+            }
             String input = scanner.nextLine().trim().toUpperCase();
             
             if (input.equals("Q")) {
@@ -56,18 +63,12 @@ public class MainCLI {
                 break;
             }
             
-            boolean moved = false;
-            switch (input) {
-                case "W": moved = board.moveUp(); break;
-                case "S": moved = board.moveDown(); break;
-                case "A": moved = board.moveLeft(); break;
-                case "D": moved = board.moveRight(); break;
-                default:
-                    System.out.println("Invalid input! Use W, A, S, D, or Q.");
-                    continue;
+            Board.Direction direction = direction(input);
+            if (direction == null) {
+                System.out.println("Invalid input! Use W, A, S, D, or Q.");
+                continue;
             }
-
-            assert board.repOk() : "Board invariant violated after move " + input;
+            boolean moved = board.move(direction);
 
             if (moved) {
                 System.out.println("Tile moved!");
@@ -82,20 +83,36 @@ public class MainCLI {
     }
     
     /**
+     * The direction of a move key (W, A, S, D), or null if the key is not a move.
+     */
+    private static Board.Direction direction(String key) {
+        switch (key) {
+            case "W": return Board.Direction.UP;
+            case "S": return Board.Direction.DOWN;
+            case "A": return Board.Direction.LEFT;
+            case "D": return Board.Direction.RIGHT;
+            default:  return null;
+        }
+    }
+
+    /**
      * Displays the current board state.
      */
     private void displayBoard() {
         System.out.println(board);
     }
-    
+
     /**
-     * Runs the game. An optional argument gives the initial board, e.g.
-     * "[0,0,0,0,4,2,0,0,0,0,0,0,2,2,2,2]"; without it the board is random (a new seed on every run, or -Dseed=N to replay a game).
+     * Seed of a new random game: a new one on every run, or -Dseed=N to replay a game.
      */
     private static long seed() {
         return Long.getLong("seed", System.nanoTime());
     }
 
+    /**
+     * Runs the game. An optional argument gives the initial board, e.g.
+     * "[0,0,0,0,4,2,0,0,0,0,0,0,2,2,2,2]"; without it the board is random.
+     */
     public static void main(String[] args) {
         Board board;
         try {

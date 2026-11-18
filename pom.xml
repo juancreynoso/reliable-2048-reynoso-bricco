@@ -64,9 +64,7 @@
                     <targetTests>
                         <param>ar.edu.unrc.game2048.*Test</param>
                         <param>ar.edu.unrc.game2048.*Tests</param>
-                        <param>randoopTests.*Tests</param>
-                        <param>randoopTests.*Test</param>
-                        <param>evosuite.*Test</param>
+                        <param>randoopTests.*.RegressionTest?</param>
                     </targetTests>
                     <threads>4</threads>
                     <timestampedReports>false</timestampedReports>

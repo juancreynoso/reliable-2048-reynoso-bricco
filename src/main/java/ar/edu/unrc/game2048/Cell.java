@@ -1,5 +1,7 @@
 package ar.edu.unrc.game2048;
 
+import randoop.CheckRep;
+
 import java.util.Objects;
 
 /**
@@ -20,6 +22,12 @@ public final class Cell {
     private final int value;
     
     /**
+     * Largest tile an int can hold (2^30). Two such tiles cannot merge: 2^31
+     * does not fit in an int (it would wrap around to a negative value).
+     */
+    public static final int MAX_VALUE = 1 << 30;
+
+    /**
      * The empty cell singleton (value = 0).
      */
     public static final Cell EMPTY = new Cell(0);
@@ -30,7 +38,7 @@ public final class Cell {
      * @param value the value of the cell (must be 0 or a power of two >= 2)
      * @throws IllegalArgumentException if the value is negative, 1, or not a power of two (except 0)
      */
-    public Cell(int value) {
+    public Cell(int value) throws IllegalArgumentException {
         if (value < 0) {
             throw new IllegalArgumentException("Cell value cannot be negative: " + value);
         }
@@ -64,16 +72,14 @@ public final class Cell {
     
     /**
      * Checks if this cell can merge with another cell.
-     * Two cells can merge if they are both non-empty and have the same value.
+     * Two cells can merge if they are both non-empty, have the same value,
+     * and that value is below {@link #MAX_VALUE} (so the result fits in an int).
      * 
-     * @param other the other cell to check merge compatibility with
-     * @return true if the cells can merge, false otherwise
+     * @param other the other cell to check merge compatibility with (may be null)
+     * @return true if the cells can merge, false otherwise (also for null)
      */
     public boolean canMergeWith(Cell other) {
-        if (this.isEmpty() && other.isEmpty()) {
-            return false;
-        }
-        return this.value == other.value;
+        return other != null && !isEmpty() && value == other.value && value < MAX_VALUE;
     }
     
     /**
@@ -83,8 +89,9 @@ public final class Cell {
      * @param other the cell to merge with (must have the same value)
      * @return a new Cell with the merged value
      * @throws IllegalArgumentException if the cells cannot be merged
+     *         (see {@link #canMergeWith(Cell)}), including when {@code other} is null
      */
-    public Cell mergeWith(Cell other) {
+    public Cell mergeWith(Cell other) throws IllegalArgumentException {
         if (!canMergeWith(other)) {
             throw new IllegalArgumentException(
                 "Cannot merge cells: " + this + " and " + other
@@ -98,8 +105,11 @@ public final class Cell {
      * A cell is valid if its value is zero (empty) or a power of two
      * that is at least 2.
      *
+     * <p>{@link CheckRep} makes Randoop call it after every method it generates.
+     *
      * @return true if the representation invariant holds
      */
+    @CheckRep
     public boolean repOk() {
         if (value < 0) {
             return false;

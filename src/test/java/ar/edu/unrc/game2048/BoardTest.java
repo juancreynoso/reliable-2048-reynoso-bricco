@@ -621,4 +621,56 @@ public class BoardTest {
         }
     }
 
+
+    // Found by EvoSuite with -Dcheck_contracts=true: the copy constructor threw an
+    // undocumented NullPointerException.
+    @Test(expected = IllegalArgumentException.class)
+    public void copyOfNullBoardIsRejected() {
+        new Board((Board) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void boardLargerThanMaxSizeIsRejected() {
+        new Board(Board.MAX_SIZE + 1);
+    }
+
+    @Test
+    public void boardOfMaxSizeIsValid() {
+        assertTrue(new Board(Board.MAX_SIZE).repOk());
+    }
+
+    // Found by the assert repOk() in move(): four 2^29 tiles in a row add 2^30 twice
+    // to the score, which wrapped around to a negative int.
+    @Test
+    public void scoreDoesNotOverflow() {
+        Board board = new Board(4, 1);
+        cleanBoard(board);
+        for (int c = 0; c < 4; c++) {
+            board.setCell(0, c, new Cell(536870912));
+        }
+
+        assertTrue(board.moveLeft());
+        assertEquals(2L * 1073741824, board.getScore());
+        assertTrue(board.repOk());
+    }
+
+    // Two 2^30 tiles: the merge used to throw in the middle of move(), leaving the
+    // rows already processed moved and the score updated (a half-applied move).
+    @Test
+    public void largestTilesDoNotMergeAndTheMoveIsNotHalfApplied() {
+        Board board = new Board(4, 1);
+        cleanBoard(board);
+        board.setCell(0, 0, new Cell(Cell.MAX_VALUE));
+        board.setCell(0, 1, new Cell(Cell.MAX_VALUE));
+
+        assertFalse(board.moveLeft());
+        assertEquals(Cell.MAX_VALUE, board.getCell(0, 0).getValue());
+        assertEquals(Cell.MAX_VALUE, board.getCell(0, 1).getValue());
+        assertEquals(0, board.getScore());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void moveWithNullDirectionIsRejected() {
+        new Board().move(null);
+    }
 }
