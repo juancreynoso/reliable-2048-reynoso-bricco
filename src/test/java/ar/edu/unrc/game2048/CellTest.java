@@ -227,4 +227,29 @@ public class CellTest {
 
         assertEquals(result, cell1.mergeWith(cell2));
     }
+
+    // Found by EvoSuite with -Dcheck_contracts=true (and by Randoop/EvoSuite in
+    // Assignment 3): canMergeWith(null) and mergeWith(null) threw an undocumented
+    // NullPointerException.
+    @Test
+    public void canMergeWithNullIsFalse() {
+        assertFalse(new Cell(2).canMergeWith(null));
+        assertFalse(Cell.EMPTY.canMergeWith(null));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void mergeWithNullIsRejected() {
+        new Cell(2).mergeWith(null);
+    }
+
+    // 2^30 + 2^30 does not fit in an int: mergeWith() used to build Cell(-2^31)
+    // and crash, although canMergeWith() had said true.
+    @Test
+    public void largestCellsCannotMerge() {
+        Cell max = new Cell(Cell.MAX_VALUE);
+
+        assertFalse(max.canMergeWith(new Cell(Cell.MAX_VALUE)));
+        assertTrue(new Cell(Cell.MAX_VALUE / 2).canMergeWith(new Cell(Cell.MAX_VALUE / 2)));
+        assertEquals(max, new Cell(Cell.MAX_VALUE / 2).mergeWith(new Cell(Cell.MAX_VALUE / 2)));
+    }
 }
