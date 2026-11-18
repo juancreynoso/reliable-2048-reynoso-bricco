@@ -28,7 +28,7 @@ if [ ! -f "$EVOSUITE_JAR" ]; then
 fi
 
 # Build project first
-mvn clean compile
+mvn -q clean compile
 
 CLASS_PATH=$(pwd)/target/classes
 
@@ -39,19 +39,31 @@ CLASS_PATH=$(pwd)/target/classes
 # - assertion_strategy=ALL keeps every assertion (the default MUTATION filter is not
 #   deterministic); EvoSuite may still list them in a different order;
 # - client_on_thread: the default separate client process talks to the master over RMI,
-#   which fails intermittently here ("no such object in table").
+#   which fails intermittently here ("no such object in table");
+# - check_contracts: EvoSuite also checks general contracts on every generated test
+#   (an AssertionError from the `assert repOk()` postconditions in Board, undeclared
+#   exceptions, NullPointerException, equals/hashCode/toString). A violation is written
+#   to <Class>_Failed_ESTest.java, a failing test that reveals a bug. Without this
+#   flag every observed behaviour is recorded as "expected" and EvoSuite finds 0 bugs.
 COMMON=(-projectCP "$CLASS_PATH" -seed 42 -Dstopping_condition=MaxStatements
         -Dglobal_timeout=1200 -Dassertion_strategy=ALL -Dclient_on_thread=true
-        -Dtest_dir=src/test/java)
+        -Dtest_dir=src/test/java -Dcheck_contracts=true)
 
 echo "Generating EvoSuite tests for Cell..."
 java -jar "$EVOSUITE_JAR" -class ar.edu.unrc.game2048.Cell "${COMMON[@]}" -Dsearch_budget=30000
 
-# Board: small ints and no constant pools, otherwise EvoSuite reuses 2048 / 131072
-# (constants of Board) as board sizes and every test builds a huge grid.
+# Board.MAX_SIZE bounds the board size, so EvoSuite can use its constant pools
+# (2048, 131072, ...) without building a huge grid; no need to limit max_int anymore.
 echo "Generating EvoSuite tests for Board..."
-java -jar "$EVOSUITE_JAR" -class ar.edu.unrc.game2048.Board "${COMMON[@]}" -Dsearch_budget=10000 \
-    -Dmax_int=16 -Dprimitive_pool=0 -Ddynamic_pool=0
+java -jar "$EVOSUITE_JAR" -class ar.edu.unrc.game2048.Board "${COMMON[@]}" -Dsearch_budget=30000
 
-# Run tests
-mvn test
+# Contract violations are failing tests by design: move them out of src/test (so
+# `mvn test` stays green) into bug-evidence/ for manual triage. Many are false
+# positives (documented IllegalArgumentException, EvoSuite's own 10000-iteration
+# loop limit on toString() of a 16x16 board); see bug-evidence/README.md.
+FAILED=(src/test/java/ar/edu/unrc/game2048/*_Failed_ESTest*.java)
+if [ -e "${FAILED[0]}" ]; then
+    mkdir -p bug-evidence/evosuite-contracts/latest
+    mv "${FAILED[@]}" bug-evidence/evosuite-contracts/latest/
+    echo "EvoSuite found contract violations: see bug-evidence/evosuite-contracts/latest/"
+fi
