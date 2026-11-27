@@ -1,4 +1,4 @@
-"""Pipeline tests with a scripted fake LLM (they check the tool, not any real model).
+"""Tests of the tool with a fake LLM (they check the tool, not a real model).
 
     python3 -m unittest oasis/test_oasis.py
 """
@@ -12,98 +12,75 @@ sys.path.insert(0, HERE)
 import refiner as oasis
 
 
-class FakeLLM:
-    model = "fake"
-
-    def __init__(self, inputs, mutants):
-        self.inputs, self.mutants = inputs, mutants
-
-    def chat(self, system, user):
-        if "TOO STRONG" in user:
-            return "```json\n" + json.dumps({"inputs": self.inputs}) + "\n```"
-        if "TOO WEAK" in user:
-            return json.dumps({"mutants": self.mutants})
-        return json.dumps({"feedback": "fake feedback", "suggestions": ["true"]})
+def fake_llm(inputs, mutants):
+    """An LLM that always proposes the given inputs and mutants."""
+    def ask(prompt):
+        if "TOO STRONG" in prompt:
+            return {"inputs": inputs}
+        if "TOO WEAK" in prompt:
+            return {"mutants": mutants}
+        return {"feedback": "fake feedback", "suggestions": ["true"]}
+    return ask
 
 
-def load(case):
-    d = os.path.join(HERE, "cases", case)
-    spec = json.load(open(os.path.join(d, "case.json")))
-    return spec, open(os.path.join(d, spec["source"])).read()
+def load(name):
+    folder = os.path.join(HERE, "cases", name)
+    with open(os.path.join(folder, "case.json")) as f:
+        case = json.load(f)
+    with open(os.path.join(folder, case["source"])) as f:
+        return case, f.read()
 
 
-SRC = "public class Subject { static boolean canMerge(int a, int b) { %s } }"
+def analyse(name, inputs, mutants=()):
+    case, source = load(name)
+    return oasis.analyse(case, source, case["assertion"], llm=fake_llm(inputs, list(mutants)))
+
+
+CAN_MERGE = "public class Subject { static boolean canMerge(int a, int b) { %s } }"
 
 
 class OasisTest(unittest.TestCase):
-    def test_too_strong_assertion_gives_counterexamples(self):
-        spec, src = load("cell_equals")
-        r = oasis.analyse(FakeLLM([[8, 8], [2, 2], [3, 3], [0, 0], ["x", 1], [4]], []), spec, src,
-                          spec["assertion"], 10, 0, log=lambda *_: None)
-        got = [c["input"] for c in r["strong"]]
-        self.assertIn([8, 8], got)
-        self.assertIn([0, 0], got)
-        self.assertNotIn([2, 2], got)     # satisfies the assertion
-        self.assertNotIn([3, 3], got)     # violates the precondition: skipped
-        self.assertEqual(r["inputs_tried"], 4)  # malformed inputs dropped
+    def test_too_strong_assertion_gives_inputs_that_violate_it(self):
+        r = analyse("cell_equals", [[8, 8], [2, 2], [3, 3], [0, 0], ["x", 1], [4]])
+        violating = [inputs for inputs, _ in r["violations"]]
+        self.assertEqual(violating, [[8, 8], [0, 0]])   # (2,2) satisfies it, (3,3) is not valid
+        self.assertEqual(r["tests"], 4)                  # malformed inputs are dropped
 
-    def test_overflow_found_in_plausible_assertion(self):
-        spec, src = load("merge_value")
-        r = oasis.analyse(FakeLLM([[2, 2], [1073741824, 1073741824]], []), spec, src,
-                          spec["assertion"], 10, 0, log=lambda *_: None)
-        self.assertEqual([c["input"] for c in r["strong"]], [[1073741824, 1073741824]])
-        self.assertEqual(r["strong"][0]["result"], "-2147483648")
+    def test_overflow_is_found_with_a_plausible_assertion(self):
+        r = analyse("merge_value", [[2, 2], [1073741824, 1073741824]])
+        self.assertEqual(r["violations"], [([1073741824, 1073741824], "-2147483648")])
 
-    def test_weak_assertion_surviving_mutants(self):
-        spec, src = load("can_merge")
-        mutants = [
-            {"description": "always false", "source": SRC % "return false;", "distinguishing_input": [2, 2]},
-            {"description": "ignores zeros", "source": SRC % "return a == b;", "distinguishing_input": [0, 0]},
-            {"description": "merges different cells", "source": SRC % "return a != 0 && b != 0;",
-             "distinguishing_input": [2, 4]},
-            {"description": "equivalent", "source": SRC % "if (a == 0 && b == 0) return false; return a == b;",
-             "distinguishing_input": [2, 2]},
-            {"description": "broken", "source": "this is not java", "distinguishing_input": [2, 2]},
-        ]
-        r = oasis.analyse(FakeLLM([[2, 2], [2, 4], [0, 0]], mutants), spec, src,
-                          spec["assertion"], 10, 5, log=lambda *_: None)
-        survivors = {m["description"] for m in r["weak"]}
-        self.assertEqual(survivors, {"always false"})
-        # a==b returns true on (0,0), which violates `a >= 2`: killed
-        self.assertEqual({m["description"] for m in r["killed"]},
-                         {"ignores zeros", "merges different cells"})
-        reasons = {d["description"] for d in r["discarded"]}
-        self.assertEqual(reasons, {"equivalent", "broken"})
+    def test_weak_assertion_lets_mutants_survive(self):
+        r = analyse("can_merge", [[2, 2], [2, 4], [0, 0]], [
+            {"description": "always false", "source": CAN_MERGE % "return false;", "input": [2, 2]},
+            {"description": "ignores zeros", "source": CAN_MERGE % "return a == b;", "input": [0, 0]},
+            {"description": "merges different", "source": CAN_MERGE % "return a != 0 && b != 0;", "input": [2, 4]},
+            {"description": "same as original",
+             "source": CAN_MERGE % "if (a == 0 && b == 0) return false; return a == b;", "input": [2, 2]},
+            {"description": "broken", "source": "this is not java", "input": [2, 2]},
+        ])
+        self.assertEqual(r["mutants"], {"always false": "survives",
+                                        "ignores zeros": "killed",       # true on (0,0) violates a >= 2
+                                        "merges different": "killed",
+                                        "same as original": "equivalent?",
+                                        "broken": "does not compile"})
 
-    def test_mutant_differing_where_original_violates_is_not_equivalent(self):
-        # The original returns -2147483648 on 2^30 and violates the assertion. A mutant
-        # that returns something else there is NOT equivalent: it must not be discarded.
-        spec, src = load("merge_value")
-        big = [1073741824, 1073741824]
+    def test_a_mutant_that_differs_where_the_original_violates_is_not_equivalent(self):
         body = ("public class Subject { static int mergeValue(int a, int b) { "
                 "if (a == 0 && b == 0 || a != b) throw new IllegalArgumentException(); %s } }")
-        mutants = [
-            {"description": "returns 0 at 2^30", "source": body % "return a == 1073741824 ? 0 : a * 2;",
-             "distinguishing_input": big},
-            {"description": "equivalent", "source": body % "return a + a;", "distinguishing_input": big},
-        ]
-        r = oasis.analyse(FakeLLM([[2, 2], big], mutants), spec, src,
-                          spec["assertion"], 10, 2, log=lambda *_: None)
-        self.assertEqual({m["description"] for m in r["killed"]}, {"returns 0 at 2^30"})
-        self.assertEqual({d["description"] for d in r["discarded"]}, {"equivalent"})
+        big = [1073741824, 1073741824]
+        r = analyse("merge_value", [[2, 2], big], [
+            {"description": "0 at 2^30", "source": body % "return a == 1073741824 ? 0 : a * 2;", "input": big},
+            {"description": "a + a", "source": body % "return a + a;", "input": big},
+        ])
+        self.assertEqual(r["mutants"], {"0 at 2^30": "killed", "a + a": "equivalent?"})
 
-    def test_mutant_accepted_by_assertion_where_original_violates_survives(self):
-        # cell_equals: the original violates the assertion on (8, 8); a mutant that is false
-        # there satisfies `!result || ...`, so the assertion accepts it: it survives.
-        spec, src = load("cell_equals")
-        mutants = [{"description": "false on 8,8",
-                    "source": "public class Subject { static boolean cellEquals(int a, int b) "
-                              "{ return a == b && a != 8; } }",
-                    "distinguishing_input": [8, 8]}]
-        r = oasis.analyse(FakeLLM([[8, 8]], mutants), spec, src,
-                          spec["assertion"], 10, 1, log=lambda *_: None)
-        self.assertEqual([m["description"] for m in r["weak"]], ["false on 8,8"])
-        self.assertEqual(r["discarded"], [])
+    def test_a_mutant_accepted_where_the_original_violates_survives(self):
+        r = analyse("cell_equals", [[8, 8]], [
+            {"description": "false on 8,8", "input": [8, 8],
+             "source": "public class Subject { static boolean cellEquals(int a, int b) { return a == b && a != 8; } }"},
+        ])
+        self.assertEqual(r["mutants"], {"false on 8,8": "survives"})
 
 
 if __name__ == "__main__":
