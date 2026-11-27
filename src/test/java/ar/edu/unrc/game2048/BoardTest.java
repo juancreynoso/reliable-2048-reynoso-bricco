@@ -347,7 +347,7 @@ public class BoardTest {
     }
 
     @Test
-    public void positionIsTheSameComapredToItself() {
+    public void positionIsEqualToItself() {
         Board.Position p1 = new Board.Position(2, 3);
 
         assertTrue(p1.equals(p1));
@@ -389,11 +389,11 @@ public class BoardTest {
     }
 
     @Test
-    public void canNotAddRandomTileNull() {
+    public void setCellRejectsNull() {
         Board board = new Board(2);
 
         try {
-            board.setCell(0, 0, null);;
+            board.setCell(0, 0, null);
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             assertEquals(IllegalArgumentException.class, e.getClass());
@@ -420,19 +420,22 @@ public class BoardTest {
         }
     }
 
-    @Test public void compareObjectsForEqualsAndAreExactlyTheSame() {
+    @Test
+    public void boardIsEqualToItself() {
         Board board = new Board();
 
         assertTrue(board.equals(board));
     }
 
-    @Test public void compareObjectsForEqualsAndOneIsNull() {
+    @Test
+    public void boardIsNotEqualToNull() {
         Board board = new Board();
 
         assertFalse(board.equals(null));
     }
 
-    @Test public void compareObjectsForEqualsAndOneIsAnotherClasw() {
+    @Test
+    public void boardIsNotEqualToAnObjectOfAnotherClass() {
         Board board = new Board();
         ArrayList<Integer> list = new ArrayList<Integer>();
 
@@ -621,4 +624,242 @@ public class BoardTest {
         }
     }
 
+
+    // Found by EvoSuite with -Dcheck_contracts=true: the copy constructor threw an
+    // undocumented NullPointerException.
+    @Test(expected = IllegalArgumentException.class)
+    public void copyOfNullBoardIsRejected() {
+        new Board((Board) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void boardLargerThanMaxSizeIsRejected() {
+        new Board(Board.MAX_SIZE + 1);
+    }
+
+    @Test
+    public void boardOfMaxSizeIsValid() {
+        assertTrue(new Board(Board.MAX_SIZE).repOk());
+    }
+
+    // Found by the assert repOk() in move(): four 2^29 tiles in a row add 2^30 twice
+    // to the score, which wrapped around to a negative int.
+    @Test
+    public void scoreDoesNotOverflow() {
+        Board board = new Board(4, 1);
+        cleanBoard(board);
+        for (int c = 0; c < 4; c++) {
+            board.setCell(0, c, new Cell(536870912));
+        }
+
+        assertTrue(board.moveLeft());
+        assertEquals(2L * 1073741824, board.getScore());
+        assertTrue(board.repOk());
+    }
+
+    // Two 2^30 tiles: the merge used to throw in the middle of move(), leaving the
+    // rows already processed moved and the score updated (a half-applied move).
+    @Test
+    public void largestTilesDoNotMergeAndTheMoveIsNotHalfApplied() {
+        Board board = new Board(4, 1);
+        cleanBoard(board);
+        board.setCell(0, 0, new Cell(Cell.MAX_VALUE));
+        board.setCell(0, 1, new Cell(Cell.MAX_VALUE));
+
+        assertFalse(board.moveLeft());
+        assertEquals(Cell.MAX_VALUE, board.getCell(0, 0).getValue());
+        assertEquals(Cell.MAX_VALUE, board.getCell(0, 1).getValue());
+        assertEquals(0, board.getScore());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void moveWithNullDirectionIsRejected() {
+        new Board().move(null);
+    }
+
+    // ==================== Game rules: moves and merges ====================
+
+    /** A 4x4 board with the given 16 values, row by row, and score 0. */
+    private static Board boardWith(int... cells) {
+        Board board = new Board();
+        for (int i = 0; i < 16; i++) {
+            board.setCell(i / 4, i % 4, new Cell(cells[i]));
+        }
+        return board;
+    }
+
+    /**
+     * After a move the board must be {@code expected} plus exactly one new tile
+     * (2 or 4) in a cell that is empty in {@code expected}.
+     */
+    private static void assertBoardAfterMove(Board board, int... expected) {
+        int newTiles = 0;
+        for (int i = 0; i < 16; i++) {
+            int actual = board.getCell(i / 4, i % 4).getValue();
+            if (actual != expected[i]) {
+                assertEquals("cell " + i + " is wrong", 0, expected[i]);
+                assertTrue("the new tile must be 2 or 4, not " + actual, actual == 2 || actual == 4);
+                newTiles++;
+            }
+        }
+        assertEquals("a move adds exactly one new tile", 1, newTiles);
+    }
+
+    @Test
+    public void fourEqualTilesMergeInPairs() {
+        Board board = boardWith(2, 2, 2, 2,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+
+        assertTrue(board.moveLeft());
+
+        assertBoardAfterMove(board, 4, 4, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+        assertEquals(8, board.getScore());
+    }
+
+    @Test
+    public void aMergedTileDoesNotMergeAgainInTheSameMove() {
+        Board board = boardWith(2, 2, 4, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+
+        board.moveLeft();
+
+        assertBoardAfterMove(board, 4, 4, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+        assertEquals(4, board.getScore());
+    }
+
+    @Test
+    public void tilesSlideOverEmptyCellsAndThenMerge() {
+        Board board = boardWith(2, 0, 2, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+
+        board.moveLeft();
+
+        assertBoardAfterMove(board, 4, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+    }
+
+    @Test
+    public void whenThreeTilesAreEqualThePairNearestToTheEdgeMerges() {
+        Board left = boardWith(2, 2, 2, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+        Board right = boardWith(2, 2, 2, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+
+        left.moveLeft();
+        right.moveRight();
+
+        assertBoardAfterMove(left, 4, 2, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+        assertBoardAfterMove(right, 0, 0, 2, 4,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+    }
+
+    @Test
+    public void differentTilesSlideButDoNotMerge() {
+        Board board = boardWith(2, 4, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+
+        board.moveRight();
+
+        assertBoardAfterMove(board, 0, 0, 2, 4,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+        assertEquals(0, board.getScore());
+    }
+
+    @Test
+    public void moveUpMergesEachColumnTowardsTheTop() {
+        Board board = boardWith(2, 0, 0, 0,  2, 0, 0, 0,  4, 0, 0, 0,  4, 0, 0, 0);
+
+        board.moveUp();
+
+        assertBoardAfterMove(board, 4, 0, 0, 0,  8, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+        assertEquals(12, board.getScore());
+    }
+
+    @Test
+    public void moveDownMergesEachColumnTowardsTheBottom() {
+        Board board = boardWith(2, 0, 0, 0,  2, 0, 0, 0,  4, 0, 0, 0,  4, 0, 0, 0);
+
+        board.moveDown();
+
+        assertBoardAfterMove(board, 0, 0, 0, 0,  0, 0, 0, 0,  4, 0, 0, 0,  8, 0, 0, 0);
+        assertEquals(12, board.getScore());
+    }
+
+    @Test
+    public void theScoreAddsEveryMergeOfTheMove() {
+        Board board = boardWith(2, 2, 0, 0,  8, 8, 4, 4,  0, 0, 0, 0,  0, 0, 0, 0);
+
+        board.moveLeft();
+
+        assertBoardAfterMove(board, 4, 0, 0, 0,  16, 8, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+        assertEquals(4 + 16 + 8, board.getScore());
+    }
+
+    @Test
+    public void aMoveThatChangesNothingReturnsFalseAndAddsNoTile() {
+        Board board = boardWith(2, 4, 8, 16,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+        Board before = new Board(board);
+
+        assertFalse(board.moveLeft());
+
+        assertEquals(before, board);
+    }
+
+    // ==================== Game rules: winning and losing ====================
+
+    @Test
+    public void mergingTwo1024TilesWinsTheGame() {
+        Board board = boardWith(1024, 1024, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+        assertFalse(board.isWinningBoard());
+
+        board.moveLeft();
+
+        assertTrue(board.isWinningBoard());
+    }
+
+    // Found by the fuzzing campaign with the game model: merging 2048 + 2048 made
+    // isWinningBoard() false again, although the player had already won.
+    @Test
+    public void aBoardWithATileAbove2048IsStillWinning() {
+        Board board = boardWith(4096, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+
+        assertTrue(board.isWinningBoard());
+    }
+
+    @Test
+    public void aFullBoardWithAMergeOnlyInTheBottomRightCornerIsNotLost() {
+        Board board = boardWith(2, 4, 2, 4,  4, 2, 4, 2,  2, 4, 2, 4,  4, 2, 8, 8);
+
+        assertFalse(board.isLosingBoard());
+    }
+
+    @Test
+    public void aFullBoardWithAMergeOnlyInTheRightColumnIsNotLost() {
+        Board board = boardWith(2, 4, 2, 8,  4, 2, 4, 8,  2, 4, 2, 4,  4, 2, 4, 2);
+
+        assertFalse(board.isLosingBoard());
+    }
+
+    @Test
+    public void aFullBoardWithoutMergesIsLostAndNoMoveChangesIt() {
+        Board board = boardWith(2, 4, 2, 4,  4, 2, 4, 2,  2, 4, 2, 4,  4, 2, 4, 2);
+
+        assertTrue(board.isLosingBoard());
+        assertFalse(board.moveUp());
+        assertFalse(board.moveDown());
+        assertFalse(board.moveLeft());
+        assertFalse(board.moveRight());
+    }
+
+    // ==================== Display ====================
+
+    // Found by the fuzzing campaign: with a tile of 6 digits (allowed since
+    // Assignment 5, up to 131072) the rows of the printed board lost their alignment.
+    @Test
+    public void theRowsOfThePrintedBoardHaveTheSameWidthWithLargeTiles() {
+        Board board = boardWith(131072, 2, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0);
+
+        String[] lines = board.toString().split("\n");
+
+        for (int i = 2; i < lines.length; i++) {
+            assertEquals("line " + i + ": " + lines[i], lines[1].length(), lines[i].length());
+        }
+        assertTrue(board.toString().contains("131072"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void aPositionCannotBeNegative() {
+        new Board.Position(-1, 0);
+    }
 }

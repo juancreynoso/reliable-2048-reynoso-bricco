@@ -173,6 +173,7 @@ script twice produced byte-identical test files.
 - For `Board`: `--literals-level=NONE` and `--omit-field` on `WINNING_VALUE`,
   `MAX_INITIAL_TILE` and `DEFAULT_SEED`. Without them Randoop reused those
   constants as board sizes and built a 131072x131072 grid that never finished.
+  (Later replaced by `Board.MAX_SIZE = 16`; see the last section of `report.md`.)
 - The script copies the classes to a temp dir and runs Randoop there. Randoop's
   flaky filter compiles and runs the generated tests, and that step breaks when
   the path has spaces or accents, as this repo's path does.
@@ -284,6 +285,7 @@ EvoSuite suites were regenerated for both classes with `runEvosuite.sh`. Setting
   EvoSuite's master over RMI, which failed intermittently here.
 - `Board` only: `-Dmax_int=16 -Dprimitive_pool=0 -Ddynamic_pool=0`, so EvoSuite
   does not reuse `2048` / `131072` (constants of `Board`) as board sizes.
+  (Later replaced by `Board.MAX_SIZE = 16`; see the last section of `report.md`.)
 
 **Flaky filter.** EvoSuite generated 57 tests for `Board` and wrote 55. The other
 2 were dropped in its "Compiling and checking tests" step, where it re-runs the

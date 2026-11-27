@@ -1,0 +1,21 @@
+# Boundary values of int given to Randoop (--literals-file). Tiles are powers of
+# two, so the interesting boundaries are the largest powers of two an int can
+# hold (2^29, 2^30) and the int limits themselves.
+START CLASSLITERALS
+CLASSNAME
+ar.edu.unrc.game2048.Cell
+LITERALS
+int:536870912
+int:1073741824
+int:2147483647
+int:-2147483648
+END CLASSLITERALS
+START CLASSLITERALS
+CLASSNAME
+ar.edu.unrc.game2048.Board
+LITERALS
+int:536870912
+int:1073741824
+int:2147483647
+int:-2147483648
+END CLASSLITERALS

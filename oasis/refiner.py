@@ -1,231 +1,180 @@
-#!/usr/bin/env python3
 """
-A small OASIs-style assertion refiner.
+A simple OASIs (Assignment 5, Exercise 2): it helps the user refine an assertion
+(a postcondition) of a Java method, with the help of an LLM. It never changes the
+assertion; it shows evidence, and the user decides.
 
-Given a Java method and an assertion (a Java boolean expression over the
-parameters and `result`), it asks an LLM for feedback that helps the *user*
-decide how to refine the assertion:
+  1. Too strong? The LLM proposes valid inputs that may violate the assertion.
+     We run them on the real method and report the ones that do (false positives).
+  2. Too weak? The LLM proposes mutants (wrong versions) of the method. We run
+     them and report the ones that behave differently from the original but
+     still satisfy the assertion (false negatives: the assertion cannot kill them).
+  3. The LLM reads that evidence and suggests better assertions.
 
-  * too strong (false positive): the LLM proposes inputs that should violate the
-    assertion; the tool runs them and reports the ones that really do (and that
-    satisfy the user's precondition).
-  * too weak (false negative): the LLM proposes mutants of the method that the
-    assertion should not detect; the tool compiles them, runs them and reports
-    the non-equivalent mutants the assertion cannot kill.
+    export OPENROUTER_API_KEY=...
+    python3 oasis/refiner.py oasis/cases/can_merge/case.json [--assertion "..."] [--report out.md]
 
-The tool never changes the assertion by itself. With --interactive the user may
-type a refined assertion and the analysis is repeated.
-
-  python3 oasis/refiner.py oasis/cases/can_merge/case.json [--provider openrouter|nvidia]
-         [--model M] [--inputs N] [--mutants K] [--interactive] [--report out.md]
+A case (case.json) gives the method (Subject.java), its int parameters, the
+precondition of a valid input and the assertion, as Java expressions over the
+parameters and `result`. Re-run with --assertion to try a refined assertion.
 """
 
 import argparse
 import json
 import os
-import sys
+import subprocess
+import tempfile
+import time
+import urllib.request
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import javaharness as jh
-from llm import LLMClient, LLMError, extract_json
-
-SYSTEM = ("You are an expert in Java, testing and formal specification. "
-          "Reply ONLY with a single JSON object, no prose outside it.")
-
-
-def fmt_signature(spec):
-    params = ", ".join(f"{t} {n}" for t, n in spec["params"])
-    return f"static {spec['return_type']} {spec['method']}({params})"
+URL = "https://openrouter.ai/api/v1/chat/completions"
+MODEL = os.environ.get("OASIS_MODEL", "nvidia/nemotron-3-ultra-550b-a55b:free")
 
 
-def context(spec, source, assertion):
-    return (f"Java subject (class Subject):\n```java\n{source}\n```\n"
-            f"Method under analysis: {fmt_signature(spec)}\n"
-            f"Assertion (Java boolean expression; `result` is the return value, parameters are in scope): "
-            f"{assertion}\n"
-            f"Precondition that valid inputs satisfy (Java boolean expression): {spec.get('precondition', 'true')}\n"
-            f"Intent of the method: {spec.get('description', '(not given)')}\n")
-
-
-def ask_inputs(llm, spec, source, assertion, n):
-    prompt = context(spec, source, assertion) + (
-        f"\nTASK: the assertion may be TOO STRONG (it may fail on valid inputs). Propose up to {n} "
-        f"diverse inputs that satisfy the precondition and are most likely to VIOLATE the assertion "
-        f"(boundary values, special values, large values, unusual combinations).\n"
-        f'Reply as JSON: {{"inputs": [[arg1, arg2, ...], ...]}} with one JSON value per parameter, '
-        f"in order ({', '.join(n_ for _, n_ in spec['params'])}).")
-    return extract_json(llm.chat(SYSTEM, prompt)).get("inputs", [])
-
-
-def ask_mutants(llm, spec, source, assertion, k):
-    prompt = context(spec, source, assertion) + (
-        f"\nTASK: the assertion may be TOO WEAK (it may accept wrong implementations). Propose {k} "
-        f"mutants of the Subject class: small, plausible faults that change the method's behaviour on "
-        f"at least one VALID input but that this assertion would NOT detect (the assertion would still "
-        f"hold). Each mutant is the COMPLETE source of the Subject class, same class name and same method "
-        f"signature, so that it compiles on its own.\n"
-        f'Reply as JSON: {{"mutants": [{{"description": "...", "source": "<full java source>", '
-        f'"distinguishing_input": [arg1, ...]}}, ...]}} where distinguishing_input is a valid input on '
-        f"which the mutant returns something different from the original.")
-    return extract_json(llm.chat(SYSTEM, prompt)).get("mutants", [])
-
-
-def ask_feedback(llm, spec, assertion, strong, weak):
-    lines = []
-    for c in strong:
-        lines.append(f"- input {c['input']} -> result {c['result']} violates the assertion")
-    for m in weak:
-        lines.append(f"- mutant '{m['description']}' survives (assertion cannot kill it); differs from "
-                     f"the original on input {m['witness']}")
-    prompt = (f"Method: {fmt_signature(spec)}\nIntent: {spec.get('description', '')}\n"
-              f"Assertion under review: {assertion}\nPrecondition: {spec.get('precondition', 'true')}\n"
-              f"Evidence gathered by running the program:\n" + ("\n".join(lines) or "- none") + "\n\n"
-              "TASK: write feedback for the developer who owns this assertion. For each piece of "
-              "evidence, say what it suggests (assertion too strong? assertion too weak? or a bug in the "
-              "program?). Then propose up to 3 candidate refined assertions as Java boolean expressions, "
-              "clearly marked as suggestions: the developer makes the final decision.\n"
-              'Reply as JSON: {"feedback": "<text>", "suggestions": ["<java expr>", ...]}')
-    r = extract_json(llm.chat(SYSTEM, prompt))
-    return r.get("feedback", ""), r.get("suggestions", [])
-
-
-def valid_inputs(spec, raw):
-    """Keep only inputs with the right arity and Java-representable values."""
-    good = []
-    for args in raw:
-        if not isinstance(args, list) or len(args) != len(spec["params"]):
-            continue
+# --------------------------------------------------------------- the LLM
+def ask_llm(prompt):
+    """Send a prompt to the LLM and return the JSON object in its answer."""
+    body = json.dumps({"model": MODEL, "messages": [
+        {"role": "system", "content": "You are an expert in Java testing. Reply ONLY with one JSON object."},
+        {"role": "user", "content": prompt}]}).encode()
+    request = urllib.request.Request(URL, body, {
+        "Authorization": "Bearer " + os.environ["OPENROUTER_API_KEY"], "Content-Type": "application/json"})
+    error = None
+    for attempt in range(4):   # free models are often busy: wait and retry
         try:
-            for (t, _), v in zip(spec["params"], args):
-                jh.java_literal(v, t)
-        except ValueError:
-            continue
-        if args not in good:
-            good.append(args)
-    return good
+            with urllib.request.urlopen(request, timeout=180) as response:
+                text = json.load(response)["choices"][0]["message"]["content"]
+            return json.loads(text[text.index("{"):text.rindex("}") + 1])
+        except Exception as e:
+            error = e
+            time.sleep(2 ** attempt)
+    raise RuntimeError("the LLM did not answer: %s" % error)
 
 
-def analyse(llm, spec, source, assertion, n_inputs, n_mutants, log=print):
-    spec = dict(spec, assertion=assertion)
-    inputs = valid_inputs(spec, ask_inputs(llm, spec, source, assertion, n_inputs))
-    log(f"[1/3] LLM proposed {len(inputs)} usable inputs")
-    mutants = ask_mutants(llm, spec, source, assertion, n_mutants)
-    log(f"[2/3] LLM proposed {len(mutants)} mutants")
-    for m in mutants:
-        w = valid_inputs(spec, [m.get("distinguishing_input", [])])
-        inputs += [x for x in w if x not in inputs]
+def describe(case, source, assertion):
+    return ("Java class:\n```java\n%s\n```\nMethod: %s(%s)\nAssertion (`result` is the return value): %s\n"
+            "Valid inputs satisfy: %s\nIntent: %s\n" % (
+                source, case["method"], ", ".join("int " + p for _, p in case["params"]),
+                assertion, case["precondition"], case["description"]))
 
-    base = jh.run(spec, source, inputs)
-    strong = [{"input": a, "result": o["result"]} for a, o in zip(inputs, base)
-              if o["status"] == "VIOLATION"]
-    errors = [(a, o) for a, o in zip(inputs, base) if o["status"] in ("ASSERTEXC", "HARNESSERR")]
 
-    weak, killed, discarded = [], [], []
-    for m in mutants:
-        desc = m.get("description", "(no description)")
+# ---------------------------------------------------- running Java for real
+def run(case, source, assertion, inputs):
+    """Run the method on each input; one line per input:
+    'SKIP' (not a valid input), 'OK <result>', 'VIOLATION <result>' or 'EXC <exception>'."""
+    if not inputs:
+        return []
+    params = [p for _, p in case["params"]]
+    harness = """public class Harness {
+  public static void main(String[] args) {
+    int[][] inputs = {%s};
+    for (int[] in : inputs) {
+      %s
+      if (!(%s)) { System.out.println("SKIP"); continue; }
+      try {
+        %s result = Subject.%s(%s);
+        System.out.println(((%s) ? "OK " : "VIOLATION ") + result);
+      } catch (Throwable t) { System.out.println("EXC " + t.getClass().getSimpleName()); }
+    }
+  }
+}""" % (", ".join("{%s}" % ", ".join(map(str, i)) for i in inputs),
+        " ".join("int %s = in[%d];" % (p, k) for k, p in enumerate(params)),
+        case["precondition"], case["return_type"], case["method"], ", ".join(params), assertion)
+    with tempfile.TemporaryDirectory() as folder:
+        for name, text in (("Subject.java", source), ("Harness.java", harness)):
+            with open(os.path.join(folder, name), "w") as f:
+                f.write(text)
+        compiled = subprocess.run(["javac", "Subject.java", "Harness.java"], cwd=folder,
+                                  capture_output=True, text=True)
+        if compiled.returncode != 0:
+            raise RuntimeError("does not compile: " + compiled.stderr[:300])
+        ran = subprocess.run(["java", "-cp", folder, "Harness"], capture_output=True, text=True, timeout=60)
+    return ran.stdout.splitlines()
+
+
+def is_input(case, values):
+    """An input proposed by the LLM must be a list of ints, one per parameter."""
+    return (isinstance(values, list) and len(values) == len(case["params"])
+            and all(type(v) is int and -2 ** 31 <= v < 2 ** 31 for v in values))
+
+
+def classify(original, mutant):
+    """'killed' if the assertion catches the mutant, 'survives' if the mutant behaves
+    differently but the assertion accepts it, 'equivalent?' if it never differs."""
+    verdict = "equivalent?"
+    for o, m in zip(original, mutant):
+        if o == "SKIP" or o == m:
+            continue                       # not a valid input, or same behaviour
+        if m.startswith("VIOLATION") or (m.startswith("EXC") and not o.startswith("EXC")):
+            return "killed"
+        verdict = "survives"               # it differs here and the assertion accepts it
+    return verdict
+
+
+# ------------------------------------------------------------- the analysis
+def analyse(case, source, assertion, llm=ask_llm, inputs=15, mutants=5):
+    about = describe(case, source, assertion)
+    proposed = llm(about + "\nThe assertion may be TOO STRONG. Propose up to %d different inputs that satisfy "
+                   "the precondition and are likely to VIOLATE it (boundaries, large values). "
+                   'Reply {"inputs": [[a, b], ...]}' % inputs).get("inputs", [])
+    tests = []
+    for values in proposed:
+        if is_input(case, values) and values not in tests:
+            tests.append(values)
+    wrong_versions = llm(about + "\nThe assertion may be TOO WEAK. Propose %d mutants of the class: small "
+                         "plausible faults that change the result on some valid input but still satisfy the "
+                         "assertion. Each one is the full source of class Subject. "
+                         'Reply {"mutants": [{"description": "...", "source": "...", "input": [a, b]}]} '
+                         "where input is a valid input on which the mutant differs." % mutants).get("mutants", [])
+    for m in wrong_versions:       # the inputs where the LLM says each mutant differs are tests too
+        if is_input(case, m.get("input")) and m["input"] not in tests:
+            tests.append(m["input"])
+
+    original = run(case, source, assertion, tests)
+    violations = [(t, line.split(" ", 1)[1]) for t, line in zip(tests, original) if line.startswith("VIOLATION")]
+    verdicts = {}
+    for m in wrong_versions:
         try:
-            res = jh.run(spec, m.get("source", ""), inputs)
-        except jh.HarnessError as e:
-            discarded.append({"description": desc, "why": "does not compile / run: " + str(e)[:150]})
-            continue
-        witness = None
-        detected = False
-        for a, o, b in zip(inputs, base, res):
-            if o["status"] in ("SKIP", "ASSERTEXC", "HARNESSERR") or \
-                    b["status"] in ("ASSERTEXC", "HARNESSERR"):
-                continue
-            if (b["status"], b["result"]) == (o["status"], o["result"]):
-                continue                  # same behaviour on this input
-            # The mutant behaves differently here. This also holds when the original
-            # itself violates the assertion: the mutant is still not the original.
-            if b["status"] == "VIOLATION" or (b["status"] == "EXC" and o["status"] != "EXC"):
-                detected = True           # the assertion catches it
-            elif witness is None:
-                witness = a               # differs and the assertion accepts it
-        if detected:
-            killed.append({"description": desc})
-        elif witness is None:
-            discarded.append({"description": desc, "why": "behaves like the original on every input "
-                              "tried (possibly an equivalent mutant)"})
-        else:
-            weak.append({"description": desc, "witness": witness, "source": m.get("source", "")})
-    log(f"[3/3] runs done: {len(strong)} violating inputs, {len(weak)} surviving mutants")
-    try:
-        feedback, suggestions = ask_feedback(llm, spec, assertion, strong, weak)
-    except LLMError as e:
-        feedback, suggestions = f"(feedback request failed: {e})", []
-    return {"assertion": assertion, "inputs_tried": len(inputs), "strong": strong, "weak": weak,
-            "killed": killed, "discarded": discarded, "errors": errors,
-            "feedback": feedback, "suggestions": suggestions}
+            verdicts[m.get("description", "?")] = classify(original, run(case, m.get("source", ""), assertion, tests))
+        except RuntimeError:
+            verdicts[m.get("description", "?")] = "does not compile"
+
+    evidence = ["input %s returns %s and violates the assertion" % v for v in violations]
+    evidence += ["mutant '%s' survives" % d for d, v in verdicts.items() if v == "survives"]
+    advice = llm("Assertion: %s\nMethod intent: %s\nEvidence from running the program:\n%s\n\nSay what the "
+                 "evidence suggests (assertion too strong, too weak, or a bug in the program) and propose up "
+                 'to 3 better assertions. Reply {"feedback": "...", "suggestions": ["..."]}' % (
+                     assertion, case["description"], "\n".join("- " + e for e in evidence) or "- none"))
+    return {"assertion": assertion, "tests": len(tests), "violations": violations, "mutants": verdicts,
+            "feedback": advice.get("feedback", ""), "suggestions": advice.get("suggestions", [])}
 
 
-def render(spec, r):
-    L = [f"# OASIs report: {spec['name']}", "",
-         f"Method: `{fmt_signature(spec)}`  ",
-         f"Assertion under review: `{r['assertion']}`  ",
-         f"Precondition: `{spec.get('precondition', 'true')}`  ",
-         f"Inputs executed: {r['inputs_tried']}", ""]
-    L += ["## Possible false positive (assertion too strong)", ""]
-    if r["strong"]:
-        L += [f"- input `{c['input']}` returns `{c['result']}` and violates the assertion" for c in r["strong"]]
-        L += ["", "If these inputs are valid, either the assertion is too strong or the program has a bug."]
-    else:
-        L += ["No violating input found."]
-    L += ["", "## Possible false negative (assertion too weak)", ""]
-    if r["weak"]:
-        for m in r["weak"]:
-            L += [f"- mutant **{m['description']}** survives; it differs from the original on input `{m['witness']}`"]
-    else:
-        L += ["No surviving non-equivalent mutant found."]
-    L += ["", f"Killed mutants: {len(r['killed'])}. Discarded mutants: {len(r['discarded'])}"]
-    L += [f"- discarded: {d['description']} ({d['why']})" for d in r["discarded"]]
-    L += ["", "## LLM feedback", "", r["feedback"] or "(none)", "", "## Suggested refinements (the user decides)", ""]
-    L += [f"- `{s}`" for s in r["suggestions"]] or ["(none)"]
-    return "\n".join(L) + "\n"
+def report(case, r):
+    lines = ["# OASIs report: %s" % case["name"], "",
+             "Assertion: `%s`  " % r["assertion"], "Precondition: `%s`  " % case["precondition"],
+             "Inputs run: %d" % r["tests"], "", "## Too strong? Inputs that violate it", ""]
+    lines += ["- `%s` returns `%s`" % v for v in r["violations"]] or ["None found."]
+    lines += ["", "## Too weak? Mutants", ""]
+    lines += ["- %s: **%s**" % (d, v) for d, v in r["mutants"].items()] or ["None proposed."]
+    lines += ["", "## LLM feedback (the user decides)", "", r["feedback"], ""]
+    lines += ["- `%s`" % s for s in r["suggestions"]]
+    return "\n".join(lines) + "\n"
 
 
 def main():
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("case")
-    ap.add_argument("--provider", default="openrouter")
-    ap.add_argument("--model")
-    ap.add_argument("--inputs", type=int, default=15)
-    ap.add_argument("--mutants", type=int, default=5)
-    ap.add_argument("--interactive", action="store_true")
-    ap.add_argument("--assertion", help="override the assertion of the case file")
-    ap.add_argument("--report", help="write the markdown report here")
-    a = ap.parse_args()
-
-    with open(a.case) as f:
-        spec = json.load(f)
-    with open(os.path.join(os.path.dirname(os.path.abspath(a.case)), spec["source"])) as f:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("case")
+    parser.add_argument("--assertion", help="try another assertion instead of the one in the case")
+    parser.add_argument("--report", help="also write the report to this file")
+    args = parser.parse_args()
+    with open(args.case) as f:
+        case = json.load(f)
+    with open(os.path.join(os.path.dirname(args.case), case["source"])) as f:
         source = f.read()
-    try:
-        llm = LLMClient(a.provider, a.model)
-    except LLMError as e:
-        sys.exit(f"error: {e}")
-    print(f"model: {llm.model}")
-
-    assertion = a.assertion or spec["assertion"]
-    report = ""
-    while True:
-        try:
-            r = analyse(llm, spec, source, assertion, a.inputs, a.mutants)
-        except (LLMError, jh.HarnessError) as e:
-            sys.exit(f"error: {e}")
-        text = render(spec, dict(r))
-        print("\n" + text)
-        report += text + "\n---\n\n"
-        if not a.interactive:
-            break
-        new = input("New assertion (Enter to stop): ").strip()
-        if not new:
-            break
-        assertion = new
-    if a.report:
-        with open(a.report, "w") as f:
-            f.write(report)
-        print(f"report written to {a.report}")
+    text = report(case, analyse(case, source, args.assertion or case["assertion"]))
+    print(text)
+    if args.report:
+        with open(args.report, "w") as f:
+            f.write(text)
 
 
 if __name__ == "__main__":

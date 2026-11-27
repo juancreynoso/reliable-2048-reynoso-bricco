@@ -1,5 +1,7 @@
 package ar.edu.unrc.game2048;
 
+import randoop.CheckRep;
+
 import java.util.*;
 
 /**
@@ -10,7 +12,9 @@ import java.util.*;
  * - grid is a non-null square matrix (rows == cols)
  * - all cells in the grid are non-null (they may be EMPTY)
  * - all cell values are valid per Cell invariants
- * - the board is always in a valid game state
+ * - rows are distinct arrays (no row is shared with another)
+ * - 1 <= size <= MAX_SIZE
+ * - score >= 0 and score is a multiple of 4 (each merge adds 2 * v, with v >= 2)
  *
  * Thread-safety: This class is not thread-safe.
  */
@@ -27,7 +31,14 @@ public class Board {
     public static final int WINNING_VALUE = 2048;
 
     /**
-     * Board size (i.e., number of rows and columns). Must be > 0.
+     * Largest board size accepted. Without a bound, {@code new Board(131072)}
+     * tries to allocate 2^34 cells and never finishes (Randoop and EvoSuite
+     * kept doing that with the constants of this class).
+     */
+    public static final int MAX_SIZE = 16;
+
+    /**
+     * Board size (i.e., number of rows and columns). Must be between 1 and {@link #MAX_SIZE}.
      */
     private final int size;
 
@@ -37,9 +48,10 @@ public class Board {
     private final Cell[][] grid;
 
     /**
-     * Game accumulated score.
+     * Game accumulated score. A long: every merge adds up to 2^30, so an int
+     * score wraps around to a negative number after a few big merges.
      */
-    private int score;
+    private long score;
 
     /**
      * Seed used when none is given, so boards built by tests (and by Randoop or
@@ -63,10 +75,10 @@ public class Board {
     /**
      * Creates a new board of the specified size with two random tiles.
      *
-     * @param size the board size (must be > 0)
-     * @throws IllegalArgumentException if size <= 0
+     * @param size the board size (between 1 and {@link #MAX_SIZE})
+     * @throws IllegalArgumentException if size is out of range
      */
-    public Board(int size) {
+    public Board(int size) throws IllegalArgumentException {
         this(size, DEFAULT_SEED);
     }
 
@@ -74,13 +86,14 @@ public class Board {
      * Creates a new board of the specified size whose random tiles come from
      * the given seed. The same seed always gives the same game.
      *
-     * @param size the board size (must be > 0)
+     * @param size the board size (between 1 and {@link #MAX_SIZE})
      * @param seed the seed of the random tiles
-     * @throws IllegalArgumentException if size <= 0
+     * @throws IllegalArgumentException if size is out of range
      */
-    public Board(int size, long seed) {
-        if (size <= 0) {
-            throw new IllegalArgumentException("Board size must be positive: " + size);
+    public Board(int size, long seed) throws IllegalArgumentException {
+        if (size <= 0 || size > MAX_SIZE) {
+            throw new IllegalArgumentException(
+                    "Board size must be between 1 and " + MAX_SIZE + ": " + size);
         }
         this.size = size;
         this.grid = new Cell[size][size];
@@ -89,32 +102,36 @@ public class Board {
         initializeEmpty();
         addRandomTile();
         addRandomTile();
+        assert repOk() : "invalid board after construction";
     }
 
     /**
      * Copy constructor - creates a deep copy of another board.
      * The copy gets its own generator, started from {@link #DEFAULT_SEED}.
      *
-     * @param other the board to copy
+     * @param other the board to copy (must not be null)
+     * @throws IllegalArgumentException if other is null
      */
-    public Board(Board other) {
+    public Board(Board other) throws IllegalArgumentException {
+        if (other == null) {
+            throw new IllegalArgumentException("Cannot copy a null board");
+        }
         this.size = other.size;
-        this.grid = new Cell[size][size];
+        this.grid = new Cell[size][];
         this.score = other.score;
         this.random = new Random(DEFAULT_SEED);
         for (int r = 0; r < size; r++) {
-            for (int c = 0; c < size; c++) {
-                this.grid[r][c] = other.grid[r][c];
-            }
+            this.grid[r] = other.grid[r].clone();   // cells are immutable: sharing them is safe
         }
+        assert repOk() : "invalid board after copy";
     }
 
     /**
      * Largest tile allowed in an initial board: 2^17, the largest tile that can
-     * appear in a real game on a 4x4 board. Larger tiles let merges overflow an
-     * int: two 2^30 tiles merge into a negative value, and the score can wrap
-     * around to a negative number. With this bound the sum of all tiles is at
-     * most 16 * 2^17 = 2^21, far from 2^31.
+     * appear in a real game on a 4x4 board. It was introduced in Assignment 5,
+     * when larger tiles made merges and the score overflow an int; those
+     * overflows are now fixed at their cause ({@link Cell#MAX_VALUE} and a
+     * {@code long} score), and the bound stays as the input contract.
      */
     public static final int MAX_INITIAL_TILE = 131072;
 
@@ -129,7 +146,7 @@ public class Board {
      *         between brackets: each one 0, or a power of two from 2 up to
      *         {@link #MAX_INITIAL_TILE}, written without sign, spaces or leading zeros
      */
-    public static Board fromString(String s) {
+    public static Board fromString(String s) throws IllegalArgumentException {
         if (s == null || !s.startsWith("[") || !s.endsWith("]")) {
             throw new IllegalArgumentException("A board must be written as [v1,...,v16]: " + s);
         }
@@ -197,7 +214,7 @@ public class Board {
      *
      * @return the score
      */
-    public int getScore() {
+    public long getScore() {
         return score;
     }
 
@@ -209,7 +226,7 @@ public class Board {
      * @return the cell at the specified position
      * @throws IndexOutOfBoundsException if row or col is out of bounds
      */
-    public Cell getCell(int row, int col) {
+    public Cell getCell(int row, int col) throws IndexOutOfBoundsException {
         validatePosition(row, col);
         return grid[row][col];
     }
@@ -223,12 +240,14 @@ public class Board {
      * @throws IndexOutOfBoundsException if row or col is out of bounds
      * @throws IllegalArgumentException if cell is null
      */
-    public void setCell(int row, int col, Cell cell) {
+    public void setCell(int row, int col, Cell cell)
+            throws IndexOutOfBoundsException, IllegalArgumentException {
         validatePosition(row, col);
         if (cell == null) {
             throw new IllegalArgumentException("Cell cannot be null");
         }
         grid[row][col] = cell;
+        assert repOk() : "invalid board after setCell(" + row + ", " + col + ", " + cell + ")";
     }
 
     /**
@@ -238,7 +257,7 @@ public class Board {
      * @param col the column index
      * @throws IndexOutOfBoundsException if the position is out of bounds
      */
-    private void validatePosition(int row, int col) {
+    private void validatePosition(int row, int col) throws IndexOutOfBoundsException {
         if (row < 0 || row >= size || col < 0 || col >= size) {
             throw new IndexOutOfBoundsException(
                     String.format("Position (%d, %d) is out of bounds for board size %d",
@@ -275,14 +294,15 @@ public class Board {
 
     /**
      * Checks if the board is in a winning state.
-     * A board is winning if it contains a cell with the WINNING_VALUE (2048).
+     * A board is winning once a tile reaches the WINNING_VALUE (2048), and it
+     * stays winning if the player keeps playing and merges it into 4096 or more.
      *
-     * @return true if the board contains 2048
+     * @return true if the board contains a tile of 2048 or more
      */
     public boolean isWinningBoard() {
         for (int r = 0; r < size; r++) {
             for (int c = 0; c < size; c++) {
-                if (grid[r][c].getValue() == WINNING_VALUE) {
+                if (grid[r][c].getValue() >= WINNING_VALUE) {
                     return true;
                 }
             }
@@ -336,20 +356,7 @@ public class Board {
      * @return true if the board changed, false otherwise
      */
     public boolean moveUp() {
-        Board previous = new Board(this);
-
-        for (int col = 0; col < size; col++) {
-            List<Cell> column = new ArrayList<>();
-            for (int row = 0; row < size; row++) {
-                column.add(grid[row][col]);
-            }
-            List<Cell> merged = collapseLine(column);
-            for (int row = 0; row < size; row++) {
-                grid[row][col] = merged.get(row);
-            }
-        }
-
-        return finalizeMove(previous);
+        return move(Direction.UP);
     }
 
     /**
@@ -358,21 +365,7 @@ public class Board {
      * @return true if the board changed, false otherwise
      */
     public boolean moveDown() {
-        Board previous = new Board(this);
-
-        for (int col = 0; col < size; col++) {
-            // Collect bottom-to-top so the merge always favors the far edge (down)
-            List<Cell> column = new ArrayList<>();
-            for (int row = size - 1; row >= 0; row--) {
-                column.add(grid[row][col]);
-            }
-            List<Cell> merged = collapseLine(column);
-            for (int row = size - 1; row >= 0; row--) {
-                grid[row][col] = merged.get(size - 1 - row);
-            }
-        }
-
-        return finalizeMove(previous);
+        return move(Direction.DOWN);
     }
 
     /**
@@ -381,20 +374,7 @@ public class Board {
      * @return true if the board changed, false otherwise
      */
     public boolean moveLeft() {
-        Board previous = new Board(this);
-
-        for (int row = 0; row < size; row++) {
-            List<Cell> rowList = new ArrayList<>();
-            for (int col = 0; col < size; col++) {
-                rowList.add(grid[row][col]);
-            }
-            List<Cell> merged = collapseLine(rowList);
-            for (int col = 0; col < size; col++) {
-                grid[row][col] = merged.get(col);
-            }
-        }
-
-        return finalizeMove(previous);
+        return move(Direction.LEFT);
     }
 
     /**
@@ -403,21 +383,59 @@ public class Board {
      * @return true if the board changed, false otherwise
      */
     public boolean moveRight() {
+        return move(Direction.RIGHT);
+    }
+
+    /**
+     * Moves all tiles in the given direction: every row (or column) is slid
+     * towards that edge, merging equal neighbours. If the board changed, a
+     * new random tile is added.
+     *
+     * @param direction the direction of the move (must not be null)
+     * @return true if the board changed, false otherwise
+     * @throws IllegalArgumentException if direction is null
+     */
+    public boolean move(Direction direction) throws IllegalArgumentException {
+        if (direction == null) {
+            throw new IllegalArgumentException("Direction cannot be null");
+        }
         Board previous = new Board(this);
 
-        for (int row = 0; row < size; row++) {
-            // Collect right-to-left so the merge always favors the far edge (right)
-            List<Cell> rowList = new ArrayList<>();
-            for (int col = size - 1; col >= 0; col--) {
-                rowList.add(grid[row][col]);
+        for (int index = 0; index < size; index++) {
+            List<Position> line = line(direction, index);
+            List<Cell> cells = new ArrayList<>();
+            for (Position p : line) {
+                cells.add(grid[p.row][p.col]);
             }
-            List<Cell> merged = collapseLine(rowList);
-            for (int col = size - 1; col >= 0; col--) {
-                grid[row][col] = merged.get(size - 1 - col);
+            List<Cell> collapsed = collapseLine(cells);
+            for (int i = 0; i < size; i++) {
+                Position p = line.get(i);
+                grid[p.row][p.col] = collapsed.get(i);
             }
         }
 
-        return finalizeMove(previous);
+        boolean moved = finalizeMove(previous);
+        assert repOk() : "invalid board after move " + direction;
+        return moved;
+    }
+
+    /**
+     * Positions of the {@code index}-th row (LEFT/RIGHT) or column (UP/DOWN),
+     * ordered from the edge the tiles move towards, inward. Collapsing in
+     * that order makes merges always favour the far edge.
+     */
+    private List<Position> line(Direction direction, int index) {
+        List<Position> line = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            int fromFarEdge = size - 1 - i;
+            switch (direction) {
+                case UP:    line.add(new Position(i, index)); break;
+                case DOWN:  line.add(new Position(fromFarEdge, index)); break;
+                case LEFT:  line.add(new Position(index, i)); break;
+                default:    line.add(new Position(index, fromFarEdge)); break;  // RIGHT
+            }
+        }
+        return line;
     }
 
     /**
@@ -502,24 +520,41 @@ public class Board {
 
     /**
      * Checks the representation invariant of this board.
-     * A board is valid if the grid is a non-null square matrix, all cells
-     * are non-null and individually valid, and the score is non-negative.
+     * A board is valid if: its size is between 1 and MAX_SIZE; the grid is a
+     * square matrix of that size whose rows are distinct arrays; every cell is
+     * non-null and valid; the score is a non-negative multiple of 4; and it
+     * has a random generator.
+     *
+     * <p>{@link CheckRep} makes Randoop call it after every method it
+     * generates: a {@code false} result is reported as an error-revealing test.
      *
      * @return true if the representation invariant holds
      */
+    @CheckRep
     public boolean repOk() {
-        if (grid == null || size <= 0) {
+        if (grid == null || size <= 0 || size > MAX_SIZE) {
             return false;
         }
         if (grid.length != size) {
             return false;
         }
-        if (score < 0) {
+        // Every merge adds 2 * v with v >= 2, so the score is always a multiple of 4
+        if (score < 0 || score % 4 != 0) {
+            return false;
+        }
+        if (random == null) {
             return false;
         }
         for (int r = 0; r < size; r++) {
             if (grid[r] == null || grid[r].length != size) {
                 return false;
+            }
+            // Each row is its own array: if two rows were the same array,
+            // changing one would also change the other
+            for (int s = 0; s < r; s++) {
+                if (grid[r] == grid[s]) {
+                    return false;
+                }
             }
             for (int c = 0; c < size; c++) {
                 Cell cell = grid[r][c];
@@ -561,33 +596,36 @@ public class Board {
      */
     @Override
     public String toString() {
+        // Every column is as wide as the largest tile (at least 5), so tiles of
+        // 6 or more digits do not break the grid.
+        int width = 5;
+        for (Cell[] row : grid) {
+            for (Cell cell : row) {
+                width = Math.max(width, String.valueOf(cell.getValue()).length());
+            }
+        }
+        StringBuilder border = new StringBuilder("+");
+        for (int c = 0; c < size; c++) {
+            border.append(new String(new char[width]).replace('\0', '-')).append('+');
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("Score: ").append(score).append("\n");
         for (int r = 0; r < size; r++) {
-            sb.append("+");
+            sb.append(border).append("\n|");
             for (int c = 0; c < size; c++) {
-                sb.append("-----+");
-            }
-            sb.append("\n|");
-            for (int c = 0; c < size; c++) {
-                String val = grid[r][c].isEmpty() ? "     " :
-                        String.format("%5d", grid[r][c].getValue());
-                sb.append(val).append("|");
+                String val = grid[r][c].isEmpty() ? "" : String.valueOf(grid[r][c].getValue());
+                sb.append(String.format("%" + width + "s", val)).append("|");
             }
             sb.append("\n");
         }
-        sb.append("+");
-        for (int c = 0; c < size; c++) {
-            sb.append("-----+");
-        }
-        sb.append("\n");
+        sb.append(border).append("\n");
         return sb.toString();
     }
 
     // ==================== INNER CLASSES ====================
 
     /**
-     * Represents a direction on the board.
+     * Represents a direction on the board, as used by {@link #move(Direction)}.
      */
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -600,7 +638,13 @@ public class Board {
         public final int row;
         public final int col;
 
-        public Position(int row, int col) {
+        /**
+         * @throws IllegalArgumentException if row or col is negative
+         */
+        public Position(int row, int col) throws IllegalArgumentException {
+            if (row < 0 || col < 0) {
+                throw new IllegalArgumentException("A position cannot be negative: (" + row + ", " + col + ")");
+            }
             this.row = row;
             this.col = col;
         }
