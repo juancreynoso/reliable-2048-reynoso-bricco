@@ -1,50 +1,42 @@
 #!/bin/bash
-# Regenerates the Randoop tests for Cell and Board (src/test/java/randoopTests).
-#
-# - repOk() is annotated with @randoop.CheckRep: Randoop calls it after every
-#   generated call, and a false result becomes an error-revealing test (ErrorTest*.java).
-# - NO -ea: with assertions on, the `assert repOk()` inside Board.move() throws an
-#   AssertionError first, Randoop classifies it as an expected exception and never
-#   runs the @CheckRep check. The check must come from @CheckRep, not from assert.
-# - randoop-literals.txt gives the boundary values of int (2^29, 2^30, MAX_VALUE).
-# - Same seed + --deterministic => running it twice gives byte-identical tests.
-# - --flaky-test-behavior=HALT: stop instead of writing a test that fails on re-run.
-# - Board.MAX_SIZE bounds the board size, so Randoop can now use the class
-#   constants (2048, 131072) as tile values without building a huge grid.
-#
-# Usage: ./runRandoop.sh [output-dir]   (default: src/test/java)
+# Regenerates the Randoop tests of Cell and Board in src/test/java/randoopTests.
+#   --randomseed + --deterministic + --generated-limit : the same tests on every run
+#   --flaky-test-behavior=HALT : stop if a generated test fails when re-run
+#   @CheckRep on repOk()       : Randoop checks the invariant after every call;
+#                                a false repOk() becomes an error test (ErrorTest*.java)
+#   randoop-literals.txt       : int boundaries (2^29, 2^30, MAX_VALUE) as inputs
+# Runs WITHOUT -ea: otherwise the `assert repOk()` in Board throws first and
+# Randoop takes it as an expected exception instead of a broken invariant.
 set -e
-
-JAVA8_HOME="${JAVA_8_HOME:-$(/usr/libexec/java_home -v 1.8)}"
-JAVA="$JAVA8_HOME/bin/java"
-REPO="$(cd "$(dirname "$0")" && pwd)"
-DEST="${1:-$REPO/src/test/java}"
-
-cd "$REPO"
+JAVA="${JAVA_8_HOME:-$(/usr/libexec/java_home -v 1.8)}/bin/java"
+REPO="$(pwd)"
 ./mvn8 -q clean compile
 
-# Randoop compiles and re-runs the generated tests to filter flaky ones, and that step
-# breaks when the classpath has spaces or accents (like this repo's path): work in /tmp.
+# Randoop re-runs the tests it writes, and that breaks on paths with spaces or
+# accents (like this repo's), so it works in a temporary folder.
 WORK="$(mktemp -d)"
-cp -r target/classes "$WORK/classes"
-cp lib/randoop-all-4.3.4.jar randoop-literals.txt "$WORK/"
+cp -r target/classes lib/randoop-all-4.3.4.jar randoop-literals.txt "$WORK/"
 cd "$WORK"
 
-CP="randoop-all-4.3.4.jar:classes"
-COMMON=(--randomseed=42 --deterministic=true --time-limit=0 --generated-limit=1000
-        --flaky-test-behavior=HALT --junit-output-dir=out
-        --literals-file=CLASSES --literals-file=randoop-literals.txt --literals-level=ALL)
+generate() {   # generate <package> <classes...>
+    local package="$1"; shift
+    "$JAVA" -cp "randoop-all-4.3.4.jar:classes" randoop.main.Main gentests \
+        --randomseed=42 --deterministic=true --time-limit=0 --generated-limit=1000 \
+        --flaky-test-behavior=HALT --junit-output-dir=out --junit-package-name="$package" \
+        --literals-file=CLASSES --literals-file=randoop-literals.txt --literals-level=ALL \
+        $(printf -- '--testclass=ar.edu.unrc.game2048.%s ' "$@")
+}
+generate randoopTests.cell Cell
+generate randoopTests.board Board Cell   # with Cell too, so Randoop can put its own tiles on a board
 
-"$JAVA" -cp "$CP" randoop.main.Main gentests "${COMMON[@]}" \
-    --testclass=ar.edu.unrc.game2048.Cell --junit-package-name=randoopTests.cell
-
-# Cell is also given to the Board run, so Randoop can build large tiles
-# (mergeWith chains) and put them on a board with setCell.
-"$JAVA" -cp "$CP" randoop.main.Main gentests "${COMMON[@]}" \
-    --testclass=ar.edu.unrc.game2048.Board --testclass=ar.edu.unrc.game2048.Cell \
-    --junit-package-name=randoopTests.board
-
-rm -rf "$DEST/randoopTests"
-mkdir -p "$DEST"
-cp -r out/randoopTests "$DEST/"
+rm -rf "$REPO/src/test/java/randoopTests"
+cp -r out/randoopTests "$REPO/src/test/java/"
 rm -rf "$WORK"
+
+# Error tests fail on purpose (they show a bug): keep them in failing-generated-tests/ (not in git), out of `mvn test`.
+cd "$REPO"
+if ls src/test/java/randoopTests/*/ErrorTest*.java > /dev/null 2>&1; then
+    mkdir -p failing-generated-tests
+    mv src/test/java/randoopTests/*/ErrorTest*.java failing-generated-tests/
+    echo "Randoop found error tests: see failing-generated-tests/"
+fi
