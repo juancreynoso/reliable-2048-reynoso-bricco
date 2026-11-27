@@ -15,17 +15,14 @@ import random
 import subprocess
 import sys
 
-from boardFuzzer import BOARD_GRAMMAR, GrammarFuzzer
+from boardFuzzer import random_board
 from fuzzer import RandomFuzzer
 
 SEED = 42
 MIN_MOVES, MAX_MOVES = 50, 1000
 
-DAIKON_JAR = os.environ.get("DAIKON_JAR") or (
-    "lib/daikon.jar" if os.path.exists("lib/daikon.jar") else "daikon.jar")
-
 CHICORY = [
-    "java", "-cp", f"{DAIKON_JAR}:target/classes", "daikon.Chicory",
+    "java", "-cp", "lib/daikon.jar:target/classes", "daikon.Chicory",
     "--ppt-select-pattern=ar.edu.unrc.game2048.Board|ar.edu.unrc.game2048.Cell",
 ]
 
@@ -36,10 +33,9 @@ def main():
     random.seed(SEED)
     os.makedirs(out_dir, exist_ok=True)
     moves = RandomFuzzer(min_length=MIN_MOVES, max_length=MAX_MOVES)
-    boards = GrammarFuzzer(BOARD_GRAMMAR)
 
     for i in range(games):
-        board = [boards.fuzz()] if i % 2 else []
+        board = [random_board()] if i % 2 else []
         # -Dseed makes MainCLI place the same random tiles on every run; -ea runs the
         # assert repOk() postconditions, so repOk() is also in the trace
         env = dict(os.environ, JAVA_TOOL_OPTIONS=f"-ea -Dseed={SEED + i}")
