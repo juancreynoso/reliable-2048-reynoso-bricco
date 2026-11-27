@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class MainCLI {
     private final Board board;
     private final Scanner scanner;
+    private boolean congratulated = false;
     
     public MainCLI() {
         this(new Board(Board.DEFAULT_SIZE, seed()));
@@ -37,7 +38,9 @@ public class MainCLI {
         while (true) {
             displayBoard();
             
-            if (board.isWinningBoard()) {
+            // Congratulate only once: the board stays winning after 2048 is reached
+            if (board.isWinningBoard() && !congratulated) {
+                congratulated = true;
                 System.out.println("🎉 Congratulations! You reached 2048! 🎉");
                 System.out.println("You can continue playing or quit.");
             }

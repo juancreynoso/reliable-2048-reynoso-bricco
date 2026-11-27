@@ -12,7 +12,9 @@ import java.util.*;
  * - grid is a non-null square matrix (rows == cols)
  * - all cells in the grid are non-null (they may be EMPTY)
  * - all cell values are valid per Cell invariants
- * - the board is always in a valid game state
+ * - rows are distinct arrays (no row is shared with another)
+ * - 1 <= size <= MAX_SIZE
+ * - score >= 0 and score is a multiple of 4 (each merge adds 2 * v, with v >= 2)
  *
  * Thread-safety: This class is not thread-safe.
  */
@@ -292,14 +294,15 @@ public class Board {
 
     /**
      * Checks if the board is in a winning state.
-     * A board is winning if it contains a cell with the WINNING_VALUE (2048).
+     * A board is winning once a tile reaches the WINNING_VALUE (2048), and it
+     * stays winning if the player keeps playing and merges it into 4096 or more.
      *
-     * @return true if the board contains 2048
+     * @return true if the board contains a tile of 2048 or more
      */
     public boolean isWinningBoard() {
         for (int r = 0; r < size; r++) {
             for (int c = 0; c < size; c++) {
-                if (grid[r][c].getValue() == WINNING_VALUE) {
+                if (grid[r][c].getValue() >= WINNING_VALUE) {
                     return true;
                 }
             }
@@ -517,8 +520,10 @@ public class Board {
 
     /**
      * Checks the representation invariant of this board.
-     * A board is valid if the grid is a non-null square matrix, all cells
-     * are non-null and individually valid, and the score is non-negative.
+     * A board is valid if: its size is between 1 and MAX_SIZE; the grid is a
+     * square matrix of that size whose rows are distinct arrays; every cell is
+     * non-null and valid; the score is a non-negative multiple of 4; and it
+     * has a random generator.
      *
      * <p>{@link CheckRep} makes Randoop call it after every method it
      * generates: a {@code false} result is reported as an error-revealing test.
@@ -533,12 +538,23 @@ public class Board {
         if (grid.length != size) {
             return false;
         }
-        if (score < 0) {
+        // Every merge adds 2 * v with v >= 2, so the score is always a multiple of 4
+        if (score < 0 || score % 4 != 0) {
+            return false;
+        }
+        if (random == null) {
             return false;
         }
         for (int r = 0; r < size; r++) {
             if (grid[r] == null || grid[r].length != size) {
                 return false;
+            }
+            // Each row is its own array: if two rows were the same array,
+            // changing one would also change the other
+            for (int s = 0; s < r; s++) {
+                if (grid[r] == grid[s]) {
+                    return false;
+                }
             }
             for (int c = 0; c < size; c++) {
                 Cell cell = grid[r][c];
@@ -580,26 +596,29 @@ public class Board {
      */
     @Override
     public String toString() {
+        // Every column is as wide as the largest tile (at least 5), so tiles of
+        // 6 or more digits do not break the grid.
+        int width = 5;
+        for (Cell[] row : grid) {
+            for (Cell cell : row) {
+                width = Math.max(width, String.valueOf(cell.getValue()).length());
+            }
+        }
+        StringBuilder border = new StringBuilder("+");
+        for (int c = 0; c < size; c++) {
+            border.append(new String(new char[width]).replace('\0', '-')).append('+');
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("Score: ").append(score).append("\n");
         for (int r = 0; r < size; r++) {
-            sb.append("+");
+            sb.append(border).append("\n|");
             for (int c = 0; c < size; c++) {
-                sb.append("-----+");
-            }
-            sb.append("\n|");
-            for (int c = 0; c < size; c++) {
-                String val = grid[r][c].isEmpty() ? "     " :
-                        String.format("%5d", grid[r][c].getValue());
-                sb.append(val).append("|");
+                String val = grid[r][c].isEmpty() ? "" : String.valueOf(grid[r][c].getValue());
+                sb.append(String.format("%" + width + "s", val)).append("|");
             }
             sb.append("\n");
         }
-        sb.append("+");
-        for (int c = 0; c < size; c++) {
-            sb.append("-----+");
-        }
-        sb.append("\n");
+        sb.append(border).append("\n");
         return sb.toString();
     }
 
@@ -619,7 +638,13 @@ public class Board {
         public final int row;
         public final int col;
 
-        public Position(int row, int col) {
+        /**
+         * @throws IllegalArgumentException if row or col is negative
+         */
+        public Position(int row, int col) throws IllegalArgumentException {
+            if (row < 0 || col < 0) {
+                throw new IllegalArgumentException("A position cannot be negative: (" + row + ", " + col + ")");
+            }
             this.row = row;
             this.col = col;
         }
