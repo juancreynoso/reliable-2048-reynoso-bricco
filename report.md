@@ -58,6 +58,8 @@ Randoop's `Board` score isn't reported because we excluded that suite in `pom.xm
 
 ### How the fuzzer works
 
+*This describes the Assignment 3 version. After the professor's review the same file got a model of the game as its oracle and a time budget; see the last section.*
+
 `fuzzer.py` follows the Fuzzing Book's `Runner`/`Fuzzer` split:
 
 - `CLIRunner` launches `ar.edu.unrc.game2048.MainCLI` as a subprocess, feeds it a string on stdin, and classifies the outcome as `PASS` (clean exit, no stderr), `FAIL` (non-zero exit code or stderr output — including an `AssertionError`), or `UNRESOLVED` (10s timeout).
@@ -351,15 +353,16 @@ The most common accepted case (42 of 84) combined the first two: deleting a comm
 
 ```bash
 export OPENROUTER_API_KEY=...
-python3 oasis/refiner.py oasis/cases/can_merge/case.json --model 'nvidia/nemotron-3-ultra-550b-a55b:free' --report oasis/report-can_merge.md
+python3 oasis/refiner.py oasis/cases/can_merge/case.json --report oasis/report-can_merge.md
+python3 oasis/refiner.py oasis/cases/can_merge/case.json --assertion "result == (a == b && a >= 2)"
 python3 -m unittest oasis/test_oasis.py   # offline, scripted LLM
 ```
 
-**How it works.** A case gives the method (`Subject.java`), its precondition and the assertion under review (`case.json`).
+**How it works.** A case gives the method (`Subject.java`), its precondition and the assertion under review (`case.json`). The tool is one file of about 180 lines: `ask_llm` (the API call), `run` (generates `Harness.java`, compiles and runs it), `classify` (is a mutant killed, surviving or equivalent?) and `analyse` (the three steps below).
 
 1. *Too strong?* The LLM proposes inputs that satisfy the precondition and may violate the assertion. The tool generates a `Harness.java`, compiles it with the method and runs it. Inputs that violate the assertion are reported as a possible false positive.
 2. *Too weak?* The LLM proposes mutants of the method. Each one is compiled and run on the same inputs. A mutant that still satisfies the assertion but returns a different result than the original on some input survives: the assertion cannot tell it apart from the real method (possible false negative). Mutants that never differ are discarded as possibly equivalent.
-3. *Feedback.* The LLM reads that evidence and explains what is wrong and suggests new assertions. The tool never changes the assertion by itself: the user decides, and `--interactive` repeats the cycle with the assertion the user types.
+3. *Feedback.* The LLM reads that evidence and explains what is wrong and suggests new assertions. The tool never changes the assertion by itself: the user decides, and `--assertion` repeats the cycle with the assertion the user types.
 
 **Case studies.** They come from the invariants Daikon inferred in Assignment 4. Model: `nvidia/nemotron-3-ultra-550b-a55b:free`.
 
@@ -386,129 +389,121 @@ Full output: `oasis/report-can_merge.md`, `oasis/report-cell_equals.md`, `oasis/
 
 # Improvements after the review with the professor
 
-The professor reviewed the assignments with us and pointed out five problems. This section covers each of them: what we changed, what the tools found, and what we fixed. All commands are in the scripts, and the error-revealing tests are in `bug-evidence/` (see its `README.md`).
+The professor reviewed the assignments with us. His points: the manual tests were few and did not test the rules of the game (merges); the `repOk()` methods were weak and Randoop did not use them (`@CheckRep`); EvoSuite found no bugs; Daikon should get the tests of every tool at once, and its invariants should be classified; we should say which generated tests are good or bad; and a few dozen fuzzed games are far too few, which is why the fuzzer never broke anything. This section describes the current state for each point and the bugs found. The scripts were also rewritten to be short and readable (section 8).
 
-## 1. Randoop must check `repOk()` (`@CheckRep`)
+## 1. Manual tests for the rules of the game
 
-**Problem.** Randoop's oracle was only "no unexpected exception". An object in an invalid state went unnoticed as long as nothing crashed. That is why our first Randoop runs reported "all pass" on a `Cell` that accepted `new Cell(97)`.
+`BoardTest` had one test per method, mostly the happy case: each move test moved a single tile on an empty board, and only one test had a merge. We added 16 tests of the rules and a `MainCLITest`. They build a board with `boardWith(...)` and check it with `assertBoardAfterMove(...)`: the board must be the expected one plus exactly one new tile (2 or 4) in an empty cell.
 
-**Change.** `Cell.repOk()` and `Board.repOk()` are annotated with `@randoop.CheckRep`. Randoop calls them after every generated call, and a `false` result becomes an error-revealing test (`ErrorTest*.java`). The log confirms it: `Detected @CheckRep-annotated method ... Will use it to check rep invariant`.
-
-**Validation on the old buggy versions.** We ran Randoop with `@CheckRep` (1000 sequences, seed 42) on the two historical versions of `Cell` that we knew were wrong:
-
-| `Cell` version | Original Randoop run | Randoop + `@CheckRep` |
-|---|---|---|
-| `e3cfe35`: constructor did not check powers of two | all pass | **9 error tests** (`new Cell(10)`, `new Cell(100)`, ...) |
-| `3558588^`: constructor accepted 1 | all pass | **3 error tests** (`new Cell(1)`) |
-
-We found the second bug by hand, weeks later, through Daikon. With the check, Randoop finds it in seconds.
-
-**On the current code.** We also removed the workarounds that stopped Randoop from exploring:
-
-- `Board.MAX_SIZE = 16` replaces `--literals-level=NONE` and `--omit-field`. Those only existed so that Randoop would not build a 131072×131072 board.
-- `Cell` is also given to the `Board` run, so Randoop can put its own cells on a board.
-- `randoop-literals.txt` adds the boundary values of `int` (2^29, 2^30, `Integer.MAX_VALUE`).
-
-Even so, 300,000 sequences focused on `setCell`/`move`/`mergeWith` did not reach the overflow bugs below. They need four 2^29 tiles in the same row followed by a move, which is too specific for random generation.
-
-**Pitfall: `-ea` hides bugs from `@CheckRep`.** With assertions enabled, the `assert repOk()` inside `move()` throws `AssertionError`, Randoop classifies it as an expected exception, and it never runs `@CheckRep`. Randoop must therefore run without `-ea`.
-
-## 2. EvoSuite found 0 bugs
-
-**Problem.** EvoSuite only writes regression assertions: whatever the code does is recorded as correct, so it can never report a bug.
-
-**Change.**
-
-- `-Dcheck_contracts=true`: EvoSuite checks general contracts on every test it generates. These cover an `AssertionError` from our code, undeclared exceptions, `NullPointerException`, and `equals`/`hashCode`/`toString`. Every violation becomes a failing test in `<Class>_Failed_ESTest.java`.
-- `assert repOk()` after every public operation of `Board`: constructors, `setCell` and `move`. A move that leaves an invalid board fails right where it happens.
-- `max_int=16`, `primitive_pool=0` and `dynamic_pool=0` were removed (thanks to `MAX_SIZE`), so EvoSuite uses its constant pools again.
-
-**Results.** Before the fixes, EvoSuite reported the **undocumented `NullPointerException`** of `canMergeWith(null)`, `mergeWith(null)` and `new Board((Board) null)`. We had seen it in Assignment 3 but never fixed it. After the fixes, the only reports left are false positives:
-
-- documented `IllegalArgumentException`/`IndexOutOfBoundsException` (EvoSuite 1.0.6 flags them even when they are declared with `throws`);
-- `toString()` of a 16×16 board stopped by EvoSuite's own limit of 10,000 loop iterations.
-
-`runEvosuite.sh` moves these tests to `bug-evidence/evosuite-contracts/` so that `mvn test` stays green.
-
-## 3. Daikon fed with everything at once
-
-**Problem.** Before, each source got its own Daikon run, or at most two sources together.
-
-**Change.** `runDaikon.sh` traces, in a single run:
-
-| Source | Executions |
+| Rule | Test |
 |---|---|
-| Manual tests | 95 tests |
-| Randoop | 1070 tests |
-| EvoSuite | 86 tests |
-| Fuzzer | 40 games of 50–1000 moves, half of them from boards generated by the grammar of Assignment 5 |
+| `[2,2,2,2]` left → `[4,4,0,0]`, score 8 | `fourEqualTilesMergeInPairs` |
+| `[2,2,4,0]` → `[4,4,0,0]`: a merged tile does not merge again | `aMergedTileDoesNotMergeAgainInTheSameMove` |
+| `[2,0,2,0]` → `[4,0,0,0]` | `tilesSlideOverEmptyCellsAndThenMerge` |
+| `[2,2,2,0]`: left `[4,2,0,0]`, right `[0,0,2,4]` | `whenThreeTilesAreEqualThePairNearestToTheEdgeMerges` |
+| columns merge up and down | `moveUpMergesEachColumnTowardsTheTop`, `moveDownMergesEachColumnTowardsTheBottom` |
+| the score adds every merge of the move | `theScoreAddsEveryMergeOfTheMove` |
+| a move that changes nothing returns `false` and adds no tile | `aMoveThatChangesNothingReturnsFalseAndAddsNoTile` |
+| win by merging; lose only without merges (corner and border cases) | `mergingTwo1024TilesWinsTheGame`, `aFullBoardWith...` |
+| the CLI: one win message, end of input, invalid keys | `MainCLITest` |
 
-It then runs **one** Daikon inference over all the traces (`daikon-output-all.txt`, `daikon-traces/all/`).
+Four of these tests failed on the code: they found bugs of section 5.
 
-Two technical notes:
+## 2. Stronger `repOk()`, checked by Randoop (`@CheckRep`)
 
-- `daikon.jar` needs Java 11+, while EvoSuite's runner only works on Java 8. The script therefore traces a plain-JUnit copy of the EvoSuite tests.
-- Without EvoSuite's runtime, `java.util.Random` is not mocked, so 24 of the 86 EvoSuite tests fail their recorded assertions about random tiles. They are traced all the same. This also shows that the generated tests depend on EvoSuite's mocks.
+`Cell.repOk()` and `Board.repOk()` are annotated with `@randoop.CheckRep`: Randoop calls them after every generated call, and a `false` result becomes an error-revealing test. Randoop runs **without** `-ea`: with assertions on, the `assert repOk()` inside `Board` would throw first and Randoop would take it as an expected exception.
 
-| Invariant | Separate runs | All together |
-|---|---|---|
-| `Board`: `size one of { 2, 4, 5 }` | survived with tests + fuzzer | eliminated, replaced by `size >= 1` and `MAX_SIZE >= size` (both `repOk()` clauses) |
-| `Cell`: `value <= Cell.MAX_VALUE` | — | new and correct |
-| `Cell.equals`: `return ==> value one of { 2, 4, 2048 }` | survived without Randoop | eliminated |
-| `Cell.mergeWith` EXIT: `2 * this.value - return.value == 0`, `this.value < MAX_VALUE` | partial | full postcondition, including the new bound |
-| `Cell.canMergeWith` EXIT: `return ==> this.value == other.value && this.value >= 2 && this.value < MAX_VALUE` | partial | inferred (still only one direction of the ⇔, as in Assignment 5) |
-| `move`/`collapseLine`: `score >= orig(score)` | yes | yes |
-| `setCell` ENTER: `size one of { 2, 4 }` | — | still spurious: few calls to `setCell`, few sizes |
+`Board.repOk()` requires:
 
-Combining the sources removes the bias that each source has on its own. What is left is spurious only for methods that few executions reach.
+- `1 <= size <= MAX_SIZE`, a square grid of that size, and every cell non-null and valid (`Cell.repOk()`: 0 or a power of two `>= 2`);
+- **`score % 4 == 0`**: the score only changes by merges, and each merge adds `2 * v` with `v >= 2`. Daikon infers it (`score % DEFAULT_SIZE == 0`, section 6);
+- **every row is its own array**: if two rows shared one, a change in one row would appear in another;
+- `score >= 0` and a non-null random generator.
 
-## 4. Time-based fuzzing (10 minutes)
+`repOk()` is also checked inside `Board` (`assert repOk()` at the end of the constructors, `setCell` and `move`), so every test of `mvn test` checks it after each operation. On the current code neither Randoop nor EvoSuite breaks it.
 
-**Problem.** The fuzzer ran 20–300 trials and always ended its input with `q`.
+## 3. EvoSuite finds bugs (`-Dcheck_contracts=true`)
 
-**Change.** `fuzzCampaign.py` fuzzes for a fixed time budget (`--minutes`, `--workers`, `--seed`):
+EvoSuite's assertions are regression assertions, so by itself it never reports a bug. With `-Dcheck_contracts=true` it also checks general contracts (an `AssertionError` from our `assert repOk()`, undeclared exceptions, `NullPointerException`, `equals`/`hashCode`), and every violation becomes a failing test. It found the undocumented `NullPointerException` of `canMergeWith(null)`, `mergeWith(null)` and `new Board((Board) null)`, now fixed. On the current code it reports only false positives: documented exceptions that EvoSuite 1.0.6 flags anyway, and loops on 16×16 boards that EvoSuite's own runtime stops after 10,000 iterations. `runEvosuite.sh` moves those failing tests out of `src/test` so that `mvn test` stays green.
 
-- Each game uses a new `-Dseed` and starts from either a random board or a grammar board.
-- Each game plays 50–2000 moves, including uppercase keys, invalid keys, empty lines and spaces.
-- About 40% of the inputs end **without** `q`, because a real player can close stdin.
+## 4. Fuzzing with a model of the game as the oracle
 
-The oracles go beyond "it crashed":
+The fuzzer of Assignment 3 played 20 to 300 games with valid keys, always ending with `q`, and its oracle was only "no crash". `fuzzer.py` now plays for a fixed time (`--minutes`, `--workers`, `--seed`):
 
-- the score never decreases and is never negative;
-- every printed tile is 0 or a power of two ≥ 2;
-- "Game Over" is printed exactly when the printed board is dead;
-- the first board printed is the board given as input.
+- each game starts from a random board or from a grammar board of Assignment 5, and gets 50 to 2000 keys: moves, uppercase moves, invalid keys, and 40% of the time no final `q`;
+- **the oracle is a model of the rules written in Python** (`slide`, `move`, about 30 lines): after every key, the next printed board must be exactly the model's board plus one new tile (2 or 4), and the score must grow by the merged values. It also checks that the win message appears once, that "Game Over" appears only on a dead board, and that every row of the printed board has the same width.
 
-Each distinct failure is saved with a minimised input and the exact command to reproduce it (`--repro`).
+It found four bugs (section 5): the crash when the input ends without `q`, and three in what the player sees. The model never disagreed with a move or a score: the move logic is right. **Current run (10 minutes, seed 42): 20,112 games, 0 failures** (`fuzz-results/summary.md`).
 
-| Run | Games | Moves | PASS | FAIL | Distinct failures |
-|---|:---:|:---:|:---:|:---:|:---:|
-| Before the fix (12 workers) | 28,682 | 29.5 M | 28,375 | 307 | 1 |
-| After the fix (4 workers, seed 42) | 22,948 | 23.5 M | 22,948 | 0 | 0 |
-
-**Bug found.** `MainCLI` crashed with `java.util.NoSuchElementException: No line found` when stdin ended without `q`, because `scanner.nextLine()` was called without checking `hasNextLine()`. The minimal input is the empty input. The old fuzzer could not find it, because every input ended with `q`. **Fix:** end of input quits the game normally (`End of input. Final score: N`).
-
-## 5. Bugs fixed in this round
+## 5. Bugs found and fixed
 
 | Bug | Found by | Fix | Regression test |
 |---|---|---|---|
-| `canMergeWith(null)` / `mergeWith(null)` throw an undocumented NPE | EvoSuite `check_contracts` (and Randoop/EvoSuite in Assignment 3) | `canMergeWith(null)` returns `false`; `mergeWith(null)` throws the documented `IllegalArgumentException` | `CellTest.canMergeWithNullIsFalse`, `mergeWithNullIsRejected` |
-| `new Board((Board) null)` throws an undocumented NPE | EvoSuite `check_contracts` | `IllegalArgumentException` | `BoardTest.copyOfNullBoardIsRejected` |
-| Two 2^30 tiles: `canMergeWith` says `true`, `mergeWith` crashes, and `move()` is left half-applied | Assignment 5 board fuzzer (only avoided there by bounding the input) | `Cell.MAX_VALUE = 2^30` cannot merge | `CellTest.largestCellsCannotMerge`, `BoardTest.largestTilesDoNotMergeAndTheMoveIsNotHalfApplied` |
+| The game crashes when the input ends without `q` (`NoSuchElementException`) | Fuzzing | End of input quits the game | `MainCLITest.theGameEndsNormallyWhenTheInputEndsWithoutQ` |
+| After 2048 + 2048 = 4096, `isWinningBoard()` is `false` again | Fuzzing (model), manual test | A tile `>= 2048` wins | `BoardTest.aBoardWithATileAbove2048IsStillWinning` |
+| The win message is printed again on every turn | Fuzzing (model), manual test | Shown once | `MainCLITest.theWinMessageIsShownOnlyOnce` |
+| Tiles of 6+ digits break the printed grid | Fuzzing (model), manual test | Columns as wide as the largest tile | `BoardTest.theRowsOfThePrintedBoardHaveTheSameWidthWithLargeTiles` |
+| `new Board.Position(-1, 0)` is accepted | Manual test | `IllegalArgumentException` | `BoardTest.aPositionCannotBeNegative` |
+| `canMergeWith(null)`, `mergeWith(null)`, `new Board(null)` throw an undocumented NPE | EvoSuite contracts (and Randoop in Assignment 2) | `false` / documented `IllegalArgumentException` | `CellTest.canMergeWithNullIsFalse`, `mergeWithNullIsRejected`, `BoardTest.copyOfNullBoardIsRejected` |
+| Two 2^30 tiles: `mergeWith` crashes in the middle of `move()`, leaving it half applied | Board fuzzer of Assignment 5 | `Cell.MAX_VALUE` tiles do not merge | `CellTest.largestCellsCannotMerge`, `BoardTest.largestTilesDoNotMergeAndTheMoveIsNotHalfApplied` |
 | The score wraps around to a negative `int` | `assert repOk()` in `move()` | `score` is a `long` | `BoardTest.scoreDoesNotOverflow` |
-| `new Board(131072)` never finishes | Randoop/EvoSuite (we had worked around it with flags) | `Board.MAX_SIZE = 16` | `boardLargerThanMaxSizeIsRejected`, `boardOfMaxSizeIsValid` |
-| EOF without `q` crashes `MainCLI` | 10-minute fuzzing campaign | `hasNextLine()` | covered by `fuzzCampaign.py` (`MainCLI` is not unit tested) |
+| `new Board(131072)` never finishes | Randoop and EvoSuite | `Board.MAX_SIZE = 16` | `boardLargerThanMaxSizeIsRejected`, `boardOfMaxSizeIsValid` |
 
-In Assignment 5 the two overflows were *avoided* by bounding the initial tiles (`MAX_INITIAL_TILE`). Now they are fixed at their cause, so they can no longer be reached through the API either.
+## 6. Daikon with all the tests of all the tools
 
-## Refactoring and cleanup
+`runDaikon.sh` traces, in one run: the manual tests (114), Randoop (1,079), EvoSuite (91) and **1,000** fuzzed games of 50–1000 moves (half from grammar boards). Then it runs **one** Daikon inference over everything (`daikon-output-all.txt`). EvoSuite's runner needs Java 8 and Chicory Java 11+, so the script traces a plain-JUnit copy of the EvoSuite tests; without EvoSuite's mocks 24 of them fail their recorded assertions, but they are traced all the same. The traces are not kept in git (about 360 MB, 14 minutes to generate); the script regenerates them.
 
-- `moveUp`, `moveDown`, `moveLeft` and `moveRight` were four copies of the same loop. Now they all delegate to `move(Direction)`, using the `Direction` enum that existed but was never used, and `MainCLI` maps keys to directions. The 1221 tests of the previous suites, including Randoop's and EvoSuite's assertions on exact random tiles, passed unchanged after the refactoring.
-- Smaller cleanups:
-  - the copy constructor clones rows;
-  - a misplaced Javadoc in `MainCLI` was fixed;
-  - the `assert` in `MainCLI` was removed, since `move()` already checks;
-  - dead PIT patterns in `pom.xml` were fixed (`randoopTests.*.RegressionTest?`);
-  - `daikon.jar` can live in `lib/` or at the repo root.
+Classification of the main invariants:
 
-**Final state:** `./mvn8 clean test` runs 1251 tests (95 manual + Randoop + EvoSuite), with 0 failures.
+| Program point | Invariant | Class |
+|---|---|---|
+| `Cell` OBJECT | `value >= 0`, `value <= Cell.MAX_VALUE` | Correct and useful (`repOk()` clauses) |
+| `Cell.isEmpty` EXIT | `(value == 0) <==> return` | Correct and useful: the whole specification |
+| `Cell.mergeWith` ENTER | `this.value == other.value`, `value >= 2`, power of 2, `value < MAX_VALUE`, `other != null` | Correct and useful: the real precondition |
+| `Cell.mergeWith` EXIT | `2 * this.value - return.value == 0` | Correct and useful: the real postcondition |
+| `Cell.canMergeWith` EXIT | `return ==> equal values, >= 2, < MAX_VALUE` | Correct but too weak: one direction of the ⇔ (the `can_merge` case of OASIs) |
+| `Cell.equals` EXIT | `return ==> o != null && o is a Cell` | Correct but trivial |
+| `Board` OBJECT | `size == size(grid[])`, `1 <= size <= MAX_SIZE`, `score >= 0`, `random != null` | Correct and useful (`repOk()` clauses) |
+| `Board` OBJECT | `score % DEFAULT_SIZE == 0` | Correct and useful: it is `score % 4 == 0`, a `repOk()` clause |
+| `Board` OBJECT | `grid != null`, `grid[] elements != null` | Correct but trivial |
+| `Board` OBJECT | `WINNING_VALUE > size`, `size < DEFAULT_SEED`, `score != DEFAULT_SEED` | Spurious: comparisons with unrelated constants |
+| `move` / `collapseLine` EXIT | `score >= orig(score)` | Correct and useful: relates two states, which `repOk()` cannot express |
+| `addRandomTile` EXIT | `score == orig(score)` | Correct and useful |
+| `fromString` EXIT | `return.score == 0`, `return.size == 4` | Correct and useful |
+| `move` ENTER | `score % size == 0` | Spurious: a 3×3 board with one merge has score 4 |
+| `addRandomTile` EXIT | `return == false ==> size == 1` | Spurious: only 1×1 boards were seen full when a tile was added |
+| `isLosingBoard` EXIT | `return == true ==> size one of {1, 2, 4}` | Spurious: few sizes lost |
+| `setCell` ENTER | `size one of {2, 4, 16}`, `score one of {0, 4}` | Spurious: few calls to `setCell` |
+| `Cell` OBJECT | value is 0 or a power of two `>= 2` | Not inferred: Daikon does not build that disjunction |
+
+Each source alone is biased (the tests use few sizes, Randoop builds odd boards, the fuzzer always plays 4×4), so together they remove each other's spurious invariants. What is still spurious belongs to methods that few executions reach (`setCell`, full boards).
+
+## 7. Good and bad generated tests
+
+**Randoop** (1,079 tests). Of the `Cell` tests, 161 call `getClass()` and 152 expect an exception; of the `Board` tests, 167 expect an exception, 93 compare a whole `toString()` and 22 have no assertion.
+
+- Good: the `cell` tests that merge two empty cells and expect `IllegalArgumentException("Cannot merge cells: . and .")`, a documented rule. `board.RegressionTest0.test120` plays four moves and checks the score (8): it fails if a move or the score changes.
+- Bad: `cell.RegressionTest0.test002` only tests `java.lang.Object.getClass()`, which is not our code. `board.RegressionTest0.test030` builds a `Position` and checks nothing. The 93 tests that compare a whole `toString()` break on any change of format, even when the game is still right.
+
+**EvoSuite** (91 tests).
+
+- Good: `Board_ESTest.test28` checks that a negative `Position` is rejected and verifies where the exception comes from; `Cell_ESTest.test18` checks that 2 and 2^30 cannot merge.
+- Bad: `Board_ESTest.test01` asserts the same five constants (`MAX_SIZE`, `DEFAULT_SEED`, ...) after every call. That is the price of `assertion_strategy=ALL`, which keeps every assertion so that the generation is reproducible. Twenty-one `Board` tests compare a whole `toString()`.
+
+In both tools the assertions record what the code did, so their value depends on the oracle we add: `@CheckRep`, `assert repOk()` and contract checking are what make them find bugs.
+
+## 8. Simpler code
+
+Each script can be read and explained in a few minutes:
+
+| File | Lines | What it is |
+|---|---:|---|
+| `fuzzer.py` (A3) | 234 | the Fuzzing Book structure given by the course, the model of the rules (30 lines), the oracle and the time-based run |
+| `boardFuzzer.py` (A5 1a) | 73 | the grammar, `random_board()` and the check of one game |
+| `boardMutator.py` (A5 1b) | 65 | one `mutate()` (insert, replace or delete) and the grammar-membership oracle |
+| `oasis/refiner.py` (A5 2) | 181 | the whole OASIs tool in one file: `ask_llm`, `run`, `classify`, `analyse` |
+| `runRandoop.sh`, `runEvosuite.sh`, `runDaikon.sh` | 114 | one command per tool, one comment line per decision |
+
+The four `moveX` methods of `Board` delegate to one `move(Direction)`.
+
+**Final state:** `./mvn8 clean test` runs **1284 tests** (114 manual + 1,079 Randoop + 91 EvoSuite), 0 failures, the same on repeated runs.

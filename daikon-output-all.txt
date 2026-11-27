@@ -1,39 +1,20 @@
 Daikon version 5.9.0, released September 1, 2026; http://plse.cs.washington.edu/daikon.
-Reading declaration files Processing trace data; reading 43 dtrace files:
-
-No return from procedure observed 105 times.  Unmatched entries are ignored!
+Reading declaration files                                                                                                                                                               Processing trace data; reading 1003 dtrace files:
+[2026-11-23T19:10:18.087474]:                                                  [2026-11-23T19:10:19.094377]: Reading daikon-traces/all/Randoop.dtrace.gz (l...[2026-11-23T19:10:20.104528]: Reading daikon-traces/all/fuzzer/MainCLI-002.d...[2026-11-23T19:10:21.114703]: Reading daikon-traces/all/fuzzer/MainCLI-006.d...[2026-11-23T19:10:22.124822]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:10:23.134994]: Reading daikon-traces/all/fuzzer/MainCLI-018.d...[2026-11-23T19:10:24.145140]: Reading daikon-traces/all/fuzzer/MainCLI-024.d...[2026-11-23T19:10:25.151641]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:10:26.156599]: Reading daikon-traces/all/fuzzer/MainCLI-036.d...[2026-11-23T19:10:27.166712]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:10:28.169878]: Reading daikon-traces/all/fuzzer/MainCLI-046.d...[2026-11-23T19:10:29.175922]: Reading daikon-traces/all/fuzzer/MainCLI-052.d...[2026-11-23T19:10:30.185905]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:10:31.186457]: Reading daikon-traces/all/fuzzer/MainCLI-065.d...[2026-11-23T19:10:32.196301]: Reading daikon-traces/all/fuzzer/MainCLI-072.d...[2026-11-23T19:10:33.205140]: Reading daikon-traces/all/fuzzer/MainCLI-078.d...[2026-11-23T19:10:34.210179]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:10:35.212796]: Reading daikon-traces/all/fuzzer/MainCLI-088.d...[2026-11-23T19:10:36.222961]: Reading daikon-traces/all/fuzzer/MainCLI-095.d...[2026-11-23T19:10:37.233235]: Reading daikon-traces/all/fuzzer/MainCLI-101.d...[2026-11-23T19:10:38.243376]: Reading daikon-traces/all/fuzzer/MainCLI-108.d...[2026-11-23T19:10:39.253525]: Reading daikon-traces/all/fuzzer/MainCLI-114.d...[2026-11-23T19:10:40.262637]: Reading daikon-traces/all/fuzzer/MainCLI-120.d...[2026-11-23T19:10:41.272804]: Reading daikon-traces/all/fuzzer/MainCLI-124.d...[2026-11-23T19:10:42.275896]: Reading daikon-traces/all/fuzzer/MainCLI-131.d...[2026-11-23T19:10:43.286050]: Reading daikon-traces/all/fuzzer/MainCLI-136.d...[2026-11-23T19:10:44.296188]: Reading daikon-traces/all/fuzzer/MainCLI-144.d...[2026-11-23T19:10:45.306328]: Reading daikon-traces/all/fuzzer/MainCLI-150.d...[2026-11-23T19:10:46.310475]: Reading daikon-traces/all/fuzzer/MainCLI-156.d...[2026-11-23T19:10:47.320667]: Reading daikon-traces/all/fuzzer/MainCLI-162.d...[2026-11-23T19:10:48.331547]: Reading daikon-traces/all/fuzzer/MainCLI-168.d...[2026-11-23T19:10:49.332077]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:10:50.337348]: Reading daikon-traces/all/fuzzer/MainCLI-179.d...[2026-11-23T19:10:51.344909]: Reading daikon-traces/all/fuzzer/MainCLI-184.d...[2026-11-23T19:10:52.347309]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:10:53.357449]: Reading daikon-traces/all/fuzzer/MainCLI-194.d...[2026-11-23T19:10:54.366450]: Reading daikon-traces/all/fuzzer/MainCLI-201.d...[2026-11-23T19:10:55.376605]: Reading daikon-traces/all/fuzzer/MainCLI-206.d...[2026-11-23T19:10:56.386743]: Reading daikon-traces/all/fuzzer/MainCLI-211.d...[2026-11-23T19:10:57.396862]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:10:58.402719]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:10:59.412864]: Reading daikon-traces/all/fuzzer/MainCLI-225.d...[2026-11-23T19:11:00.419401]: Reading daikon-traces/all/fuzzer/MainCLI-230.d...[2026-11-23T19:11:01.426120]: Reading daikon-traces/all/fuzzer/MainCLI-236.d...[2026-11-23T19:11:02.436056]: Reading daikon-traces/all/fuzzer/MainCLI-244.d...[2026-11-23T19:11:03.446207]: Reading daikon-traces/all/fuzzer/MainCLI-248.d...[2026-11-23T19:11:04.456374]: Reading daikon-traces/all/fuzzer/MainCLI-256.d...[2026-11-23T19:11:05.461087]: Reading daikon-traces/all/fuzzer/MainCLI-263.d...[2026-11-23T19:11:06.471228]: Reading daikon-traces/all/fuzzer/MainCLI-269.d...[2026-11-23T19:11:07.481366]: Reading daikon-traces/all/fuzzer/MainCLI-274.d...[2026-11-23T19:11:08.485904]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:11:09.497688]: Reading daikon-traces/all/fuzzer/MainCLI-285.d...[2026-11-23T19:11:10.507831]: Reading daikon-traces/all/fuzzer/MainCLI-292.d...[2026-11-23T19:11:11.517942]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:11:12.522827]: Reading daikon-traces/all/fuzzer/MainCLI-304.d...[2026-11-23T19:11:13.525718]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:11:14.527841]: Reading daikon-traces/all/fuzzer/MainCLI-313.d...[2026-11-23T19:11:15.537537]: Reading daikon-traces/all/fuzzer/MainCLI-320.d...[2026-11-23T19:11:16.547659]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:11:17.552457]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:11:18.562586]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:11:19.571215]: Reading daikon-traces/all/fuzzer/MainCLI-342.d...[2026-11-23T19:11:20.577125]: Reading daikon-traces/all/fuzzer/MainCLI-348.d...[2026-11-23T19:11:21.587277]: Reading daikon-traces/all/fuzzer/MainCLI-354.d...[2026-11-23T19:11:22.596734]: Reading daikon-traces/all/fuzzer/MainCLI-358.d...[2026-11-23T19:11:23.606873]: Reading daikon-traces/all/fuzzer/MainCLI-364.d...[2026-11-23T19:11:24.617040]: Reading daikon-traces/all/fuzzer/MainCLI-370.d...[2026-11-23T19:11:25.627193]: Reading daikon-traces/all/fuzzer/MainCLI-376.d...[2026-11-23T19:11:26.635701]: Reading daikon-traces/all/fuzzer/MainCLI-382.d...[2026-11-23T19:11:27.645880]: Reading daikon-traces/all/fuzzer/MainCLI-388.d...[2026-11-23T19:11:28.656056]: Reading daikon-traces/all/fuzzer/MainCLI-394.d...[2026-11-23T19:11:29.666201]: Reading daikon-traces/all/fuzzer/MainCLI-400.d...[2026-11-23T19:11:30.677029]: Reading daikon-traces/all/fuzzer/MainCLI-406.d...[2026-11-23T19:11:31.687263]: Reading daikon-traces/all/fuzzer/MainCLI-412.d...[2026-11-23T19:11:32.688302]: Reading daikon-traces/all/fuzzer/MainCLI-417.d...[2026-11-23T19:11:33.692139]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:11:34.702269]: Reading daikon-traces/all/fuzzer/MainCLI-426.d...[2026-11-23T19:11:35.712410]: Reading daikon-traces/all/fuzzer/MainCLI-432.d...[2026-11-23T19:11:36.713094]: Reading daikon-traces/all/fuzzer/MainCLI-436.d...[2026-11-23T19:11:37.723231]: Reading daikon-traces/all/fuzzer/MainCLI-443.d...[2026-11-23T19:11:38.733385]: Reading daikon-traces/all/fuzzer/MainCLI-449.d...[2026-11-23T19:11:39.743531]: Reading daikon-traces/all/fuzzer/MainCLI-454.d...[2026-11-23T19:11:40.754303]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:11:41.764448]: Reading daikon-traces/all/fuzzer/MainCLI-464.d...[2026-11-23T19:11:42.774594]: Reading daikon-traces/all/fuzzer/MainCLI-471.d...[2026-11-23T19:11:43.784731]: Reading daikon-traces/all/fuzzer/MainCLI-477.d...[2026-11-23T19:11:44.794269]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:11:45.804429]: Reading daikon-traces/all/fuzzer/MainCLI-488.d...[2026-11-23T19:11:46.814316]: Reading daikon-traces/all/fuzzer/MainCLI-496.d...[2026-11-23T19:11:47.819517]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:11:48.829665]: Reading daikon-traces/all/fuzzer/MainCLI-508.d...[2026-11-23T19:11:49.834805]: Reading daikon-traces/all/fuzzer/MainCLI-512.d...[2026-11-23T19:11:50.845297]: Reading daikon-traces/all/fuzzer/MainCLI-518.d...[2026-11-23T19:11:51.852038]: Reading daikon-traces/all/fuzzer/MainCLI-523.d...[2026-11-23T19:11:52.858292]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:11:53.868453]: Reading daikon-traces/all/fuzzer/MainCLI-532.d...[2026-11-23T19:11:54.878602]: Reading daikon-traces/all/fuzzer/MainCLI-538.d...[2026-11-23T19:11:55.881184]: Reading daikon-traces/all/fuzzer/MainCLI-544.d...[2026-11-23T19:11:56.887884]: Reading daikon-traces/all/fuzzer/MainCLI-550.d...[2026-11-23T19:11:57.892885]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:11:58.901950]: Reading daikon-traces/all/fuzzer/MainCLI-563.d...[2026-11-23T19:11:59.908916]: Reading daikon-traces/all/fuzzer/MainCLI-570.d...[2026-11-23T19:12:00.918660]: Reading daikon-traces/all/fuzzer/MainCLI-575.d...[2026-11-23T19:12:01.921538]: Reading daikon-traces/all/fuzzer/MainCLI-580.d...[2026-11-23T19:12:02.931684]: Reading daikon-traces/all/fuzzer/MainCLI-586.d...[2026-11-23T19:12:03.937559]: Reading daikon-traces/all/fuzzer/MainCLI-594.d...[2026-11-23T19:12:04.947711]: Reading daikon-traces/all/fuzzer/MainCLI-599.d...[2026-11-23T19:12:05.951856]: Reading daikon-traces/all/fuzzer/MainCLI-604.d...[2026-11-23T19:12:06.962020]: Reading daikon-traces/all/fuzzer/MainCLI-610.d...[2026-11-23T19:12:07.968412]: Reading daikon-traces/all/fuzzer/MainCLI-614.d...[2026-11-23T19:12:08.978564]: Reading daikon-traces/all/fuzzer/MainCLI-620.d...[2026-11-23T19:12:09.988708]: Reading daikon-traces/all/fuzzer/MainCLI-626.d...[2026-11-23T19:12:10.998979]: Reading daikon-traces/all/fuzzer/MainCLI-631.d...[2026-11-23T19:12:12.009940]: Reading daikon-traces/all/fuzzer/MainCLI-637.d...[2026-11-23T19:12:13.020097]: Reading daikon-traces/all/fuzzer/MainCLI-643.d...[2026-11-23T19:12:14.026088]: Reading daikon-traces/all/fuzzer/MainCLI-648.d...[2026-11-23T19:12:15.027168]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:12:16.037322]: Reading daikon-traces/all/fuzzer/MainCLI-661.d...[2026-11-23T19:12:17.047471]: Reading daikon-traces/all/fuzzer/MainCLI-666.d...[2026-11-23T19:12:18.051689]: Reading daikon-traces/all/fuzzer/MainCLI-672.d...[2026-11-23T19:12:19.061825]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:12:20.068289]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:12:21.077521]: Reading daikon-traces/all/fuzzer/MainCLI-688.d...[2026-11-23T19:12:22.084181]: Reading daikon-traces/all/fuzzer/MainCLI-694.d...[2026-11-23T19:12:23.095069]: Reading daikon-traces/all/fuzzer/MainCLI-701.d...[2026-11-23T19:12:24.101455]: Reading daikon-traces/all/fuzzer/MainCLI-706.d...[2026-11-23T19:12:25.106052]: Reading daikon-traces/all/fuzzer/MainCLI-710.d...[2026-11-23T19:12:26.116222]: Reading daikon-traces/all/fuzzer/MainCLI-716.d...[2026-11-23T19:12:27.126413]: Reading daikon-traces/all/fuzzer/MainCLI-722.d...[2026-11-23T19:12:28.136568]: Reading daikon-traces/all/fuzzer/MainCLI-728.d...[2026-11-23T19:12:29.142879]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:12:30.151490]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:12:31.154391]: Reading daikon-traces/all/fuzzer/MainCLI-744.d...[2026-11-23T19:12:32.156403]: Reading daikon-traces/all/fuzzer/MainCLI-749.d...[2026-11-23T19:12:33.164443]: Reading daikon-traces/all/fuzzer/MainCLI-756.d...[2026-11-23T19:12:34.165330]: Reading daikon-traces/all/fuzzer/MainCLI-762.d...[2026-11-23T19:12:35.175494]: Reading daikon-traces/all/fuzzer/MainCLI-768.d...[2026-11-23T19:12:36.185648]: Reading daikon-traces/all/fuzzer/MainCLI-774.d...[2026-11-23T19:12:37.195786]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:12:38.205936]: Reading daikon-traces/all/fuzzer/MainCLI-788.d...[2026-11-23T19:12:39.209797]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:12:40.219948]: Reading daikon-traces/all/fuzzer/MainCLI-799.d...[2026-11-23T19:12:41.226482]: Reading daikon-traces/all/fuzzer/MainCLI-804.d...[2026-11-23T19:12:42.236631]: Reading daikon-traces/all/fuzzer/MainCLI-810.d...[2026-11-23T19:12:43.246782]: Reading daikon-traces/all/fuzzer/MainCLI-816.d...[2026-11-23T19:12:44.257290]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:12:45.267449]: Reading daikon-traces/all/fuzzer/MainCLI-826.d...[2026-11-23T19:12:46.277617]: Reading daikon-traces/all/fuzzer/MainCLI-832.d...[2026-11-23T19:12:47.284786]: Reading daikon-traces/all/fuzzer/MainCLI-838.d...[2026-11-23T19:12:48.294904]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:12:49.305086]: Reading daikon-traces/all/fuzzer/MainCLI-848.d...[2026-11-23T19:12:50.312133]: Reading daikon-traces/all/fuzzer/MainCLI-855.d...[2026-11-23T19:12:51.314412]: Reading daikon-traces/all/fuzzer/MainCLI-861.d...[2026-11-23T19:12:52.324563]: Reading daikon-traces/all/fuzzer/MainCLI-866.d...[2026-11-23T19:12:53.334710]: Reading daikon-traces/all/fuzzer/MainCLI-871.d...[2026-11-23T19:12:54.337616]: Reading daikon-traces/all/fuzzer/MainCLI-877.d...[2026-11-23T19:12:55.347692]: Reading daikon-traces/all/fuzzer/MainCLI-884.d...[2026-11-23T19:12:56.351154]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:12:57.361293]: Reading daikon-traces/all/fuzzer/MainCLI-894.d...[2026-11-23T19:12:58.367891]: Reading daikon-traces/all/fuzzer/MainCLI-900.d...[2026-11-23T19:12:59.378085]: Reading daikon-traces/all/fuzzer/MainCLI-906.d...[2026-11-23T19:13:00.384435]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:13:01.394558]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:13:02.401132]: Reading daikon-traces/all/fuzzer/MainCLI-920.d...[2026-11-23T19:13:03.411298]: Reading daikon-traces/all/fuzzer/MainCLI-925.d...[2026-11-23T19:13:04.421476]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:13:05.431622]: Reading daikon-traces/all/fuzzer/MainCLI-936.d...[2026-11-23T19:13:06.434438]: Reading daikon-traces/all/fuzzer/MainCLI-942.d...[2026-11-23T19:13:07.444591]: Reading daikon-traces/all/fuzzer/MainCLI-948.d...[2026-11-23T19:13:08.450350]: Reading daikon-traces/all/fuzzer/MainCLI-954.d...[2026-11-23T19:13:09.452480]: Reading daikon-traces/all/fuzzer/MainCLI-960.d...[2026-11-23T19:13:10.460990]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:13:11.469669]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:13:12.479848]: Reading daikon-traces/all/fuzzer/MainCLI-978.d...[2026-11-23T19:13:13.484261]: Checking size of daikon-traces/all/fuzzer/Main...[2026-11-23T19:13:14.494412]: Reading daikon-traces/all/fuzzer/MainCLI-988.d...[2026-11-23T19:13:15.500939]: Reading daikon-traces/all/fuzzer/MainCLI-994.d...
+No return from procedure observed 70 times.  Unmatched entries are ignored!
 Unterminated calls:
-  ar.edu.unrc.game2048.Board.setCell(int, int, ar.edu.unrc.game2048.Cell) : 22 invocations
-  ar.edu.unrc.game2048.Board.validatePosition(int, int) : 10 invocations
-  ar.edu.unrc.game2048.Board_ESTest.test10() : 1 invocation
-  ar.edu.unrc.game2048.Board.fromString(java.lang.String) : 15 invocations
-  ar.edu.unrc.game2048.Board.getCell(int, int) : 7 invocations
-  ar.edu.unrc.game2048.Board_ESTest.test13() : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test14() : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test15() : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test16() : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test18() : 1 invocation
-  ar.edu.unrc.game2048.Board$Direction.valueOf(java.lang.String) : 5 invocations
-  ar.edu.unrc.game2048.Board_ESTest.test22() : 1 invocation
+  ar.edu.unrc.game2048.Cell.mergeWith(ar.edu.unrc.game2048.Cell) : 26 invocations
+  ar.edu.unrc.game2048.Board.getCell(int, int) : 2 invocations
+  ar.edu.unrc.game2048.Board.setCell(int, int, ar.edu.unrc.game2048.Cell) : 21 invocations
+  ar.edu.unrc.game2048.Board.fromString(java.lang.String) : 12 invocations
+  ar.edu.unrc.game2048.Board_ESTest.test63() : 1 invocation
   ar.edu.unrc.game2048.Board.Board(ar.edu.unrc.game2048.Board) : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test26() : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test28() : 1 invocation
-  ar.edu.unrc.game2048.Board.Board(int, long) : 6 invocations
-  ar.edu.unrc.game2048.Board_ESTest.test30() : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test33() : 1 invocation
-  ar.edu.unrc.game2048.Board.Board(int) : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test37() : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test38() : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test41() : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test42() : 1 invocation
-  ar.edu.unrc.game2048.Cell.mergeWith(ar.edu.unrc.game2048.Cell) : 19 invocations
-  ar.edu.unrc.game2048.Board_ESTest.test48() : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test50() : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test55() : 1 invocation
-  ar.edu.unrc.game2048.Board_ESTest.test57() : 1 invocation
+  ar.edu.unrc.game2048.Board.validatePosition(int, int) : 3 invocations
+  ar.edu.unrc.game2048.Board_ESTest.test66() : 1 invocation
+  ar.edu.unrc.game2048.Board.Board(int, long) : 3 invocations
 End of report for procedures not returned from.  Unmatched entries are ignored!
-
-===========================================================================
+[2026-11-23T19:13:16.481420]: Finished reading daikon-traces/all/fuzzer/Main...[2026-11-23T19:13:16.481461]: Finished reading daikon-traces/all/fuzzer/Main...
+                                                                                                                                                              ===========================================================================
 ar.edu.unrc.game2048.Board$Direction:::CLASS
 ar.edu.unrc.game2048.Board$Direction.UP != null
 ar.edu.unrc.game2048.Board$Direction.DOWN != null
@@ -74,6 +55,8 @@ ar.edu.unrc.game2048.Board$Direction.$VALUES[] == orig(ar.edu.unrc.game2048.Boar
 return != null
 ===========================================================================
 ar.edu.unrc.game2048.Board$Position:::OBJECT
+this.row >= 0
+this.col >= 0
 ===========================================================================
 ar.edu.unrc.game2048.Board$Position.Position(int, int):::ENTER
 row >= 0
@@ -82,37 +65,32 @@ col >= 0
 ar.edu.unrc.game2048.Board$Position.Position(int, int):::EXIT
 this.row == orig(row)
 this.col == orig(col)
-this.row >= 0
-this.col >= 0
 ===========================================================================
 ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::ENTER
 ===========================================================================
-ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT629
+ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT654
 orig(this) == orig(o)
-this.row one of { -7, 2 }
-this.col one of { -7, 3 }
+this.row == 2
+this.col == 3
 return == true
+orig(this) has only one value
+orig(o) has only one value
 orig(o.getClass().getName()) == ar.edu.unrc.game2048.Board$Position.class
 ===========================================================================
-ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT629;condition="return == true"
+ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT654;condition="return == true"
 ===========================================================================
-ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT630
-this.col >= -1
+ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT655
 return == false
 ===========================================================================
-ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT630;condition="not(return == true)"
+ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT655;condition="not(return == true)"
 ===========================================================================
-ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT632
-(return == true)  ==>  (this.col >= 0)
-(return == true)  ==>  (this.row >= 0)
+ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT657
 orig(o) != null
 orig(o.getClass().getName()) == ar.edu.unrc.game2048.Board$Position.class
 ===========================================================================
-ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT632;condition="return == true"
-this.row >= 0
-this.col >= 0
+ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT657;condition="return == true"
 ===========================================================================
-ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT632;condition="not(return == true)"
+ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT657;condition="not(return == true)"
 ===========================================================================
 ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT
 this.row == orig(this.row)
@@ -129,14 +107,10 @@ ar.edu.unrc.game2048.Board$Position.equals(java.lang.Object):::EXIT;condition="n
 return == false
 ===========================================================================
 ar.edu.unrc.game2048.Board$Position.hashCode():::ENTER
-this.row >= 0
-this.col >= 0
 ===========================================================================
 ar.edu.unrc.game2048.Board$Position.hashCode():::EXIT
 this.row == orig(this.row)
 this.col == orig(this.col)
-this.row >= 0
-this.col >= 0
 this.row < return
 this.col < return
 31 * this.row + this.col - return + 961 == 0
@@ -165,7 +139,6 @@ ar.edu.unrc.game2048.Board.MAX_SIZE >= this.size
 this.size < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.size < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 this.score != ar.edu.unrc.game2048.Board.DEFAULT_SEED
-this.score != ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
 ar.edu.unrc.game2048.Board.Board():::EXIT
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE == this.size
@@ -184,10 +157,10 @@ ar.edu.unrc.game2048.Board.$assertionsDisabled == false
 other.score % ar.edu.unrc.game2048.Board.DEFAULT_SIZE == 0
 ar.edu.unrc.game2048.Board.WINNING_VALUE > other.size
 ar.edu.unrc.game2048.Board.MAX_SIZE >= other.size
+other.score % other.size == 0
 other.size < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 other.size < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 other.score != ar.edu.unrc.game2048.Board.DEFAULT_SEED
-other.score != ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
 ar.edu.unrc.game2048.Board.Board(ar.edu.unrc.game2048.Board):::EXIT
 this.size == other.size
@@ -205,6 +178,7 @@ other.random == orig(other.random)
 other.grid != null
 other.grid[] elements != null
 other.random != null
+this.score % this.size == 0
 ===========================================================================
 ar.edu.unrc.game2048.Board.Board(int):::ENTER
 ===========================================================================
@@ -214,21 +188,19 @@ this.score == 0
 this.score <= size(this.grid[])-1
 ===========================================================================
 ar.edu.unrc.game2048.Board.Board(int, long):::ENTER
-seed != 0
 ===========================================================================
 ar.edu.unrc.game2048.Board.Board(int, long):::EXIT
 this.size == orig(size)
 this.score == 0
-ar.edu.unrc.game2048.Board.WINNING_VALUE != orig(seed)
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != orig(seed)
+ar.edu.unrc.game2048.Board.WINNING_VALUE > orig(seed)
 ar.edu.unrc.game2048.Board.MAX_SIZE != orig(seed)
-this.score != orig(seed)
 this.score <= size(this.grid[])-1
-ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE >= orig(seed)
-orig(seed) != size(this.grid[])-1
+ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > orig(seed)
 ===========================================================================
 ar.edu.unrc.game2048.Board.addRandomTile():::ENTER
 ===========================================================================
-ar.edu.unrc.game2048.Board.addRandomTile():::EXIT504
+ar.edu.unrc.game2048.Board.addRandomTile():::EXIT507
 this.score == size(this.grid[])-1
 this.score == orig(size(this.grid[]))-1
 ar.edu.unrc.game2048.Board.$assertionsDisabled == return
@@ -239,12 +211,12 @@ this.grid[this.score] == orig(this.grid[this.size-1])
 this.size == 1
 this.grid[] elements == this.grid[this.score]
 ===========================================================================
-ar.edu.unrc.game2048.Board.addRandomTile():::EXIT504;condition="not(return == true)"
+ar.edu.unrc.game2048.Board.addRandomTile():::EXIT507;condition="not(return == true)"
 ===========================================================================
-ar.edu.unrc.game2048.Board.addRandomTile():::EXIT515
+ar.edu.unrc.game2048.Board.addRandomTile():::EXIT518
 return == true
 ===========================================================================
-ar.edu.unrc.game2048.Board.addRandomTile():::EXIT515;condition="return == true"
+ar.edu.unrc.game2048.Board.addRandomTile():::EXIT518;condition="return == true"
 ===========================================================================
 ar.edu.unrc.game2048.Board.addRandomTile():::EXIT
 this.size == orig(this.size)
@@ -256,6 +228,8 @@ this.score == orig(this.score)
 this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
+(return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE > this.size)
+(return == false)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.size)
 (return == false)  ==>  (this.grid[] elements == orig(this.grid[post(this.score)]))
 (return == false)  ==>  (this.grid[] elements == orig(this.grid[this.score]))
 (return == false)  ==>  (this.grid[] elements == this.grid[orig(this.score)])
@@ -286,6 +260,7 @@ line[] elements != null
 line[].getClass().getName() elements == ar.edu.unrc.game2048.Cell.class
 line.getClass().getName() == java.util.ArrayList.class
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+this.score % this.size == 0
 this.grid.getClass().getName() != line.getClass().getName()
 ===========================================================================
 ar.edu.unrc.game2048.Board.collapseLine(java.util.List):::EXIT
@@ -306,13 +281,14 @@ return != null
 return[] elements != null
 return.getClass().getName() == java.util.ArrayList.class
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(line[])-1
+orig(this.score) % this.size == 0
 this.grid.getClass().getName() != return.getClass().getName()
 this.score >= orig(this.score)
 ===========================================================================
 ar.edu.unrc.game2048.Board.equals(java.lang.Object):::ENTER
 this.grid.getClass().getName() != o.getClass().getName()
 ===========================================================================
-ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT564
+ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT580
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE == this.size
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE == orig(this.size)
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE == size(this.grid[])
@@ -329,34 +305,39 @@ orig(o.getClass().getName()) == ar.edu.unrc.game2048.Board.class
 this.grid[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1] has only one value
 this.grid[this.score] has only one value
 ===========================================================================
-ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT564;condition="return == true"
+ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT580;condition="return == true"
 ===========================================================================
-ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT565
+ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT581
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE == this.size
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE == orig(this.size)
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE == size(this.grid[])
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE == orig(size(this.grid[]))
 ar.edu.unrc.game2048.Board.$assertionsDisabled == return
-this.size one of { 4, 10 }
 this.score one of { 0, 4 }
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE <= this.size
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.score
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
-this.size >= this.score
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 this.score != size(this.grid[])-1
 ===========================================================================
-ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT565;condition="not(return == true)"
+ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT581;condition="not(return == true)"
 ===========================================================================
-ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT567
+ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT583
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1)
+(return == false)  ==>  (this.score != size(this.grid[])-1)
+(return == false)  ==>  (this.size one of { 2, 4, 16 })
+(return == true)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= size(this.grid[])-1)
+(return == true)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.size)
+(return == true)  ==>  (this.score % this.size == 0)
+(return == true)  ==>  (this.size one of { 1, 4, 5 })
 orig(o) != null
 orig(o.getClass().getName()) == ar.edu.unrc.game2048.Board.class
 ===========================================================================
-ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT567;condition="return == true"
+ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT583;condition="return == true"
 ===========================================================================
-ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT567;condition="not(return == true)"
+ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT583;condition="not(return == true)"
 ===========================================================================
 ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT
 this.size == orig(this.size)
@@ -369,18 +350,30 @@ this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1)
+(return == false)  ==>  (this.score != size(this.grid[])-1)
+(return == false)  ==>  (this.size one of { 2, 4, 16 })
+(return == true)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= size(this.grid[])-1)
+(return == true)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.size)
 (return == true)  ==>  (orig(o) != null)
 (return == true)  ==>  (orig(o.getClass().getName()) == ar.edu.unrc.game2048.Board.class)
+(return == true)  ==>  (this.score % this.size == 0)
+(return == true)  ==>  (this.size one of { 1, 4, 5 })
 this.grid.getClass().getName() != orig(o.getClass().getName())
 ===========================================================================
 ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT;condition="return == true"
+this.size one of { 1, 4, 5 }
 return == true
 orig(o) != null
 orig(o.getClass().getName()) == ar.edu.unrc.game2048.Board.class
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= size(this.grid[])-1
+ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
+this.score % this.size == 0
 ===========================================================================
 ar.edu.unrc.game2048.Board.equals(java.lang.Object):::EXIT;condition="not(return == true)"
 ar.edu.unrc.game2048.Board.$assertionsDisabled == return
+this.size one of { 2, 4, 16 }
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+this.score != size(this.grid[])-1
 ===========================================================================
 ar.edu.unrc.game2048.Board.finalizeMove(ar.edu.unrc.game2048.Board):::ENTER
 this.size == previous.size
@@ -393,9 +386,9 @@ previous.score >= 0
 previous.random != null
 previous.score % ar.edu.unrc.game2048.Board.DEFAULT_SIZE == 0
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+previous.score % this.size == 0
 this.score >= previous.score
 ar.edu.unrc.game2048.Board.DEFAULT_SEED != previous.score
-ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE != previous.score
 ===========================================================================
 ar.edu.unrc.game2048.Board.finalizeMove(ar.edu.unrc.game2048.Board):::EXIT
 this.size == previous.size
@@ -419,7 +412,6 @@ previous.random == orig(previous.random)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.size)
-(return == false)  ==>  (previous.score % this.size == 0)
 (return == false)  ==>  (this.score % this.size == 0)
 (return == false)  ==>  (this.score == previous.score)
 (return == false)  ==>  (this.size one of { 1, 4 })
@@ -432,9 +424,9 @@ previous.score >= 0
 previous.random != null
 previous.score % ar.edu.unrc.game2048.Board.DEFAULT_SIZE == 0
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+previous.score % this.size == 0
 this.score >= previous.score
 ar.edu.unrc.game2048.Board.DEFAULT_SEED != previous.score
-ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE != previous.score
 ===========================================================================
 ar.edu.unrc.game2048.Board.finalizeMove(ar.edu.unrc.game2048.Board):::EXIT;condition="return == true"
 this.size one of { 3, 4, 16 }
@@ -467,18 +459,20 @@ return.score == 0
 return.random != null
 ===========================================================================
 ar.edu.unrc.game2048.Board.getCell(int, int):::ENTER
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE == this.size
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE == size(this.grid[])
-this.score one of { 0, 4 }
+this.size one of { 3, 4 }
 row >= 0
 col >= 0
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.score
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE > row
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE > col
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
 ar.edu.unrc.game2048.Board.WINNING_VALUE > row
 ar.edu.unrc.game2048.Board.WINNING_VALUE > col
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
+ar.edu.unrc.game2048.Board.MAX_SIZE != this.score
 ar.edu.unrc.game2048.Board.MAX_SIZE > row
 ar.edu.unrc.game2048.Board.MAX_SIZE > col
+this.score % this.size == 0
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 this.score != size(this.grid[])-1
@@ -490,41 +484,47 @@ row <= size(this.grid[])-1
 col <= size(this.grid[])-1
 ===========================================================================
 ar.edu.unrc.game2048.Board.getCell(int, int):::EXIT
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE == this.size
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE == size(this.grid[])
+this.size == orig(this.size)
+this.size == orig(size(this.grid[]))
 this.grid == orig(this.grid)
 this.grid.getClass().getName() == orig(this.grid.getClass().getName())
 this.grid[] == orig(this.grid[])
 this.score == orig(this.score)
 this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
-this.score one of { 0, 4 }
+this.size one of { 3, 4 }
 return != null
 return.value >= 0
 ar.edu.unrc.game2048.Cell.EMPTY != null
 ar.edu.unrc.game2048.Cell.EMPTY.value == 0
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.score
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
 ar.edu.unrc.game2048.Board.WINNING_VALUE != return.value
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
+ar.edu.unrc.game2048.Board.MAX_SIZE != this.score
 ar.edu.unrc.game2048.Board.MAX_SIZE != return.value
+this.score % this.size == 0
+this.size < ar.edu.unrc.game2048.Cell.MAX_VALUE
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 this.score < ar.edu.unrc.game2048.Cell.MAX_VALUE
 this.score >= ar.edu.unrc.game2048.Cell.EMPTY.value
 this.score != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.DEFAULT_SEED != return.value
+ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE != return.value
 return.value <= ar.edu.unrc.game2048.Cell.MAX_VALUE
 return.value >= ar.edu.unrc.game2048.Cell.EMPTY.value
-return.value != size(this.grid[])-1
 ar.edu.unrc.game2048.Cell.MAX_VALUE > orig(row)
 ar.edu.unrc.game2048.Cell.MAX_VALUE > orig(col)
 ar.edu.unrc.game2048.Cell.EMPTY.value <= orig(row)
 ar.edu.unrc.game2048.Cell.EMPTY.value <= orig(col)
+ar.edu.unrc.game2048.Cell.EMPTY.value < size(this.grid[])-1
 orig(row) <= size(this.grid[])-1
 orig(col) <= size(this.grid[])-1
 ===========================================================================
 ar.edu.unrc.game2048.Board.getEmptyPositions():::ENTER
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+this.score % this.size == 0
 ===========================================================================
 ar.edu.unrc.game2048.Board.getEmptyPositions():::EXIT
 this.size == orig(this.size)
@@ -537,11 +537,13 @@ this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
 return != null
 return.getClass().getName() == java.util.HashSet.class
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+this.score % this.size == 0
 this.grid.getClass().getName() != return.getClass().getName()
 ===========================================================================
 ar.edu.unrc.game2048.Board.getScore():::ENTER
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
-ar.edu.unrc.game2048.Board.WINNING_VALUE != this.score
+this.score != ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
 ar.edu.unrc.game2048.Board.getScore():::EXIT
 this.size == orig(this.size)
@@ -556,14 +558,15 @@ return == orig(this.score)
 return >= 0
 return % ar.edu.unrc.game2048.Board.DEFAULT_SIZE == 0
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
-ar.edu.unrc.game2048.Board.WINNING_VALUE != return
 ar.edu.unrc.game2048.Board.DEFAULT_SEED != return
 ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE != return
 ===========================================================================
 ar.edu.unrc.game2048.Board.getSize():::ENTER
-this.score one of { 0, 4, 8 }
+this.score one of { 0, 4, 16 }
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE >= this.score
+this.score % this.size == 0
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
@@ -578,13 +581,15 @@ ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Boar
 return == orig(this.size)
 return == size(this.grid[])
 return == orig(size(this.grid[]))
-this.score one of { 0, 4, 8 }
+this.score one of { 0, 4, 16 }
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
 ar.edu.unrc.game2048.Board.WINNING_VALUE > return
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE >= this.score
 ar.edu.unrc.game2048.Board.MAX_SIZE >= return
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
+this.score % return == 0
 ar.edu.unrc.game2048.Board.DEFAULT_SEED > return
 ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > return
 ===========================================================================
@@ -604,6 +609,7 @@ ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Boar
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.size)
+(return == false)  ==>  (this.score != ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE)
 (return == false)  ==>  (this.size one of { 1, 2, 4 })
 (return == true)  ==>  (this.score != size(this.grid[])-1)
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
@@ -618,11 +624,13 @@ ar.edu.unrc.game2048.Board.$assertionsDisabled == return
 this.size one of { 1, 2, 4 }
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
+this.score != ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
 ar.edu.unrc.game2048.Board.hashCode():::ENTER
+this.size one of { 1, 2, 4 }
 this.score one of { 0, 4 }
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.score
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
@@ -640,10 +648,11 @@ this.grid[] == orig(this.grid[])
 this.score == orig(this.score)
 this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
+this.size one of { 1, 2, 4 }
 this.score one of { 0, 4 }
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.score
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != return
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
 ar.edu.unrc.game2048.Board.WINNING_VALUE != return
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
@@ -676,11 +685,14 @@ this.score == 0
 this.score <= size(this.grid[])-1
 ===========================================================================
 ar.edu.unrc.game2048.Board.isFull():::ENTER
-this.score one of { 0, 4, 8 }
+this.size is a power of 2
+this.score one of { 0, 4 }
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.score
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
 this.score % this.size == 0
+this.size >= this.score
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
@@ -693,22 +705,21 @@ this.grid[] == orig(this.grid[])
 this.score == orig(this.score)
 this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
-(this.size one of { 1, 2 })  <==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE > this.size)
 (this.size one of { 1, 2 })  <==>  (return == true)
-(this.size one of { 1, 2 })  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE > this.score)
-(this.size one of { 1, 2 })  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.size)
-(this.size one of { 1, 2 })  ==>  (this.score <= size(this.grid[])-1)
 (this.size one of { 1, 2 })  ==>  (this.score == 0)
-(this.size one of { 4, 10, 16 })  <==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE <= this.size)
-(this.size one of { 4, 10, 16 })  <==>  (return == false)
-(this.size one of { 4, 10, 16 })  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
-(this.size one of { 4, 10, 16 })  ==>  (this.score != size(this.grid[])-1)
-(this.size one of { 4, 10, 16 })  ==>  (this.score one of { 0, 4, 8 })
-this.score one of { 0, 4, 8 }
+(this.size one of { 4, 16 })  <==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE <= this.size)
+(this.size one of { 4, 16 })  <==>  (return == false)
+(this.size one of { 4, 16 })  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
+(this.size one of { 4, 16 })  ==>  (this.score != size(this.grid[])-1)
+(this.size one of { 4, 16 })  ==>  (this.score one of { 0, 4 })
+this.size is a power of 2
+this.score one of { 0, 4 }
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.score
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
 this.score % this.size == 0
+this.size >= this.score
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
@@ -716,56 +727,52 @@ ar.edu.unrc.game2048.Board.isFull():::EXIT;condition="return == true"
 this.size one of { 1, 2 }
 this.score == 0
 return == true
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE > this.size
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
-this.score <= size(this.grid[])-1
 ===========================================================================
 ar.edu.unrc.game2048.Board.isFull():::EXIT;condition="not(return == true)"
 ar.edu.unrc.game2048.Board.$assertionsDisabled == return
-this.size one of { 4, 10, 16 }
+this.size one of { 4, 16 }
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE <= this.size
 this.score != size(this.grid[])-1
 ===========================================================================
 ar.edu.unrc.game2048.Board.isLosingBoard():::ENTER
-this.size one of { 1, 2, 4 }
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 this.score % this.size == 0
 ===========================================================================
-ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT319
+ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT322
 ar.edu.unrc.game2048.Board.$assertionsDisabled == return
-this.size one of { 2, 4 }
 this.score != size(this.grid[])-1
 ===========================================================================
-ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT319;condition="not(return == true)"
+ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT322;condition="not(return == true)"
 ===========================================================================
-ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT328
+ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT331
 ar.edu.unrc.game2048.Board.$assertionsDisabled == return
 this.size one of { 2, 4 }
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE != this.score
-ar.edu.unrc.game2048.Board.WINNING_VALUE != this.score
-ar.edu.unrc.game2048.Board.MAX_SIZE != this.score
-this.size != this.score
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
+ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
+this.score != ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 this.score != size(this.grid[])-1
 ===========================================================================
-ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT328;condition="not(return == true)"
+ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT331;condition="not(return == true)"
 ===========================================================================
-ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT332
+ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT335
 ar.edu.unrc.game2048.Board.$assertionsDisabled == return
 this.size one of { 2, 4 }
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE != this.score
-ar.edu.unrc.game2048.Board.MAX_SIZE != this.score
-this.size != this.score
-this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
+ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
+this.score != ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 this.score != size(this.grid[])-1
 ===========================================================================
-ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT332;condition="not(return == true)"
+ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT335;condition="not(return == true)"
 ===========================================================================
-ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT336
+ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT339
+this.size one of { 1, 2, 4 }
 return == true
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
 ar.edu.unrc.game2048.Board.WINNING_VALUE != this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
+this.score != ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
-ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT336;condition="return == true"
+ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT339;condition="return == true"
 ===========================================================================
 ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT
 this.size == orig(this.size)
@@ -778,27 +785,31 @@ this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
 (return == false)  ==>  (this.score != size(this.grid[])-1)
-(return == false)  ==>  (this.size one of { 2, 4 })
+(return == true)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size)
+(return == true)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.size)
 (return == true)  ==>  (ar.edu.unrc.game2048.Board.WINNING_VALUE != this.score)
+(return == true)  ==>  (this.score != ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE)
 (return == true)  ==>  (this.size one of { 1, 2, 4 })
-this.size one of { 1, 2, 4 }
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 this.score % this.size == 0
 ===========================================================================
 ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT;condition="return == true"
+this.size one of { 1, 2, 4 }
 return == true
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
 ar.edu.unrc.game2048.Board.WINNING_VALUE != this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
+this.score != ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
 ar.edu.unrc.game2048.Board.isLosingBoard():::EXIT;condition="not(return == true)"
 ar.edu.unrc.game2048.Board.$assertionsDisabled == return
-this.size one of { 2, 4 }
 this.score != size(this.grid[])-1
 ===========================================================================
 ar.edu.unrc.game2048.Board.isWinningBoard():::ENTER
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+this.score % this.size == 0
 ===========================================================================
-ar.edu.unrc.game2048.Board.isWinningBoard():::EXIT303
+ar.edu.unrc.game2048.Board.isWinningBoard():::EXIT306
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE == this.size
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE == orig(this.size)
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE == size(this.grid[])
@@ -806,13 +817,13 @@ ar.edu.unrc.game2048.Board.DEFAULT_SIZE == orig(size(this.grid[]))
 return == true
 this.score != size(this.grid[])-1
 ===========================================================================
-ar.edu.unrc.game2048.Board.isWinningBoard():::EXIT303;condition="return == true"
+ar.edu.unrc.game2048.Board.isWinningBoard():::EXIT306;condition="return == true"
 ===========================================================================
-ar.edu.unrc.game2048.Board.isWinningBoard():::EXIT307
+ar.edu.unrc.game2048.Board.isWinningBoard():::EXIT310
 ar.edu.unrc.game2048.Board.$assertionsDisabled == return
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
-ar.edu.unrc.game2048.Board.isWinningBoard():::EXIT307;condition="not(return == true)"
+ar.edu.unrc.game2048.Board.isWinningBoard():::EXIT310;condition="not(return == true)"
 ===========================================================================
 ar.edu.unrc.game2048.Board.isWinningBoard():::EXIT
 this.size == orig(this.size)
@@ -828,8 +839,8 @@ ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Boar
 (return == true)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE == this.size)
 (return == true)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.size)
 (return == true)  ==>  (this.score != size(this.grid[])-1)
-(return == true)  ==>  (this.score % this.size == 0)
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+this.score % this.size == 0
 ===========================================================================
 ar.edu.unrc.game2048.Board.isWinningBoard():::EXIT;condition="return == true"
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE == this.size
@@ -859,6 +870,7 @@ index >= 0
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > index
 ar.edu.unrc.game2048.Board.MAX_SIZE > index
+this.score % this.size == 0
 this.grid.getClass().getName() != ar.edu.unrc.game2048.Board$Direction.$VALUES.getClass().getName()
 this.score != size(ar.edu.unrc.game2048.Board$Direction.$VALUES[])-1
 ar.edu.unrc.game2048.Board.DEFAULT_SEED > index
@@ -902,6 +914,7 @@ return[] elements != null
 return[].getClass().getName() elements == ar.edu.unrc.game2048.Board.Position.class
 return.getClass().getName() == java.util.ArrayList.class
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(return[])-1
+this.score % this.size == 0
 this.grid.getClass().getName() != ar.edu.unrc.game2048.Board$Direction.$VALUES.getClass().getName()
 this.grid.getClass().getName() != return.getClass().getName()
 this.score != size(ar.edu.unrc.game2048.Board$Direction.$VALUES[])-1
@@ -925,6 +938,7 @@ ar.edu.unrc.game2048.Board$Direction.$VALUES[] elements != null
 ar.edu.unrc.game2048.Board$Direction.$VALUES[].getClass().getName() == [ar.edu.unrc.game2048.Board.Direction, ar.edu.unrc.game2048.Board.Direction, ar.edu.unrc.game2048.Board.Direction, ar.edu.unrc.game2048.Board.Direction]
 ar.edu.unrc.game2048.Board$Direction.$VALUES[].getClass().getName() elements == ar.edu.unrc.game2048.Board.Direction.class
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+this.score % this.size == 0
 this.grid.getClass().getName() != ar.edu.unrc.game2048.Board$Direction.$VALUES.getClass().getName()
 this.score != size(ar.edu.unrc.game2048.Board$Direction.$VALUES[])-1
 direction in ar.edu.unrc.game2048.Board$Direction.$VALUES[]
@@ -953,7 +967,6 @@ ar.edu.unrc.game2048.Board$Direction.$VALUES[] == orig(ar.edu.unrc.game2048.Boar
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.size)
-(return == false)  ==>  (orig(this.score) % this.size == 0)
 (return == false)  ==>  (size(this.grid[])-1 <= size(ar.edu.unrc.game2048.Board$Direction.$VALUES[])-1)
 (return == false)  ==>  (this.score % this.size == 0)
 (return == false)  ==>  (this.score == orig(this.score))
@@ -972,6 +985,7 @@ ar.edu.unrc.game2048.Board$Direction.$VALUES[] elements != null
 ar.edu.unrc.game2048.Board$Direction.$VALUES[].getClass().getName() == [ar.edu.unrc.game2048.Board.Direction, ar.edu.unrc.game2048.Board.Direction, ar.edu.unrc.game2048.Board.Direction, ar.edu.unrc.game2048.Board.Direction]
 ar.edu.unrc.game2048.Board$Direction.$VALUES[].getClass().getName() elements == ar.edu.unrc.game2048.Board.Direction.class
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+orig(this.score) % this.size == 0
 this.grid.getClass().getName() != ar.edu.unrc.game2048.Board$Direction.$VALUES.getClass().getName()
 this.score >= orig(this.score)
 this.score != size(ar.edu.unrc.game2048.Board$Direction.$VALUES[])-1
@@ -1000,10 +1014,10 @@ size(this.grid[])-1 <= size(ar.edu.unrc.game2048.Board$Direction.$VALUES[])-1
 ===========================================================================
 ar.edu.unrc.game2048.Board.moveDown():::ENTER
 this.size one of { 1, 4, 16 }
-this.score one of { 0, 4, 8 }
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE >= this.score
+this.score % this.size == 0
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
@@ -1016,21 +1030,23 @@ this.grid[] == orig(this.grid[])
 this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
-(return == false)  ==>  (orig(this.score) == 0)
-(return == false)  ==>  (this.score == 0)
+(return == false)  ==>  (orig(this.score) one of { 0, 16 })
 (return == false)  ==>  (this.score == orig(this.score))
+(return == false)  ==>  (this.score one of { 0, 16 })
 (return == false)  ==>  (this.size one of { 1, 4 })
 (return == true)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE <= this.size)
+(return == true)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > orig(this.score))
+(return == true)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.score)
 (return == true)  ==>  (orig(this.score) != size(this.grid[])-1)
 (return == true)  ==>  (orig(this.score) one of { 0, 4, 8 })
 (return == true)  ==>  (this.score != size(this.grid[])-1)
-(return == true)  ==>  (this.score one of { 0, 4, 8 })
 (return == true)  ==>  (this.size one of { 4, 16 })
 this.size one of { 1, 4, 16 }
-this.score one of { 0, 4, 8 }
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE >= this.score
+this.score % this.size == 0
+orig(this.score) % this.size == 0
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 this.score >= orig(this.score)
@@ -1040,7 +1056,10 @@ ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > orig(this.score)
 ar.edu.unrc.game2048.Board.moveDown():::EXIT;condition="return == true"
 this.size one of { 4, 16 }
 return == true
+orig(this.score) one of { 0, 4, 8 }
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE <= this.size
+ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE > orig(this.score)
 this.score != size(this.grid[])-1
 orig(this.score) != size(this.grid[])-1
 ===========================================================================
@@ -1048,13 +1067,12 @@ ar.edu.unrc.game2048.Board.moveDown():::EXIT;condition="not(return == true)"
 this.score == orig(this.score)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == return
 this.size one of { 1, 4 }
-this.score == 0
+this.score one of { 0, 16 }
 ===========================================================================
 ar.edu.unrc.game2048.Board.moveLeft():::ENTER
-this.size one of { 1, 2, 4 }
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
+this.size one of { 1, 4, 16 }
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
 this.score % this.size == 0
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
@@ -1067,29 +1085,32 @@ this.grid[] == orig(this.grid[])
 this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
+(return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE != orig(this.score))
+(return == false)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE != this.score)
+(return == false)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.size)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score)
 (return == false)  ==>  (orig(this.score) one of { 0, 4, 192 })
 (return == false)  ==>  (this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE)
 (return == false)  ==>  (this.score == orig(this.score))
 (return == false)  ==>  (this.score one of { 0, 4, 192 })
 (return == false)  ==>  (this.size one of { 1, 4 })
+(return == true)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE <= this.size)
 (return == true)  ==>  (orig(this.score) != size(this.grid[])-1)
 (return == true)  ==>  (this.score != size(this.grid[])-1)
-(return == true)  ==>  (this.size one of { 2, 4 })
-this.size one of { 1, 2, 4 }
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
-ar.edu.unrc.game2048.Board.WINNING_VALUE != this.score
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
-ar.edu.unrc.game2048.Board.MAX_SIZE != this.score
+(return == true)  ==>  (this.size one of { 4, 16 })
+this.size one of { 1, 4, 16 }
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 this.score % this.size == 0
 orig(this.score) % this.size == 0
+this.score != ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 this.score >= orig(this.score)
 ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > orig(this.score)
 ===========================================================================
 ar.edu.unrc.game2048.Board.moveLeft():::EXIT;condition="return == true"
-this.size one of { 2, 4 }
+this.size one of { 4, 16 }
 return == true
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE <= this.size
 this.score != size(this.grid[])-1
 orig(this.score) != size(this.grid[])-1
 ===========================================================================
@@ -1098,16 +1119,17 @@ this.score == orig(this.score)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == return
 this.size one of { 1, 4 }
 this.score one of { 0, 4, 192 }
-ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
-this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
-===========================================================================
-ar.edu.unrc.game2048.Board.moveRight():::ENTER
-this.size one of { 1, 3, 4 }
-this.score one of { 0, 4, 8 }
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE != this.score
+this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
+===========================================================================
+ar.edu.unrc.game2048.Board.moveRight():::ENTER
+this.score one of { 0, 4, 16 }
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE >= this.score
 this.score % this.size == 0
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
@@ -1121,23 +1143,26 @@ this.grid[] == orig(this.grid[])
 this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
-(return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE > orig(this.score))
-(return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE > this.score)
-(return == false)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.score)
-(return == false)  ==>  (orig(this.score) <= size(this.grid[])-1)
-(return == false)  ==>  (orig(this.score) == 0)
-(return == false)  ==>  (this.score <= size(this.grid[])-1)
-(return == false)  ==>  (this.score == 0)
+(return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE != orig(this.score))
+(return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE != this.score)
+(return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size)
+(return == false)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.size)
+(return == false)  ==>  (orig(this.score) one of { 0, 16 })
 (return == false)  ==>  (this.score == orig(this.score))
+(return == false)  ==>  (this.score one of { 0, 16 })
+(return == false)  ==>  (this.size != orig(this.score))
+(return == false)  ==>  (this.size != this.score)
 (return == false)  ==>  (this.size one of { 1, 4 })
+(return == true)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= orig(this.score))
+(return == true)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > orig(this.score))
+(return == true)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.score)
 (return == true)  ==>  (orig(this.score) != size(this.grid[])-1)
-(return == true)  ==>  (orig(this.score) one of { 0, 4, 8 })
+(return == true)  ==>  (orig(this.score) one of { 0, 4 })
 (return == true)  ==>  (this.score != size(this.grid[])-1)
-(return == true)  ==>  (this.size one of { 3, 4 })
-this.size one of { 1, 3, 4 }
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
+(return == true)  ==>  (this.size >= orig(this.score))
+(return == true)  ==>  (this.size one of { 3, 4, 16 })
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
 ar.edu.unrc.game2048.Board.MAX_SIZE >= this.score
 orig(this.score) % this.size == 0
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
@@ -1147,8 +1172,13 @@ ar.edu.unrc.game2048.Board.DEFAULT_SEED > orig(this.score)
 ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > orig(this.score)
 ===========================================================================
 ar.edu.unrc.game2048.Board.moveRight():::EXIT;condition="return == true"
-this.size one of { 3, 4 }
+this.size one of { 3, 4, 16 }
 return == true
+orig(this.score) one of { 0, 4 }
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= orig(this.score)
+ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE > orig(this.score)
+this.size >= orig(this.score)
 this.score != size(this.grid[])-1
 orig(this.score) != size(this.grid[])-1
 ===========================================================================
@@ -1156,14 +1186,15 @@ ar.edu.unrc.game2048.Board.moveRight():::EXIT;condition="not(return == true)"
 this.score == orig(this.score)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == return
 this.size one of { 1, 4 }
-this.score == 0
-this.score <= size(this.grid[])-1
+this.score one of { 0, 16 }
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
+this.size != this.score
 ===========================================================================
 ar.edu.unrc.game2048.Board.moveUp():::ENTER
-this.size one of { 1, 4, 16 }
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
-ar.edu.unrc.game2048.Board.MAX_SIZE != this.score
 this.score % this.size == 0
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 ===========================================================================
@@ -1177,29 +1208,25 @@ this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.$assertionsDisabled == return)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size)
+(return == false)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE != orig(this.score))
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE != this.score)
 (return == false)  ==>  (ar.edu.unrc.game2048.Board.MAX_SIZE > this.size)
 (return == false)  ==>  (orig(this.score) one of { 0, 4, 192 })
+(return == false)  ==>  (this.score % this.size == 0)
 (return == false)  ==>  (this.score == orig(this.score))
 (return == false)  ==>  (this.score one of { 0, 4, 192 })
 (return == false)  ==>  (this.size one of { 1, 4 })
-(return == true)  ==>  (ar.edu.unrc.game2048.Board.DEFAULT_SIZE <= this.size)
 (return == true)  ==>  (orig(this.score) != size(this.grid[])-1)
 (return == true)  ==>  (this.score != size(this.grid[])-1)
-(return == true)  ==>  (this.size one of { 4, 16 })
-this.size one of { 1, 4, 16 }
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
-this.score % this.size == 0
 orig(this.score) % this.size == 0
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 this.score >= orig(this.score)
 ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > orig(this.score)
 ===========================================================================
 ar.edu.unrc.game2048.Board.moveUp():::EXIT;condition="return == true"
-this.size one of { 4, 16 }
 return == true
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE <= this.size
 this.score != size(this.grid[])-1
 orig(this.score) != size(this.grid[])-1
 ===========================================================================
@@ -1211,6 +1238,7 @@ this.score one of { 0, 4, 192 }
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
 ar.edu.unrc.game2048.Board.MAX_SIZE != this.score
+this.score % this.size == 0
 ===========================================================================
 ar.edu.unrc.game2048.Board.parseTile(java.lang.String):::ENTER
 v != null
@@ -1223,10 +1251,11 @@ ar.edu.unrc.game2048.Board.DEFAULT_SEED != return
 ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE >= return
 ===========================================================================
 ar.edu.unrc.game2048.Board.repOk():::ENTER
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ===========================================================================
-ar.edu.unrc.game2048.Board.repOk():::EXIT550
+ar.edu.unrc.game2048.Board.repOk():::EXIT566
 ===========================================================================
-ar.edu.unrc.game2048.Board.repOk():::EXIT550;condition="return == true"
+ar.edu.unrc.game2048.Board.repOk():::EXIT566;condition="return == true"
 ===========================================================================
 ar.edu.unrc.game2048.Board.repOk():::EXIT
 this.size == orig(this.size)
@@ -1238,29 +1267,31 @@ this.score == orig(this.score)
 this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
 return == true
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ===========================================================================
 ar.edu.unrc.game2048.Board.repOk():::EXIT;condition="return == true"
 ===========================================================================
 ar.edu.unrc.game2048.Board.setCell(int, int, ar.edu.unrc.game2048.Cell):::ENTER
-this.size one of { 2, 4 }
-this.score one of { 0, 4, 8 }
+this.size one of { 2, 4, 16 }
+this.score one of { 0, 4 }
 row >= 0
 col >= 0
 cell != null
 cell.value >= 0
 ar.edu.unrc.game2048.Cell.EMPTY != null
 ar.edu.unrc.game2048.Cell.EMPTY.value == 0
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.score
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE > row
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE > col
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
 ar.edu.unrc.game2048.Board.WINNING_VALUE > row
 ar.edu.unrc.game2048.Board.WINNING_VALUE > col
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
 ar.edu.unrc.game2048.Board.MAX_SIZE > row
 ar.edu.unrc.game2048.Board.MAX_SIZE > col
 this.score % this.size == 0
+this.size >= this.score
 this.size < ar.edu.unrc.game2048.Cell.MAX_VALUE
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
@@ -1295,16 +1326,17 @@ ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Boar
 cell.value == orig(cell.value)
 ar.edu.unrc.game2048.Cell.EMPTY == orig(ar.edu.unrc.game2048.Cell.EMPTY)
 ar.edu.unrc.game2048.Cell.EMPTY.value == orig(ar.edu.unrc.game2048.Cell.EMPTY.value)
-this.size one of { 2, 4 }
-this.score one of { 0, 4, 8 }
+this.size one of { 2, 4, 16 }
+this.score one of { 0, 4 }
 cell.value >= 0
 ar.edu.unrc.game2048.Cell.EMPTY != null
 ar.edu.unrc.game2048.Cell.EMPTY.value == 0
-ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.score
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
 this.score % this.size == 0
+this.size >= this.score
 this.size < ar.edu.unrc.game2048.Cell.MAX_VALUE
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
@@ -1326,6 +1358,7 @@ orig(col) <= size(this.grid[])-1
 ar.edu.unrc.game2048.Board.toString():::ENTER
 this.size is a power of 2
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+this.score % this.size == 0
 ===========================================================================
 ar.edu.unrc.game2048.Board.toString():::EXIT
 this.size == orig(this.size)
@@ -1339,10 +1372,10 @@ ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Boar
 this.size is a power of 2
 return != null
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE != size(this.grid[])-1
+this.score % this.size == 0
 ===========================================================================
 ar.edu.unrc.game2048.Board.validatePosition(int, int):::ENTER
-this.size one of { 2, 4 }
-this.score one of { 0, 4, 8 }
+this.size one of { 2, 3, 4 }
 row >= 0
 col >= 0
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
@@ -1352,7 +1385,7 @@ ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
 ar.edu.unrc.game2048.Board.WINNING_VALUE > row
 ar.edu.unrc.game2048.Board.WINNING_VALUE > col
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE != this.score
 ar.edu.unrc.game2048.Board.MAX_SIZE > row
 ar.edu.unrc.game2048.Board.MAX_SIZE > col
 this.score % this.size == 0
@@ -1375,12 +1408,11 @@ this.grid[] == orig(this.grid[])
 this.score == orig(this.score)
 this.random == orig(this.random)
 ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
-this.size one of { 2, 4 }
-this.score one of { 0, 4, 8 }
+this.size one of { 2, 3, 4 }
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= this.size
 ar.edu.unrc.game2048.Board.WINNING_VALUE > this.score
 ar.edu.unrc.game2048.Board.MAX_SIZE > this.size
-ar.edu.unrc.game2048.Board.MAX_SIZE > this.score
+ar.edu.unrc.game2048.Board.MAX_SIZE != this.score
 this.score % this.size == 0
 this.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 this.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
@@ -1397,10 +1429,40 @@ this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.aBoardIsFull():::EXIT
 ===========================================================================
+ar.edu.unrc.game2048.BoardTest.aBoardWithATileAbove2048IsStillWinning():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.aBoardWithATileAbove2048IsStillWinning():::EXIT
+===========================================================================
 ar.edu.unrc.game2048.BoardTest.aBoardWithEmptyPositionsHasAnArrayWithThem():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.aBoardWithEmptyPositionsHasAnArrayWithThem():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.aFullBoardWithAMergeOnlyInTheBottomRightCornerIsNotLost():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.aFullBoardWithAMergeOnlyInTheBottomRightCornerIsNotLost():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.aFullBoardWithAMergeOnlyInTheRightColumnIsNotLost():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.aFullBoardWithAMergeOnlyInTheRightColumnIsNotLost():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.aFullBoardWithoutMergesIsLostAndNoMoveChangesIt():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.aFullBoardWithoutMergesIsLostAndNoMoveChangesIt():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.aMergedTileDoesNotMergeAgainInTheSameMove():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.aMergedTileDoesNotMergeAgainInTheSameMove():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.aMoveThatChangesNothingReturnsFalseAndAddsNoTile():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.aMoveThatChangesNothingReturnsFalseAndAddsNoTile():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.anInitializedBoardHasEmptyCells():::ENTER
 this has only one value
@@ -1411,6 +1473,94 @@ ar.edu.unrc.game2048.BoardTest.anInitializedBoardIsNotFull():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.anInitializedBoardIsNotFull():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.assertBoardAfterMove(ar.edu.unrc.game2048.Board, int[]):::ENTER
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE == board.size
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE == size(board.grid[])
+ar.edu.unrc.game2048.Board.MAX_SIZE == size(expected[])
+board.grid.getClass().getName() == ar.edu.unrc.game2048.Cell[][].class
+ar.edu.unrc.game2048.Board.$assertionsDisabled == false
+expected[] elements >= 0
+expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE] one of { 0, 8, 16 }
+expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1] one of { 0, 4 }
+expected[ar.edu.unrc.game2048.Board.MAX_SIZE-1] == 0
+board.score % ar.edu.unrc.game2048.Board.DEFAULT_SIZE == 0
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE in expected[]
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+ar.edu.unrc.game2048.Board.WINNING_VALUE > board.score
+expected[] elements < ar.edu.unrc.game2048.Board.WINNING_VALUE
+ar.edu.unrc.game2048.Board.WINNING_VALUE > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+ar.edu.unrc.game2048.Board.WINNING_VALUE > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+ar.edu.unrc.game2048.Board.MAX_SIZE != board.score
+expected[] elements <= ar.edu.unrc.game2048.Board.MAX_SIZE
+ar.edu.unrc.game2048.Board.MAX_SIZE >= expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+board.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
+board.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
+board.score != size(board.grid[])-1
+board.score != size(expected[])-1
+board.score >= expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+board.score >= expected[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+expected[] elements < ar.edu.unrc.game2048.Board.DEFAULT_SEED
+ar.edu.unrc.game2048.Board.DEFAULT_SEED > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+ar.edu.unrc.game2048.Board.DEFAULT_SEED > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+expected[] elements < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
+ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+expected[] elements >= expected[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+size(board.grid[])-1 != expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+size(board.grid[])-1 != expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+size(expected[])-1 != expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+size(expected[])-1 > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE] >= expected[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1] >= expected[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.assertBoardAfterMove(ar.edu.unrc.game2048.Board, int[]):::EXIT
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE == board.size
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE == size(board.grid[])
+board.grid == orig(board.grid)
+board.grid.getClass().getName() == orig(board.grid.getClass().getName())
+board.grid[] == orig(board.grid[])
+board.score == orig(board.score)
+board.random == orig(board.random)
+ar.edu.unrc.game2048.Board.$assertionsDisabled == orig(ar.edu.unrc.game2048.Board.$assertionsDisabled)
+expected[] == orig(expected[])
+board.grid.getClass().getName() == ar.edu.unrc.game2048.Cell[][].class
+ar.edu.unrc.game2048.Board.$assertionsDisabled == false
+expected[] elements >= 0
+expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE] one of { 0, 8, 16 }
+expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1] one of { 0, 4 }
+expected[ar.edu.unrc.game2048.Board.MAX_SIZE-1] == 0
+board.score % ar.edu.unrc.game2048.Board.DEFAULT_SIZE == 0
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE in expected[]
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE >= expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+ar.edu.unrc.game2048.Board.WINNING_VALUE > board.score
+expected[] elements < ar.edu.unrc.game2048.Board.WINNING_VALUE
+ar.edu.unrc.game2048.Board.WINNING_VALUE > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+ar.edu.unrc.game2048.Board.WINNING_VALUE > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+ar.edu.unrc.game2048.Board.MAX_SIZE != board.score
+expected[] elements <= ar.edu.unrc.game2048.Board.MAX_SIZE
+ar.edu.unrc.game2048.Board.MAX_SIZE >= expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+board.score < ar.edu.unrc.game2048.Board.DEFAULT_SEED
+board.score < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
+board.score != size(board.grid[])-1
+board.score != size(expected[])-1
+board.score >= expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+board.score >= expected[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+expected[] elements < ar.edu.unrc.game2048.Board.DEFAULT_SEED
+ar.edu.unrc.game2048.Board.DEFAULT_SEED > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+ar.edu.unrc.game2048.Board.DEFAULT_SEED > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+expected[] elements < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
+ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+expected[] elements >= expected[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+size(board.grid[])-1 != expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+size(board.grid[])-1 != expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+size(expected[])-1 != expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+size(expected[])-1 > expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE] >= expected[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+expected[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1] >= expected[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.assertRejected(java.lang.String):::ENTER
 ===========================================================================
@@ -1427,10 +1577,80 @@ this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.boardInitializedWithSizeZero():::EXIT
 ===========================================================================
+ar.edu.unrc.game2048.BoardTest.boardIsEqualToItself():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.boardIsEqualToItself():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.boardIsNotEqualToAnObjectOfAnotherClass():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.boardIsNotEqualToAnObjectOfAnotherClass():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.boardIsNotEqualToNull():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.boardIsNotEqualToNull():::EXIT
+===========================================================================
 ar.edu.unrc.game2048.BoardTest.boardOfMaxSizeIsValid():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.boardOfMaxSizeIsValid():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.boardWith(int[]):::ENTER
+cells != null
+cells[] elements >= 0
+size(cells[]) == 16
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.boardWith(int[]):::EXIT
+cells[] == orig(cells[])
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE == return.size
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE == size(return.grid[])
+ar.edu.unrc.game2048.Board.MAX_SIZE == orig(size(cells[]))
+cells[] elements >= 0
+return != null
+return.grid != null
+return.grid.getClass().getName() == ar.edu.unrc.game2048.Cell[][].class
+return.grid[] elements != null
+return.score == 0
+return.random != null
+ar.edu.unrc.game2048.Board.$assertionsDisabled == false
+cells[ar.edu.unrc.game2048.Board.MAX_SIZE-1] one of { 0, 2, 8 }
+cells[return.score] >= 2
+cells[return.score] is a power of 2
+cells[] elements >= return.score
+cells[] elements <= ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != cells[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+ar.edu.unrc.game2048.Board.DEFAULT_SIZE != cells[return.score]
+ar.edu.unrc.game2048.Board.WINNING_VALUE > cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+ar.edu.unrc.game2048.Board.WINNING_VALUE > cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+ar.edu.unrc.game2048.Board.WINNING_VALUE > cells[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+ar.edu.unrc.game2048.Board.WINNING_VALUE != cells[return.score]
+ar.edu.unrc.game2048.Board.MAX_SIZE >= cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+ar.edu.unrc.game2048.Board.MAX_SIZE != cells[return.score]
+return.score <= cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+return.score <= cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+return.score <= cells[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+return.score < cells[return.score]
+ar.edu.unrc.game2048.Board.DEFAULT_SEED > cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+ar.edu.unrc.game2048.Board.DEFAULT_SEED > cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+ar.edu.unrc.game2048.Board.DEFAULT_SEED > cells[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+ar.edu.unrc.game2048.Board.DEFAULT_SEED != cells[return.score]
+ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE > cells[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE >= cells[return.score]
+size(cells[])-1 > cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+size(cells[])-1 != cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+size(cells[])-1 > cells[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+size(cells[])-1 != cells[return.score]
+size(return.grid[])-1 != cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE]
+size(return.grid[])-1 != cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1]
+size(return.grid[])-1 != cells[ar.edu.unrc.game2048.Board.MAX_SIZE-1]
+size(return.grid[])-1 != cells[return.score]
+cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE] % cells[return.score] == 0
+cells[ar.edu.unrc.game2048.Board.DEFAULT_SIZE-1] % cells[return.score] == 0
+cells[ar.edu.unrc.game2048.Board.MAX_SIZE-1] % cells[return.score] == 0
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.boardsWithDifferentCellsAreNotEquals():::ENTER
 this has only one value
@@ -1451,11 +1671,6 @@ ar.edu.unrc.game2048.BoardTest.boardsWithTheSameSeedPlayTheSameGame():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.boardsWithTheSameSeedPlayTheSameGame():::EXIT
-===========================================================================
-ar.edu.unrc.game2048.BoardTest.canNotAddRandomTileNull():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.BoardTest.canNotAddRandomTileNull():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.cleanBoard(ar.edu.unrc.game2048.Board):::ENTER
 board.size == size(board.grid[])
@@ -1498,21 +1713,6 @@ board.size < ar.edu.unrc.game2048.Board.DEFAULT_SEED
 board.size < ar.edu.unrc.game2048.Board.MAX_INITIAL_TILE
 board.score < size(board.grid[])-1
 ===========================================================================
-ar.edu.unrc.game2048.BoardTest.compareObjectsForEqualsAndAreExactlyTheSame():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.BoardTest.compareObjectsForEqualsAndAreExactlyTheSame():::EXIT
-===========================================================================
-ar.edu.unrc.game2048.BoardTest.compareObjectsForEqualsAndOneIsAnotherClasw():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.BoardTest.compareObjectsForEqualsAndOneIsAnotherClasw():::EXIT
-===========================================================================
-ar.edu.unrc.game2048.BoardTest.compareObjectsForEqualsAndOneIsNull():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.BoardTest.compareObjectsForEqualsAndOneIsNull():::EXIT
-===========================================================================
 ar.edu.unrc.game2048.BoardTest.createACopyOfAGivenBoard():::ENTER
 this has only one value
 ===========================================================================
@@ -1537,6 +1737,16 @@ ar.edu.unrc.game2048.BoardTest.defaultBoardsAreReproducible():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.defaultBoardsAreReproducible():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.differentTilesSlideButDoNotMerge():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.differentTilesSlideButDoNotMerge():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.fourEqualTilesMergeInPairs():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.fourEqualTilesMergeInPairs():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.fromStringAcceptsTheLargestInitialTile():::ENTER
 this has only one value
@@ -1663,6 +1873,11 @@ this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.largestTilesDoNotMergeAndTheMoveIsNotHalfApplied():::EXIT
 ===========================================================================
+ar.edu.unrc.game2048.BoardTest.mergingTwo1024TilesWinsTheGame():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.mergingTwo1024TilesWinsTheGame():::EXIT
+===========================================================================
 ar.edu.unrc.game2048.BoardTest.moveACellDownAndAppearsInTheCorrectPosition():::ENTER
 this has only one value
 ===========================================================================
@@ -1683,6 +1898,11 @@ this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.moveACellUpAndAppearsInTheCorrectPosition():::EXIT
 ===========================================================================
+ar.edu.unrc.game2048.BoardTest.moveDownMergesEachColumnTowardsTheBottom():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.moveDownMergesEachColumnTowardsTheBottom():::EXIT
+===========================================================================
 ar.edu.unrc.game2048.BoardTest.moveMergesTwoEqualAdjacentCellsIntoOne():::ENTER
 this has only one value
 ===========================================================================
@@ -1693,15 +1913,20 @@ this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.moveToAllDirectionsReturnFalseOnAnEmptyBoard():::EXIT
 ===========================================================================
+ar.edu.unrc.game2048.BoardTest.moveUpMergesEachColumnTowardsTheTop():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.moveUpMergesEachColumnTowardsTheTop():::EXIT
+===========================================================================
 ar.edu.unrc.game2048.BoardTest.positionHashCodeIsNotZero():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.positionHashCodeIsNotZero():::EXIT
 ===========================================================================
-ar.edu.unrc.game2048.BoardTest.positionIsTheSameComapredToItself():::ENTER
+ar.edu.unrc.game2048.BoardTest.positionIsEqualToItself():::ENTER
 this has only one value
 ===========================================================================
-ar.edu.unrc.game2048.BoardTest.positionIsTheSameComapredToItself():::EXIT
+ar.edu.unrc.game2048.BoardTest.positionIsEqualToItself():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.positionToStringIsOk():::ENTER
 this has only one value
@@ -1733,6 +1958,21 @@ this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.setCellOk():::EXIT
 ===========================================================================
+ar.edu.unrc.game2048.BoardTest.setCellRejectsNull():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.setCellRejectsNull():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.theRowsOfThePrintedBoardHaveTheSameWidthWithLargeTiles():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.theRowsOfThePrintedBoardHaveTheSameWidthWithLargeTiles():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.theScoreAddsEveryMergeOfTheMove():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.theScoreAddsEveryMergeOfTheMove():::EXIT
+===========================================================================
 ar.edu.unrc.game2048.BoardTest.theScoreOfAnInitializedBoardIs0():::ENTER
 this has only one value
 ===========================================================================
@@ -1743,49 +1983,64 @@ this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.theSizeOfADefaultBoardIs4():::EXIT
 ===========================================================================
+ar.edu.unrc.game2048.BoardTest.tilesSlideOverEmptyCellsAndThenMerge():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.tilesSlideOverEmptyCellsAndThenMerge():::EXIT
+===========================================================================
 ar.edu.unrc.game2048.BoardTest.toStringContainsScoreAndValues():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.BoardTest.toStringContainsScoreAndValues():::EXIT
 ===========================================================================
+ar.edu.unrc.game2048.BoardTest.whenThreeTilesAreEqualThePairNearestToTheEdgeMerges():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.BoardTest.whenThreeTilesAreEqualThePairNearestToTheEdgeMerges():::EXIT
+===========================================================================
 ar.edu.unrc.game2048.Board_ESTest:::OBJECT
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.Board_ESTest():::EXIT
-===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test00():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test00():::EXIT
-===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test05():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test05():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test06():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test06():::EXIT
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test07():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test07():::EXIT
-===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test08():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test08():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test09():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test09():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test10():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test10():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test11():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test11():::EXIT
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test12():::ENTER
+ar.edu.unrc.game2048.Board_ESTest.test13():::ENTER
 this has only one value
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test12():::EXIT
+ar.edu.unrc.game2048.Board_ESTest.test13():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test14():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test14():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test15():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test15():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test17():::ENTER
 this has only one value
@@ -1796,11 +2051,6 @@ ar.edu.unrc.game2048.Board_ESTest.test19():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test19():::EXIT
-===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test20():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test20():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test21():::ENTER
 this has only one value
@@ -1822,50 +2072,55 @@ this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test25():::EXIT
 ===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test26():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test26():::EXIT
+===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test27():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test27():::EXIT
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test29():::ENTER
+ar.edu.unrc.game2048.Board_ESTest.test28():::ENTER
 this has only one value
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test29():::EXIT
+ar.edu.unrc.game2048.Board_ESTest.test28():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test30():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test30():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test31():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test31():::EXIT
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test32():::ENTER
+ar.edu.unrc.game2048.Board_ESTest.test33():::ENTER
 this has only one value
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test32():::EXIT
+ar.edu.unrc.game2048.Board_ESTest.test33():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test34():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test34():::EXIT
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test35():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test35():::EXIT
-===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test36():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test36():::EXIT
 ===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test38():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test38():::EXIT
+===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test39():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test39():::EXIT
-===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test40():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test40():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test43():::ENTER
 this has only one value
@@ -1892,15 +2147,20 @@ this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test47():::EXIT
 ===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test48():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test48():::EXIT
+===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test49():::ENTER
 this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test49():::EXIT
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test51():::ENTER
+ar.edu.unrc.game2048.Board_ESTest.test50():::ENTER
 this has only one value
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test51():::EXIT
+ar.edu.unrc.game2048.Board_ESTest.test50():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test52():::ENTER
 this has only one value
@@ -1912,15 +2172,50 @@ this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Board_ESTest.test53():::EXIT
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test54():::ENTER
+ar.edu.unrc.game2048.Board_ESTest.test55():::ENTER
 this has only one value
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test54():::EXIT
+ar.edu.unrc.game2048.Board_ESTest.test55():::EXIT
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test56():::ENTER
+ar.edu.unrc.game2048.Board_ESTest.test57():::ENTER
 this has only one value
 ===========================================================================
-ar.edu.unrc.game2048.Board_ESTest.test56():::EXIT
+ar.edu.unrc.game2048.Board_ESTest.test57():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test58():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test58():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test59():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test59():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test60():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test60():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test61():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test61():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test62():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test62():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test64():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test64():::EXIT
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test65():::ENTER
+this has only one value
+===========================================================================
+ar.edu.unrc.game2048.Board_ESTest.test65():::EXIT
 ===========================================================================
 ar.edu.unrc.game2048.Cell:::CLASS
 ar.edu.unrc.game2048.Cell.EMPTY != null
@@ -1983,15 +2278,15 @@ ar.edu.unrc.game2048.Cell.equals(java.lang.Object):::EXIT129
 orig(this) == orig(o)
 this.value one of { 0, 2, 8 }
 return == true
+orig(o) != null
 orig(o.getClass().getName()) == ar.edu.unrc.game2048.Cell.class
 this.value < ar.edu.unrc.game2048.Cell.MAX_VALUE
 ===========================================================================
 ar.edu.unrc.game2048.Cell.equals(java.lang.Object):::EXIT129;condition="return == true"
 ===========================================================================
 ar.edu.unrc.game2048.Cell.equals(java.lang.Object):::EXIT130
-this.value one of { 0, 2, 2048 }
+this.value one of { 0, 2, 1073741824 }
 return == false
-this.value < ar.edu.unrc.game2048.Cell.MAX_VALUE
 ===========================================================================
 ar.edu.unrc.game2048.Cell.equals(java.lang.Object):::EXIT130;condition="not(return == true)"
 ===========================================================================
@@ -2390,29 +2685,10 @@ this has only one value
 ===========================================================================
 ar.edu.unrc.game2048.Cell_ESTest.test23():::EXIT
 ===========================================================================
-ar.edu.unrc.game2048.Cell_ESTest.test24():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.Cell_ESTest.test24():::EXIT
-===========================================================================
-ar.edu.unrc.game2048.Cell_ESTest.test25():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.Cell_ESTest.test25():::EXIT
-===========================================================================
-ar.edu.unrc.game2048.Cell_ESTest.test26():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.Cell_ESTest.test26():::EXIT
-===========================================================================
-ar.edu.unrc.game2048.Cell_ESTest.test27():::ENTER
-this has only one value
-===========================================================================
-ar.edu.unrc.game2048.Cell_ESTest.test27():::EXIT
-===========================================================================
 ar.edu.unrc.game2048.MainCLI:::OBJECT
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE == this.board.size
 ar.edu.unrc.game2048.Board.DEFAULT_SIZE == size(this.board.grid[])
+ar.edu.unrc.game2048.Board.$assertionsDisabled == this.congratulated
 this.board != null
 this.board.grid != null
 this.board.grid.getClass().getName() == ar.edu.unrc.game2048.Cell[][].class
