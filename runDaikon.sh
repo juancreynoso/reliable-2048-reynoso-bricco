@@ -4,11 +4,12 @@
 # Each source alone is biased (few sizes, odd boards, always 4x4...); together
 # they falsify each other's spurious invariants. Output: daikon-output-all.txt
 #
-#   ./runDaikon.sh [games]      (default 200 fuzzed games)
+#   ./runDaikon.sh [games]      (default 1000 fuzzed games, about 14 minutes)
 #
 # daikon.jar needs Java 11+ on the PATH; the project itself is built with JDK 8.
 set -e
-GAMES="${1:-200}"
+[ -f lib/daikon.jar ] || { echo "Download daikon.jar from https://plse.cs.washington.edu/daikon/download/ into lib/" >&2; exit 1; }
+GAMES="${1:-1000}"
 OUT=daikon-traces/all          # traces are regenerated, not kept in git
 PATTERN="ar.edu.unrc.game2048.Board|ar.edu.unrc.game2048.Cell"
 

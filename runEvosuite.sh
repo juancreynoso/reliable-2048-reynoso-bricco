@@ -9,6 +9,8 @@
 # EvoSuite 1.0.6 only runs on JDK 8.
 set -e
 JAVA="${JAVA_8_HOME:-$(/usr/libexec/java_home -v 1.8)}/bin/java"
+[ -f evosuite-1.0.6.jar ] || curl -L -o evosuite-1.0.6.jar \
+    https://github.com/EvoSuite/evosuite/releases/download/v1.0.6/evosuite-1.0.6.jar
 ./mvn8 -q clean compile
 
 for class in Cell Board; do
